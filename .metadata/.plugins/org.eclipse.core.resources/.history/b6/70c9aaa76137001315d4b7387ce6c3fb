@@ -1,0 +1,5 @@
+package org.jmedikit.core;
+
+public abstract class Repository {
+	
+}
