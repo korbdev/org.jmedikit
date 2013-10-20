@@ -1,2 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="org.eclipse.e4.core.di.annotations.Execute"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.DirectoryDialog"/>
+<fullyQualifiedTypeName name="org.eclipse.e4.core.services.events.IEventBroker"/>
+<fullyQualifiedTypeName name="org.eclipse.e4.core.di.annotations.Optional"/>
+<fullyQualifiedTypeName name="org.eclipse.e4.ui.di.UIEventTopic"/>
+<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.events.EventConstants"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.io.DicomImporter"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
+<fullyQualifiedTypeName name="org.dcm4che2.data.BasicDicomObject"/>
+<fullyQualifiedTypeName name="org.dcm4che2.data.Tag"/>
+<fullyQualifiedTypeName name="org.itk.simple.Image"/>
+<fullyQualifiedTypeName name="org.itk.simple.PixelIDValueEnum"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.custom.BusyIndicator"/>
+<fullyQualifiedTypeName name="javax.annotation.PostConstruct"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Composite"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Button"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.SWT"/>
+<fullyQualifiedTypeName name="org.eclipse.equinox.internal.app.MainApplicationLauncher"/>
+<fullyQualifiedTypeName name="javax.inject.Inject"/>
+<fullyQualifiedTypeName name="com.sun.xml.internal.messaging.saaj.packaging.mime.internet.MimePartDataSource"/>
+<fullyQualifiedTypeName name="org.eclipse.e4.ui.workbench.modeling.EModelService"/>
+<fullyQualifiedTypeName name="org.eclipse.e4.ui.model.application.ui.menu.MToolControl"/>
+<fullyQualifiedTypeName name="org.eclipse.e4.ui.model.application.MApplication"/>
+<fullyQualifiedTypeName name="org.eclipse.core.runtime.jobs.Job"/>
+<fullyQualifiedTypeName name="org.eclipse.core.runtime.IProgressMonitor"/>
+</qualifiedTypeNameHistroy>

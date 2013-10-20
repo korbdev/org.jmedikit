@@ -1,0 +1,6 @@
+output.. = bin/
+jars.compile.order = .
+bin.includes = META-INF/,\
+               lib/,\
+               .
+source.. = src/

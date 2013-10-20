@@ -1,0 +1,103 @@
+package org.jmedikit.plugin.gui;
+
+import java.io.File;
+import java.util.ArrayList;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.jobs.IJobManager;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.jobs.ProgressProvider;
+import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.ui.di.UIEventTopic;
+import org.eclipse.e4.ui.model.application.MApplication;
+import org.eclipse.e4.ui.model.application.ui.menu.MToolControl;
+import org.eclipse.e4.ui.workbench.modeling.EModelService;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
+import org.jmedikit.lib.core.DicomObject;
+import org.jmedikit.lib.core.DicomSeries;
+import org.jmedikit.lib.core.DicomStudy;
+import org.jmedikit.lib.core.Patient;
+import org.jmedikit.lib.io.DicomImporter;
+import org.jmedikit.plugin.gui.events.EventConstants;
+
+
+public class DicomBrowserPart {
+
+	@Inject
+	EModelService service;
+	
+	@Inject
+	MApplication app;
+	
+	private Tree root;
+	
+	private ArrayList<Patient> patients;
+	
+	@PostConstruct
+	public void createGui(Composite parent){
+		root = new Tree(parent, SWT.BORDER);
+	}
+	
+	@Inject
+	@Optional
+	public void getNotifiedOpenLocation(@UIEventTopic(EventConstants.FILE_OPEN_LOCATION) String location){
+		System.out.println(location);
+		
+		DicomImporter importer = null;
+		IJobManager manager = null;
+		try {
+			importer = new DicomImporter("Test", new File(location));
+			manager = Job.getJobManager();
+			
+			MToolControl toolcontrol = (MToolControl) service.find("org.jmedikit.plugin.toolcontrol.status", app);
+			
+			final IProgressMonitor monitor = (IProgressMonitor) toolcontrol.getObject();
+			
+			ProgressProvider provider = new ProgressProvider() {	
+				@Override
+				public IProgressMonitor createMonitor(Job job) {
+					return monitor;
+				}
+			};
+			manager.setProgressProvider(provider);
+			importer.schedule();
+			//buildTree(importer.getPatients());
+			//System.out.println("Build Tree");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	@Inject
+	@Optional
+	public void getNotifiedImportFinished(@UIEventTopic(EventConstants.FILE_IMPORT_FINISHED) boolean result){
+		buildTree(patients);
+	}
+	
+	public void buildTree(ArrayList<Patient> elements){
+		for(Patient p : elements){
+			TreeItem patients = new TreeItem(root, 0);
+			patients.setText(p.getPatientName());
+			for(DicomStudy stdy : p.getDicomStudies()){
+				TreeItem studies = new TreeItem(patients, 0);
+				studies.setText(stdy.studyInstanceUid);
+				for(DicomSeries srs : stdy.getDicomSeries()){
+					TreeItem series = new TreeItem(studies, 0);
+					series.setText(srs.getSeriesInstanceUid());
+					for(DicomObject obj : srs.getDicomObjects()){
+						TreeItem objects = new TreeItem(series, 0);
+						objects.setText(obj.getFile().getName());
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,7 @@
+output.. = bin/
+jars.compile.order = .
+bin.includes = META-INF/,\
+               .
+source.. = src/
+src.includes = lib/dcm4che2/,\
+               META-INF/

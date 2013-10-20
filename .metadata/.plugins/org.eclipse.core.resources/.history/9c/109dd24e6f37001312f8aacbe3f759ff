@@ -1,0 +1,11 @@
+package org.jmedikit.plugin.gui.handlers;
+
+import org.eclipse.e4.core.di.annotations.Execute;
+
+public class OpenLocationHandler {
+
+	@Execute
+	public void openLocatione(){
+		System.out.println("Open Location");
+	}
+}

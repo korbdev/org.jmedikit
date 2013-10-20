@@ -1,0 +1,8 @@
+source.. = src/
+output.. = bin/
+bin.includes = META-INF/,\
+               .,\
+               dcm4che.jar
+jars.compile.order = .,\
+                     dcm4che.jar
+source.dcm4che.jar = dcm4che2/lib/

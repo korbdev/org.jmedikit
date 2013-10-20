@@ -1,0 +1,43 @@
+package org.jmedikit.plugin.gui;
+
+import java.io.File;
+
+import javax.inject.Inject;
+
+import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.ui.di.UIEventTopic;
+import org.eclipse.e4.ui.model.application.MApplication;
+import org.eclipse.e4.ui.model.application.ui.menu.MToolControl;
+import org.eclipse.e4.ui.workbench.modeling.EModelService;
+import org.jmedikit.lib.io.DicomImporter;
+import org.jmedikit.plugin.gui.events.EventConstants;
+
+
+public class DicomBrowserPart {
+
+	@Inject
+	EModelService service;
+	
+	@Inject
+	MApplication app;
+	
+	@Inject
+	@Optional
+	public void getNotified(@UIEventTopic(EventConstants.FILE_OPEN_LOCATION) String location){
+		System.out.println(location);
+		
+		DicomImporter importer = null;
+		
+		MToolControl element = (MToolControl)service.find("org.jmedikit.plugin.toolcontrol.status", app);
+		
+		System.out.println(element.getElementId());
+		
+		try {
+			importer = new DicomImporter(new File(location));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+}

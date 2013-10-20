@@ -1,0 +1,19 @@
+package org.jmedikit.plugin.gui;
+
+import javax.annotation.PostConstruct;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+
+public class StatusControl {
+	
+	private Button test;
+	
+	@PostConstruct
+	public void constructGUI(Composite parent){
+		System.out.println(parent.toString()+" erzeuge Toolbar");
+		test = new Button(parent, SWT.BUTTON1);
+		test.setText("Hallo");
+	}
+}

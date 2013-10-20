@@ -8,8 +8,11 @@
 
    <launcherArgs>
       <programArgs>-clearPersistedState</programArgs>
+      <vmArgs>-Djava.library.path=${SIMPLE_ITK_HOME}</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
+
+   <windowImages/>
 
    <launcher>
       <solaris/>

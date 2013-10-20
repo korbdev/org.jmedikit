@@ -1,3 +1,4 @@
+content_assist_lru_history=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><history maxLHS\="100" maxRHS\="10"><lhs name\="org.eclipse.swt.widgets.Dialog"><rhs name\="org.eclipse.swt.widgets.DirectoryDialog"/></lhs><lhs name\="org.eclipse.swt.widgets.DirectoryDialog"><rhs name\="org.eclipse.swt.widgets.DirectoryDialog"/></lhs><lhs name\="org.dcm4che2.data.AbstractDicomObject"><rhs name\="org.dcm4che2.data.BasicDicomObject"/></lhs><lhs name\="org.dcm4che2.data.DicomObject"><rhs name\="org.dcm4che2.data.BasicDicomObject"/></lhs><lhs name\="org.dcm4che2.data.BasicDicomObject"><rhs name\="org.dcm4che2.data.BasicDicomObject"/></lhs><lhs name\="org.itk.simple.Image"><rhs name\="org.itk.simple.Image"/></lhs></history>
 content_assist_number_of_computers=14
 content_assist_proposals_background=255,255,255
 content_assist_proposals_foreground=0,0,0
@@ -6,6 +7,10 @@ fontPropagated=true
 org.eclipse.jdt.ui.editor.tab.width=
 org.eclipse.jdt.ui.formatterprofiles.version=12
 org.eclipse.jdt.ui.javadoclocations.migrated=true
+org.eclipse.jdt.ui.text.code_templates_migrated=true
+org.eclipse.jdt.ui.text.custom_code_templates=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates/>
+org.eclipse.jdt.ui.text.custom_templates=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates/>
+org.eclipse.jdt.ui.text.templates_migrated=true
 org.eclipse.jface.textfont=1|Consolas|10.0|0|WINDOWS|1|0|0|0|0|0|0|0|0|1|0|0|0|0|Consolas;
 proposalOrderMigrated=true
 spelling_locale_initialized=true

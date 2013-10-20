@@ -1,0 +1,25 @@
+package org.jmedikit.plugin.gui;
+
+import java.io.File;
+
+import javax.imageio.ImageIO;
+import javax.inject.Inject;
+
+import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.ui.di.UIEventTopic;
+import org.jmedikit.lib.io.DicomImporter;
+import org.jmedikit.plugin.gui.events.EventConstants;
+
+public class DicomBrowserPart {
+
+	@Inject
+	@Optional
+	public void getNotified(@UIEventTopic(EventConstants.FILE_OPEN_LOCATION) String location){
+		System.out.println(location);
+		//DicomImporter importer = new DicomImporter(new File(location+"\\"));
+		String[] format = ImageIO.getReaderFormatNames();
+		for(String s : format){
+			System.out.println(s);
+		}
+	}
+}
