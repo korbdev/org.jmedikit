@@ -22,8 +22,6 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="3.9.0",
 Import-Package: javax.annotation;version="1.1.0",
  javax.inject;version="1.0.0"
 Bundle-ClassPath: .,
- lib/jai-imageio-1001/jai_imageio.jar,
- lib/SimpleITK/simpleitk-0.6.1.jar,
  lib/dcm4che2/lib/commons-cli-1.2.jar,
  lib/dcm4che2/lib/dcm4che-audit-2.0.28.jar,
  lib/dcm4che2/lib/dcm4che-base64-2.0.28.jar,
@@ -62,4 +60,5 @@ Bundle-ClassPath: .,
  lib/dcm4che2/lib/log4j-1.2.16.jar,
  lib/dcm4che2/lib/slf4j-api-1.6.1.jar,
  lib/dcm4che2/lib/slf4j-log4j12-1.6.1.jar,
- swing2swt.jar
+ lib/jai-imageio_old/lib/jai_imageio.jar
+

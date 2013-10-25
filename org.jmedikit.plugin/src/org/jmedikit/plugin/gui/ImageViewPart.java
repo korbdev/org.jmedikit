@@ -2,41 +2,25 @@ package org.jmedikit.plugin.gui;
 
 
 
-import java.io.File;
-import java.rmi.activation.Activator;
 import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.jobs.IJobManager;
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.core.runtime.jobs.ProgressProvider;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.tools.services.IResourcePool;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.MApplication;
-import org.eclipse.e4.ui.model.application.ui.menu.MToolControl;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Canvas;
@@ -49,9 +33,6 @@ import org.jmedikit.lib.core.DicomSeriesItem;
 import org.jmedikit.lib.core.DicomTreeItem;
 import org.jmedikit.lib.core.ImageWindowInterpolation;
 import org.jmedikit.lib.image.AbstractImage;
-import org.jmedikit.lib.io.DicomData;
-import org.jmedikit.lib.io.DicomImporter;
-import org.jmedikit.lib.util.ImageProvider;
 import org.jmedikit.plugin.gui.events.EventConstants;
 
 
@@ -95,6 +76,7 @@ public class ImageViewPart {
 		
 		
 		canvas.addPaintListener(new PaintListener() {
+			@Override
 			public void paintControl(PaintEvent e) {
 				//System.out.println("In Paint Event "+canvas.getClass().getName());
 				/*Rectangle clientArea = canvas.getClientArea();
@@ -196,6 +178,7 @@ public class ImageViewPart {
 	@Optional
 	public void getNotifiedDicomTreeSelection(@UIEventTopic(EventConstants.DICOMBROWSER_ITEM_SELECTION) final DicomTreeItem selection){
 		//img = selection;
+		
 		if(selection instanceof DicomSeriesItem){
 			//img = obj.getImage(0);
 			

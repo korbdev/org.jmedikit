@@ -1,29 +1,5 @@
 package org.jmedikit.lib.io;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
-import java.awt.image.Raster;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
-
-import org.dcm4che2.data.DicomObject;
-import org.dcm4che2.data.Tag;
-import org.dcm4che2.imageio.plugins.dcm.DicomImageReadParam;
-import org.dcm4che2.imageioimpl.plugins.dcm.DicomImageReader;
-import org.dcm4che2.io.DicomInputStream;
-import org.itk.simple.Image;
-//import org.itk.simple.ImageFileWriter;
-//import org.itk.simple.PixelIDValueEnum;
-//import org.itk.simple.VectorUInt32;
-//import org.jmedikit.lib.image.AbstractImage;
-
-import com.sun.media.imageio.plugins.jpeg2000.J2KImageReadParam;
-import com.sun.media.imageioimpl.plugins.jpeg2000.J2KImageReader;
 
 
 public class DicomHandler {

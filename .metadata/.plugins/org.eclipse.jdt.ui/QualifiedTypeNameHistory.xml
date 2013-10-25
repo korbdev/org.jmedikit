@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.awt.Color"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.layout.GridLayout"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.layout.GridData"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.graphics.Rectangle"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.layout.FillLayout"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Canvas"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Label"/>
-<fullyQualifiedTypeName name="swing2swt.layout.BorderLayout"/>
-<fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
 <fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Shell"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Button"/>
@@ -59,5 +50,14 @@
 <fullyQualifiedTypeName name="org.jmedikit.lib.image.AbstractImage"/>
 <fullyQualifiedTypeName name="javax.imageio.event.IIOReadProgressListener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.events.KeyListener"/>
+<fullyQualifiedTypeName name="org.eclipse.core.runtime.internal.stats.ClassloaderStats"/>
+<fullyQualifiedTypeName name="javax.management.loading.ClassLoaderRepository"/>
 <fullyQualifiedTypeName name="javax.imageio.stream.ImageInputStream"/>
+<fullyQualifiedTypeName name="org.dcm4che2.imageioimpl.plugins.dcm.DicomImageReader"/>
+<fullyQualifiedTypeName name="org.xml.sax.InputSource"/>
+<fullyQualifiedTypeName name="javax.imageio.ImageTypeSpecifier"/>
+<fullyQualifiedTypeName name="java.awt.Dimension"/>
+<fullyQualifiedTypeName name="java.lang.ClassLoader"/>
+<fullyQualifiedTypeName name="com.sun.media.imageio.stream.RawImageInputStream"/>
+<fullyQualifiedTypeName name="java.security.CodeSource"/>
 </qualifiedTypeNameHistroy>

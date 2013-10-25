@@ -18,6 +18,7 @@ public interface DicomData {
 	public void setTagData(String tag, String vr, Object value);
 	public void setTagDataArray(String tag, Object value);
 	
+	@Override
 	public boolean equals(Object object);
 	//public void writeDicomFile(String filename, BufferedImage bi);
 }

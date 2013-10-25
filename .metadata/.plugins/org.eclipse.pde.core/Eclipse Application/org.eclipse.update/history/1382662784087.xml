@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config date="1382662784087" transient="false" version="3.0">
+<site enabled="true" policy="USER-EXCLUDE" updateable="true" url="platform:/base/">
+<feature id="org.eclipse.rcp.configuration" url="features/org.eclipse.rcp.configuration_1.0.0.v20130521-1847/" version="1.0.0.v20130521-1847">
+</feature>
+<feature id="org.eclipse.equinox.p2.core.feature" url="features/org.eclipse.equinox.p2.core.feature_1.2.1.v20130827-1605/" version="1.2.1.v20130827-1605">
+</feature>
+<feature id="org.eclipse.e4.rcp.source" url="features/org.eclipse.e4.rcp.source_1.2.1.v20130910-2014/" version="1.2.1.v20130910-2014">
+</feature>
+<feature id="org.eclipse.equinox.p2.discovery.feature" url="features/org.eclipse.equinox.p2.discovery.feature_1.0.100.v20130502-0334/" version="1.0.100.v20130502-0334">
+</feature>
+<feature id="org.eclipse.equinox.p2.extras.feature.source" url="features/org.eclipse.equinox.p2.extras.feature.source_1.2.0.v20130827-1605/" version="1.2.0.v20130827-1605">
+</feature>
+<feature id="org.eclipse.platform" url="features/org.eclipse.platform_4.3.1.v20130911-1000/" version="4.3.1.v20130911-1000">
+</feature>
+<feature id="org.eclipse.help.source" url="features/org.eclipse.help.source_2.0.1.v20130911-1000/" version="2.0.1.v20130911-1000">
+</feature>
+<feature id="org.eclipse.e4.core.tools.feature" url="features/org.eclipse.e4.core.tools.feature_0.14.0.v20130620-0935/" version="0.14.0.v20130620-0935">
+</feature>
+<feature id="org.eclipse.help" plugin-identifier="org.eclipse.help.base" url="features/org.eclipse.help_2.0.1.v20130911-1000/" version="2.0.1.v20130911-1000">
+</feature>
+<feature id="org.eclipse.emf.ecore" url="features/org.eclipse.emf.ecore_2.9.1.v20130827-0309/" version="2.9.1.v20130827-0309">
+</feature>
+<feature id="org.eclipse.wb.core.java.feature" url="features/org.eclipse.wb.core.java.feature_1.6.1.r43x201309092318/" version="1.6.1.r43x201309092318">
+</feature>
+<feature id="org.eclipse.rcp.source" url="features/org.eclipse.rcp.source_4.3.1.v20130911-1000/" version="4.3.1.v20130911-1000">
+</feature>
+<feature id="org.eclipse.pde.source" url="features/org.eclipse.pde.source_3.9.1.v20130911-1000/" version="3.9.1.v20130911-1000">
+</feature>
+<feature id="org.eclipse.equinox.p2.rcp.feature" url="features/org.eclipse.equinox.p2.rcp.feature_1.2.0.v20130828-0031/" version="1.2.0.v20130828-0031">
+</feature>
+<feature id="org.eclipse.equinox.p2.user.ui" url="features/org.eclipse.equinox.p2.user.ui_2.2.0.v20130828-0031/" version="2.2.0.v20130828-0031">
+</feature>
+<feature id="org.eclipse.cvs" url="features/org.eclipse.cvs_1.4.0.v20130911-1000/" version="1.4.0.v20130911-1000">
+</feature>
+<feature id="org.eclipse.epp.mpc" plugin-identifier="org.eclipse.epp.mpc.ui" url="features/org.eclipse.epp.mpc_1.2.1.I20130917-2019/" version="1.2.1.I20130917-2019">
+</feature>
+<feature id="org.eclipse.wb.rcp.feature" plugin-identifier="org.eclipse.wb.rcp" url="features/org.eclipse.wb.rcp.feature_1.6.1.r43x201309100008/" version="1.6.1.r43x201309100008">
+</feature>
+<feature id="org.eclipse.equinox.p2.rcp.feature.source" url="features/org.eclipse.equinox.p2.rcp.feature.source_1.2.0.v20130828-0031/" version="1.2.0.v20130828-0031">
+</feature>
+<feature id="org.eclipse.wb.core.ui.feature" plugin-identifier="org.eclipse.wb.core.ui" url="features/org.eclipse.wb.core.ui.feature_1.6.1.r43x201309092325/" version="1.6.1.r43x201309092325">
+</feature>
+<feature id="org.eclipse.jdt.source" url="features/org.eclipse.jdt.source_3.9.1.v20130911-1000/" version="3.9.1.v20130911-1000">
+</feature>
+<feature id="org.eclipse.epp.package.common.feature" url="features/org.eclipse.epp.package.common.feature_2.0.1.20130919-0803/" version="2.0.1.20130919-0803">
+</feature>
+<feature id="org.eclipse.egit" url="features/org.eclipse.egit_3.0.3.201309161630-r/" version="3.0.3.201309161630-r">
+</feature>
+<feature id="org.eclipse.wb.layout.group.feature" plugin-identifier="org.eclipse.wb.layout.group" url="features/org.eclipse.wb.layout.group.feature_1.6.1.r43x201309092345/" version="1.6.1.r43x201309092345">
+</feature>
+<feature id="org.eclipse.jgit" url="features/org.eclipse.jgit_3.0.3.201309161630-r/" version="3.0.3.201309161630-r">
+</feature>
+<feature id="org.eclipse.wb.core.feature" plugin-identifier="org.eclipse.wb.core" url="features/org.eclipse.wb.core.feature_1.6.1.r43x201309092314/" version="1.6.1.r43x201309092314">
+</feature>
+<feature id="org.eclipse.rcp" url="features/org.eclipse.rcp_4.3.1.v20130911-1000/" version="4.3.1.v20130911-1000">
+</feature>
+<feature id="org.eclipse.jdt" url="features/org.eclipse.jdt_3.9.1.v20130911-1000/" version="3.9.1.v20130911-1000">
+</feature>
+<feature id="org.eclipse.cvs.source" url="features/org.eclipse.cvs.source_1.4.0.v20130911-1000/" version="1.4.0.v20130911-1000">
+</feature>
+<feature id="org.eclipse.e4.rcp" url="features/org.eclipse.e4.rcp_1.2.1.v20130910-2014/" version="1.2.1.v20130910-2014">
+</feature>
+<feature id="org.eclipse.equinox.p2.user.ui.source" url="features/org.eclipse.equinox.p2.user.ui.source_2.2.0.v20130828-0031/" version="2.2.0.v20130828-0031">
+</feature>
+<feature id="org.eclipse.emf.common" url="features/org.eclipse.emf.common_2.9.1.v20130827-0309/" version="2.9.1.v20130827-0309">
+</feature>
+<feature id="org.eclipse.wb.swt.feature" plugin-identifier="org.eclipse.wb.swt" url="features/org.eclipse.wb.swt.feature_1.6.1.r43x201309092350/" version="1.6.1.r43x201309092350">
+</feature>
+<feature id="org.eclipse.platform.source" url="features/org.eclipse.platform.source_4.3.1.v20130911-1000/" version="4.3.1.v20130911-1000">
+</feature>
+<feature id="org.eclipse.equinox.p2.core.feature.source" url="features/org.eclipse.equinox.p2.core.feature.source_1.2.1.v20130827-1605/" version="1.2.1.v20130827-1605">
+</feature>
+<feature id="org.eclipse.pde" url="features/org.eclipse.pde_3.9.1.v20130911-1000/" version="3.9.1.v20130911-1000">
+</feature>
+<feature id="org.eclipse.epp.package.standard.feature" plugin-identifier="org.eclipse.epp.package.standard" url="features/org.eclipse.epp.package.standard.feature_2.0.1.20130919-0803/" version="2.0.1.20130919-0803">
+</feature>
+<feature id="org.eclipse.equinox.p2.extras.feature" url="features/org.eclipse.equinox.p2.extras.feature_1.2.0.v20130827-1605/" version="1.2.0.v20130827-1605">
+</feature>
+</site>
+</config>

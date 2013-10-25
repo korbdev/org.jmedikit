@@ -254,7 +254,7 @@ public abstract class AbstractImage {
 		short minValue = Short.MAX_VALUE;
 		
 		for(int i = 0; i < pixels.length; i++){
-			short value = (short)pixels[i];
+			short value = pixels[i];
 			if(value < minValue){
 				minValue = value;
 			}

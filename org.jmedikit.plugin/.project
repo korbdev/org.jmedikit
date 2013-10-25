@@ -3,7 +3,6 @@
 	<name>org.jmedikit.plugin</name>
 	<comment></comment>
 	<projects>
-		<project>org.jmedikit.lib</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

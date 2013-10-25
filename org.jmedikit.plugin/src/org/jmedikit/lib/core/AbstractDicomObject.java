@@ -37,42 +37,52 @@ public abstract class AbstractDicomObject extends DicomTreeItem implements Dicom
 		return f;
 	}
 	
+	@Override
 	public Object getTagData(String tag, int returnType){
 		return data.getTagData(tag, returnType);
 	}
 	
+	@Override
 	public void setTagData(String tag, String vr, Object value){
 		data.setTagData(tag, vr, value);
 	}
 	
+	@Override
 	public Object getTagArray(String tag, int returnType){
 		return null;
 	}
 	
+	@Override
 	public void setTagDataArray(String tag, Object value){
 		data.setTagDataArray(tag, value);
 	}
 	
+	@Override
 	public String getVR(String tag, int returnType){
 		return data.getVR(tag, returnType);
 	}
 	
+	@Override
 	public AbstractImage getImage(int index){
 		return imagedata.getImage(index);
 	}
 	
+	@Override
 	public ArrayList<AbstractImage> getImages(){
 		return imagedata.getImages();
 	}
 	
+	@Override
 	public int getWidth(int index){
 		return imagedata.getWidth(index);
 	}
 	
+	@Override
 	public int getHeight(int index){
 		return imagedata.getHeight(index);
 	}
 	
+	@Override
 	public int getDepth(){
 		return imagedata.getDepth();
 	}

@@ -3,12 +3,13 @@
 
 <product name="JMediKit" id="org.jmedikit.plugin.jmedikit" application="org.eclipse.e4.ui.workbench.swt.E4Application" useFeatures="true" includeLaunchers="true">
 
+
    <configIni use="default">
    </configIni>
 
    <launcherArgs>
       <programArgs>-clearPersistedState</programArgs>
-      <vmArgs>-Djava.library.path=${SIMPLE_ITK_HOME}</vmArgs>
+      <vmArgs>-Djava.library.path=${SIMPLE_ITK_HOME};</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
@@ -24,8 +25,11 @@
       </win>
    </launcher>
 
+
    <vm>
+      <windows include="true">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JRE-1.1</windows>
    </vm>
+
 
    <plugins>
    </plugins>
@@ -37,9 +41,5 @@
       <feature id="org.eclipse.emf.common"/>
    </features>
 
-   <configurations>
-      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="1" />
-      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="1" />
-   </configurations>
 
 </product>

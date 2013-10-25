@@ -51,7 +51,7 @@ public class ShortImage extends AbstractImage{
 	
 	@Override
 	public int getPixel(int x, int y) {
-		return (short) pixels[y * width + x];
+		return pixels[y * width + x];
 	}
 	
 	@Override

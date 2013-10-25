@@ -1,7 +1,5 @@
 package org.jmedikit.plugin.gui.handlers;
 
-import java.io.File;
-
 import javax.inject.Inject;
 
 import org.eclipse.e4.core.di.annotations.Execute;

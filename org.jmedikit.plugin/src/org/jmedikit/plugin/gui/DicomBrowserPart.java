@@ -1,7 +1,6 @@
 package org.jmedikit.plugin.gui;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
@@ -16,7 +15,6 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.tools.services.IResourcePool;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.MApplication;
-import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.menu.MToolControl;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.swt.SWT;
@@ -28,10 +26,8 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
-import org.jmedikit.lib.core.DicomObject;
 import org.jmedikit.lib.core.DicomTreeItem;
 import org.jmedikit.lib.core.DicomTreeRepository;
-import org.jmedikit.lib.image.AbstractImage;
 import org.jmedikit.lib.io.DicomImporter;
 import org.jmedikit.lib.util.ImageProvider;
 import org.jmedikit.plugin.gui.events.EventConstants;

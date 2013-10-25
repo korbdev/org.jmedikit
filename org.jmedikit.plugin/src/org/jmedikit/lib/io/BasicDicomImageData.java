@@ -4,11 +4,10 @@ import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.io.File;
 import java.io.IOException;
+import java.security.CodeSource;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.event.IIOReadProgressListener;
 import javax.imageio.stream.ImageInputStream;
 
 import org.dcm4che2.imageio.plugins.dcm.DicomImageReadParam;
@@ -17,6 +16,7 @@ import org.jmedikit.lib.image.AbstractImage;
 import org.jmedikit.lib.image.ShortImage;
 import org.jmedikit.lib.image.UnsignedByteImage;
 import org.jmedikit.lib.image.UnsignedShortImage;
+import com.sun.media.imageio.stream.RawImageInputStream;
 //import org.eclipse.swt.awt.SWT_AWT;
 
 public class BasicDicomImageData implements DicomImageData{
@@ -33,7 +33,7 @@ public class BasicDicomImageData implements DicomImageData{
 		//param = (DicomImageReadParam) dir.getDefaultReadParam();
 		this.data = data;
 		iis = ImageIO.createImageInputStream(f);
-		dir = (DicomImageReader) ImageIO.getImageReadersByFormatName("dicom").next();
+		dir = (DicomImageReader) ImageIO.getImageReadersByFormatName("DICOM").next();
 		param = (DicomImageReadParam) dir.getDefaultReadParam();
 		
 		System.out.println(dir.toString()+", "+iis.toString()+", "+f.getPath());
@@ -41,7 +41,7 @@ public class BasicDicomImageData implements DicomImageData{
 	}
 	
 	@Override
-	public AbstractImage getImage(int index) {
+	public AbstractImage getImage(int index){
 		AbstractImage img = null;
 		
 		int width = 0;
@@ -69,11 +69,17 @@ public class BasicDicomImageData implements DicomImageData{
 			height = dir.getHeight(index);
 			
 			
-			/*byte[] bytes = dir.readBytes(index, param);
-			System.out.println("BYTE "+bytes.length);
-			for(int i = 0; i < bytes.length; i++){
-				System.out.println(bytes[i]);
-			}*/
+			Class klass = RawImageInputStream.class;
+
+		    CodeSource codeSource = klass.getProtectionDomain().getCodeSource();
+
+		    if ( codeSource != null) {
+
+		        System.out.println(codeSource.getLocation());
+
+		    }else System.out.println("LOADED");
+
+			
 			Raster r = dir.readRaster(index, null );
 			//iis.close();
 			DataBuffer buffer = r.getDataBuffer();
