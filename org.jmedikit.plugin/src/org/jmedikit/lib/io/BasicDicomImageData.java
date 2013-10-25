@@ -7,15 +7,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.event.IIOReadProgressListener;
 import javax.imageio.stream.ImageInputStream;
 
-import org.dcm4che2.data.Tag;
 import org.dcm4che2.imageio.plugins.dcm.DicomImageReadParam;
 import org.dcm4che2.imageioimpl.plugins.dcm.DicomImageReader;
 import org.jmedikit.lib.image.AbstractImage;
 import org.jmedikit.lib.image.ShortImage;
 import org.jmedikit.lib.image.UnsignedByteImage;
 import org.jmedikit.lib.image.UnsignedShortImage;
+//import org.eclipse.swt.awt.SWT_AWT;
 
 public class BasicDicomImageData implements DicomImageData{
 	
@@ -25,19 +27,16 @@ public class BasicDicomImageData implements DicomImageData{
 	private DicomImageReadParam param;
 	private DicomData data;
 	
-	public BasicDicomImageData(File input, DicomData data){
+	public BasicDicomImageData(File input, DicomData data) throws IOException{
 		f = input;
 		//dir = (DicomImageReader) ImageIO.getImageReadersByFormatName("DICOM").next();
 		//param = (DicomImageReadParam) dir.getDefaultReadParam();
 		this.data = data;
-		try {
-			dir = (DicomImageReader) ImageIO.getImageReadersByFormatName("DICOM").next();
-			param = (DicomImageReadParam) dir.getDefaultReadParam();
-			iis = ImageIO.createImageInputStream(f);
-		} catch (IOException e) {
-			//e.printStackTrace();
-			System.out.println("Not a Dicom Image");
-		}
+		iis = ImageIO.createImageInputStream(f);
+		dir = (DicomImageReader) ImageIO.getImageReadersByFormatName("dicom").next();
+		param = (DicomImageReadParam) dir.getDefaultReadParam();
+		
+		System.out.println(dir.toString()+", "+iis.toString()+", "+f.getPath());
 		dir.setInput(iis);
 	}
 	
@@ -56,19 +55,29 @@ public class BasicDicomImageData implements DicomImageData{
 		String rescaleSlope = (String) data.getTagData("RescaleSlope", DicomData.RETURN_STRING);
 		String rescaleIntercept = (String) data.getTagData("RescaleIntercept", DicomData.RETURN_STRING);
 		
-		float wc = (windowCenter != null) ? Float.parseFloat(windowCenter) : 0 ;
-		float ww = (windowWidth != null) ? Float.parseFloat(windowWidth) : 0 ;
+		System.out.println(windowCenter+", "+windowWidth+", "+rescaleIntercept+", "+rescaleSlope);
 		
-		float m = (rescaleSlope != null) ? Float.parseFloat(rescaleSlope) : 1f ;
-		float b = (rescaleIntercept != null) ? Float.parseFloat(rescaleIntercept) : 0f ;
+		float wc = (windowCenter != null && !windowCenter.equals("default")) ? Float.parseFloat(windowCenter) : 0 ;
+		float ww = (windowWidth != null && !windowWidth.equals("default")) ? Float.parseFloat(windowWidth) : 0 ;
 		
-		System.out.println("Load Images with m = "+m+", b = "+b);
+		float m = (rescaleSlope != null && !rescaleSlope.equals("default")) ? Float.parseFloat(rescaleSlope) : 1f ;
+		float b = (rescaleIntercept != null && !rescaleIntercept.equals("default")) ? Float.parseFloat(rescaleIntercept) : 0f ;
+		
+		System.out.println("Load Images with m = "+m+", b = "+b+", "+f.getPath()+" readRaster "+dir.canReadRaster());
 		try {
 			width = dir.getWidth(index);
 			height = dir.getHeight(index);
 			
-			Raster r = dir.readRaster(index, param);
+			
+			/*byte[] bytes = dir.readBytes(index, param);
+			System.out.println("BYTE "+bytes.length);
+			for(int i = 0; i < bytes.length; i++){
+				System.out.println(bytes[i]);
+			}*/
+			Raster r = dir.readRaster(index, null );
+			//iis.close();
 			DataBuffer buffer = r.getDataBuffer();
+			
 			int bufferType = buffer.getDataType();
 			
 			//System.out.println(buffer.getElem(50, 199));

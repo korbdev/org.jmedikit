@@ -1,0 +1,31 @@
+package org.jmedikit.lib.core;
+
+import java.util.ArrayList;
+
+public abstract class DicomTreeItem {
+	private String uid;
+	
+	private DicomTreeItem parent;
+	
+	private ArrayList<DicomTreeItem> children;
+	
+	public DicomTreeItem(String uid, DicomTreeItem parent) {
+		this.uid = uid;
+		this.parent = parent;
+		children = new ArrayList<DicomTreeItem>();
+	}
+	
+	public DicomTreeItem getParent(){
+		return parent;
+	}
+	
+	public ArrayList<DicomTreeItem> getChildren(){
+		return children;
+	}
+	
+	public DicomTreeItem getChild(int index){
+		return children.get(index);
+	}
+	
+	
+}

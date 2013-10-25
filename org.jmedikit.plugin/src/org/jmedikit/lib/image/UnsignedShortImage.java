@@ -41,7 +41,7 @@ public class UnsignedShortImage extends AbstractImage{
 		
 		this.determineMinMaxValues(pixels);
 		
-		printPixelValues("Samples/USIMG_mb.txt", this);
+		//printPixelValues("Samples/USIMG_mb.txt", this);
 	}
 	
 	public UnsignedShortImage(int width, int height, DataBuffer buffer, float m, float b, float windowCenter, float windowWidth){

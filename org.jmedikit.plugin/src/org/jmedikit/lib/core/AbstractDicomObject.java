@@ -10,19 +10,27 @@ import org.jmedikit.lib.io.BasicDicomImageData;
 import org.jmedikit.lib.io.DicomData;
 import org.jmedikit.lib.io.DicomImageData;
 
-public abstract class AbstractDicomObject implements DicomData, DicomImageData{
+public abstract class AbstractDicomObject extends DicomTreeItem implements DicomData, DicomImageData{
 
 	private DicomData data;
 	private DicomImageData imagedata;
 	private File f;
 	
-	public AbstractDicomObject(File input){
+	public AbstractDicomObject(File input) throws IOException{
+		super(input.getPath());
 		f = input;
-		if(f.isDirectory()){
-			System.out.println("Dir");
+		if(f.length() < 1){
+			throw new IllegalArgumentException(f.getPath()+" filesize is zero");
 		}
+		
 		data = new BasicDicomData(f);
 		imagedata = new BasicDicomImageData(f, data);
+		/*try {
+			data = new BasicDicomData(f);
+			imagedata = new BasicDicomImageData(f, data);
+		} catch (Exception e) {
+			throw new IllegalArgumentException(f.getPath()+" is not a DicomStream");
+		}*/
 	}
 
 	public File getFile(){
@@ -69,7 +77,7 @@ public abstract class AbstractDicomObject implements DicomData, DicomImageData{
 		return imagedata.getDepth();
 	}
 
-	@Override
+	/*@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -84,7 +92,7 @@ public abstract class AbstractDicomObject implements DicomData, DicomImageData{
 		} else if (!data.equals(other.data))
 			return false;
 		return true;
-	}
+	}*/
 	
 	
 }

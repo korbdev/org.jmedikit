@@ -1,0 +1,78 @@
+package org.jmedikit.lib.core;
+
+import java.util.ArrayList;
+
+public abstract class DicomTreeItem {
+	private String uid;
+	
+	private DicomTreeItem parent;
+	
+	private ArrayList<DicomTreeItem> children;
+	
+	public DicomTreeItem(String uid) {
+		this.uid = uid;
+		//this.parent = parent;
+		children = new ArrayList<DicomTreeItem>();
+	}
+	
+	public DicomTreeItem getParent(){
+		return parent;
+	}
+	
+	public void setParent(DicomTreeItem item){
+		parent = item;
+	}
+	
+	public ArrayList<DicomTreeItem> getChildren(){
+		return children;
+	}
+	
+	public DicomTreeItem getChild(int index){
+		return children.get(index);
+	}
+	
+	public String getUid(){
+		return uid;
+	}
+	
+	public boolean addChild(DicomTreeItem item){
+		if(children.contains(item)){
+			return false;
+		}
+		else{
+			item.setParent(this);
+			return children.add(item);
+		}
+	}
+	
+	public boolean removeChild(DicomTreeItem item){
+		return children.remove(item);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((uid == null) ? 0 : uid.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DicomTreeItem other = (DicomTreeItem) obj;
+		if (uid == null) {
+			if (other.uid != null)
+				return false;
+		} else if (!uid.equals(other.uid))
+			return false;
+		return true;
+	}
+	
+	
+}

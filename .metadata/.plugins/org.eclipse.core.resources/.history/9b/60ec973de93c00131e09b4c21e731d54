@@ -1,0 +1,9 @@
+package org.jmedikit.lib.core;
+
+public class DicomStudyItem extends DicomTreeItem{
+
+	public DicomStudyItem(String uid) {
+		super(uid);
+	}
+
+}

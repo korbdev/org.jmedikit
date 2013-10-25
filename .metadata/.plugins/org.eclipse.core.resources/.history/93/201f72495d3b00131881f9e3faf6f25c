@@ -1,0 +1,5 @@
+package org.jmedikit.lib.core;
+
+public class DicomPatientItem {
+
+}

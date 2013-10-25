@@ -1,0 +1,50 @@
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Slider;
+import org.eclipse.swt.SWT;
+import swing2swt.layout.BoxLayout;
+import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.widgets.CoolBar;
+import org.eclipse.swt.widgets.CoolItem;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormAttachment;
+import swing2swt.layout.FlowLayout;
+import swing2swt.layout.BorderLayout;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.Label;
+
+
+public class Test extends Composite {
+
+	/**
+	 * Create the composite.
+	 * @param parent
+	 * @param style
+	 */
+	public Test(Composite parent, int style) {
+		super(parent, style);
+		setLayout(new GridLayout(1, false));
+		
+		Label lblNewLabel = new Label(this, SWT.NONE);
+		lblNewLabel.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
+		lblNewLabel.setText("New Label");
+		
+		Canvas canvas = new Canvas(this, SWT.NONE);
+		canvas.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true, 1, 1));
+		
+		Slider slider = new Slider(this, SWT.NONE);
+		slider.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, false, false, 1, 1));
+
+	}
+
+	@Override
+	protected void checkSubclass() {
+		// Disable the check that prevents subclassing of SWT components
+	}
+}

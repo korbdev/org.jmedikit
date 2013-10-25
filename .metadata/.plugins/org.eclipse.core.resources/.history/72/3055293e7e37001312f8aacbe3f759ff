@@ -1,9 +1,0 @@
-source.. = 
-output.. = bin/
-bin.includes = META-INF/,\
-               .,\
-               SimpleITK/,\
-               dcm4che2/
-jars.compile.order = .
-src.includes = SimpleITK/,\
-               dcm4che2/

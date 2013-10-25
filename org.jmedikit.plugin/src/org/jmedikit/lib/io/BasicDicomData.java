@@ -19,17 +19,12 @@ public class BasicDicomData implements DicomData{
 		dcmobj = obj;
 	}
 	
-	public BasicDicomData(File input) {
+	public BasicDicomData(File input) throws IOException {
 		this.input = input;
 		
-		try {
-			dis = new DicomInputStream(input);
-			dcmobj = dis.readDicomObject();
-			dis.readFileMetaInformation(meta);
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("Not a Dicom File");
-		}
+		dis = new DicomInputStream(input);
+		dcmobj = dis.readDicomObject();
+		dis.readFileMetaInformation(meta);
 	}
 	
 	@Override
@@ -43,14 +38,7 @@ public class BasicDicomData implements DicomData{
 		case RETURN_DOUBLE :
 			return dcmobj.getDouble(dicomTag);
 		case RETURN_STRING :
-			//String result = dcmobj.getString(dicomTag);
-			try {
-				return dcmobj.getString(dicomTag);
-			} catch (Exception e) {
-				System.out.println("String empty");
-				return "empty";
-			}
-			//return (dcmobj.getString(dicomTag) != null) ? dcmobj.getString(dicomTag) : "emptyTag";
+			return (dcmobj.getString(dicomTag) != null) ? dcmobj.getString(dicomTag) : "default";
 		case RETURN_NESTED_DICOM :
 			DicomObject obj = dcmobj.getNestedDicomObject(dicomTag);
 			return new BasicDicomData(obj);
@@ -72,7 +60,6 @@ public class BasicDicomData implements DicomData{
 
 	@Override
 	public Object getTagArray(String tag, int returnType) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -120,19 +107,6 @@ public class BasicDicomData implements DicomData{
 	@Override
 	public boolean equals(Object obj) {
 		BasicDicomData other = (BasicDicomData) obj;
-		//System.out.println(this.)
-		/*if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		if (dcmobj == null) {
-			if (other.dcmobj != null)
-				return false;
-		} else if (!dcmobj.matches(other.dcmobj, true))
-			return false;
-		return true;*/
 		
 		if (this == obj)
 			return true;
@@ -143,7 +117,7 @@ public class BasicDicomData implements DicomData{
 		if (dcmobj == null) {
 			if (other.dcmobj != null)
 				return false;
-		} else if (!input.equals(other.input))
+		} else if (!input.getPath().equals(other.input.getPath()))
 			return false;
 		return true;
 	}

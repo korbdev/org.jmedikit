@@ -1,7 +1,0 @@
-source.. = 
-output.. = bin/
-bin.includes = .,\
-               META-INF/,\
-               SimpleITK/,\
-               src/
-jars.compile.order = .

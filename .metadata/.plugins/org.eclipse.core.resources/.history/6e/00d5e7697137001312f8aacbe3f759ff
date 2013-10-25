@@ -1,5 +1,0 @@
-package org.jmedikit.plugin.gui.events;
-
-public class EventConstants {
-	public final String FILE_OPEN_LOCATION = "OpenLocation";
-}

@@ -1,0 +1,10 @@
+package org.jmedikit.lib.core;
+
+public class DicomSeriesItem extends DicomTreeItem{
+
+	public DicomSeriesItem(String uid) {
+		super(uid);
+		// TODO Auto-generated constructor stub
+	}
+
+}

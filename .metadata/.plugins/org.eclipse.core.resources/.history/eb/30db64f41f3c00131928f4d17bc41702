@@ -1,0 +1,14 @@
+package org.jmedikit.plugin.gui.events;
+
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+
+public class DicomBrowserDoubleClickListener implements Listener{
+
+	@Override
+	public void handleEvent(Event event) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

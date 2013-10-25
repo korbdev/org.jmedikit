@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/jai-imageio-1001/jai_imageio.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/dcm4che2/lib/slf4j-log4j12-1.6.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/dcm4che2/lib/slf4j-api-1.6.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
@@ -41,7 +42,11 @@
 	<classpathentry kind="lib" path="lib/dcm4che2/lib/dcm4che-tool-txt2dcmsr-2.0.28.jar"/>
 	<classpathentry kind="lib" path="lib/dcm4che2/lib/dcm4che-tool-xml2dcm-2.0.28.jar"/>
 	<classpathentry kind="lib" path="lib/dcm4che2/lib/log4j-1.2.16.jar"/>
-	<classpathentry kind="lib" path="lib/jai-imageio/lib/jai_imageio.jar"/>
 	<classpathentry kind="lib" path="lib/SimpleITK/simpleitk-0.6.1.jar"/>
+	<classpathentry kind="lib" path="swing2swt.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/Java/jre7/lib/ext/jai_imageio.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/Java/jre7/lib/ext/clibwrapper_jiio.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/Java/jre7/lib/ext/jai_core.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/Java/jre7/lib/ext/mlibwrapper_jai.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

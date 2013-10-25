@@ -11,7 +11,7 @@
           </children>
           <children xsi:type="basic:PartSashContainer" xmi:id="_j-EAEDdsEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.mainContainer" containerData="8000">
             <children xsi:type="basic:PartStack" xmi:id="_32EsUDdsEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.imageviewStack" containerData="8000">
-              <children xsi:type="basic:Part" xmi:id="_5zkTwDdsEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.imageview" label="Image View"/>
+              <children xsi:type="basic:Part" xmi:id="_5zkTwDdsEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.imageview" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.ImageViewPart" label="Image View" iconURI="platform:/plugin/org.jmedikit.plugin/icons/layers_16x14.png"/>
             </children>
             <children xsi:type="basic:PartStack" xmi:id="_C9GEEDdtEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.consoleStack" containerData="2000">
               <children xsi:type="basic:Part" xmi:id="_EZM1sDdtEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.console" label="Console"/>
@@ -21,7 +21,6 @@
       </children>
     </children>
     <handlers xmi:id="_jEdMoDduEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.openLocationHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.OpenLocationHandler" command="_qOWngDduEeOZNbAKmr0f_w"/>
-    <handlers xmi:id="_LZiQcDnUEeOA87V8v-O6DQ" elementId="org.jmedikit.plugin.handler.importFinishedHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.ImportFinishedHandler" command="_HXtZwDnUEeOA87V8v-O6DQ"/>
     <mainMenu xmi:id="_YbxzMDdtEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.mainMenu">
       <children xsi:type="menu:Menu" xmi:id="_-F0WoDdtEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.mainMenu.file" label="File">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_Br4eYDduEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.mainMenu.file.open" label="Open" command="_qOWngDduEeOZNbAKmr0f_w"/>
@@ -32,7 +31,6 @@
     </trimBars>
   </children>
   <commands xmi:id="_qOWngDduEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.openLocationCommand" commandName="openLocation"/>
-  <commands xmi:id="_HXtZwDnUEeOA87V8v-O6DQ" elementId="org.jmedikit.plugin.importFinishedCommand" commandName="importFinished"/>
   <addons xmi:id="_O7jMYTdoEeOZNbAKmr0f_w" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_O7jMYjdoEeOZNbAKmr0f_w" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_O7jMYzdoEeOZNbAKmr0f_w" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

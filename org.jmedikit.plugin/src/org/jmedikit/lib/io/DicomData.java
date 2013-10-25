@@ -1,7 +1,5 @@
 package org.jmedikit.lib.io;
 
-import org.jmedikit.lib.core.DicomObject;
-
 public interface DicomData {
 	
 	public static final int RETURN_BYTE = 0;

@@ -1,0 +1,151 @@
+package org.jmedikit.plugin.gui;
+
+import java.io.File;
+import java.util.ArrayList;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.jobs.IJobManager;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.jobs.ProgressProvider;
+import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.core.services.events.IEventBroker;
+import org.eclipse.e4.ui.di.UIEventTopic;
+import org.eclipse.e4.ui.model.application.MApplication;
+import org.eclipse.e4.ui.model.application.ui.menu.MToolControl;
+import org.eclipse.e4.ui.workbench.modeling.EModelService;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
+import org.jmedikit.lib.core.DicomObject;
+import org.jmedikit.lib.core.DicomTreeItem;
+import org.jmedikit.lib.core.DicomTreeRepository;
+import org.jmedikit.lib.io.DicomImporter;
+import org.jmedikit.plugin.gui.events.EventConstants;
+
+
+public class DicomBrowserPart {
+	
+	@Inject
+	IEventBroker broker;
+	
+	@Inject
+	EModelService service;
+	
+	@Inject
+	MApplication app;
+	
+	private Tree tree;
+	//private TreeItem root;
+	
+	private DicomTreeRepository treeRepository;
+	
+	@PostConstruct
+	public void createGui(Composite parent){
+		tree = new Tree(parent, SWT.BORDER);
+		//root = new TreeItem(tree, SWT.DEFAULT);
+		//root.setText("root");
+		/*tree.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				String uid = tree.getSelection()[0].getText();
+				System.out.println(uid);
+				DicomTreeItem item = treeRepository.lookUpDicomTreeItem(uid);
+				if(item != null && item.isLeaf()){
+					DicomObject obj = (DicomObject) item;
+					System.out.println("hallo");
+					System.out.println(obj.getWidth(0)+ " x "+obj.getHeight(0));
+				}
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				
+			}
+		});*/
+		
+		tree.addListener(SWT.MouseDoubleClick, new Listener() {
+			
+			@Override
+			public void handleEvent(Event event) {
+				System.out.println("Double");
+				System.out.println("Select "+tree.getSelection()[0].getText());
+			}
+		});
+	}
+	
+	@Inject
+	@Optional
+	public void getNotifiedOpenLocation(@UIEventTopic(EventConstants.FILE_OPEN_LOCATION) String location){
+		System.out.println(location);
+		
+		DicomImporter importer = null;
+		IJobManager manager = null;
+		try {
+			importer = new DicomImporter("Test", new File(location));
+			manager = Job.getJobManager();
+			
+			MToolControl toolcontrol = (MToolControl) service.find("org.jmedikit.plugin.toolcontrol.status", app);
+			
+			final IProgressMonitor monitor = (IProgressMonitor) toolcontrol.getObject();
+			
+			ProgressProvider provider = new ProgressProvider() {	
+				@Override
+				public IProgressMonitor createMonitor(Job job) {
+					return monitor;
+				}
+			};
+			manager.setProgressProvider(provider);
+			importer.schedule();
+			treeRepository = importer.getTree();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	@Inject
+	@Optional
+	public void getNotifiedImportFinished(@UIEventTopic(EventConstants.FILE_IMPORT_FINISHED) boolean done){
+		buildTree(tree, treeRepository);
+	}
+	
+	private void buildTree(Tree guiTree, DicomTreeRepository dicomTree){
+		DicomTreeItem root = dicomTree.getRoot();
+		TreeItem guiRoot = new TreeItem(guiTree, SWT.DEFAULT);
+		guiRoot.setText("/");
+		buildTreeItems(guiRoot, root);
+	}
+	
+	private void buildTreeItems(TreeItem parent, DicomTreeItem item){
+		if(!item.isLeaf()){
+			ArrayList<DicomTreeItem> children = item.getChildren();
+			for(DicomTreeItem child : children){
+				if(!child.isLeaf()){
+					TreeItem childParent = new TreeItem(parent, SWT.DEFAULT);
+					childParent.setText(child.getUid());
+					buildTreeItems(childParent, child);
+				}
+				else{
+					System.out.println("Leaf "+child.getUid());
+					TreeItem guiItem = new TreeItem(parent, SWT.DEFAULT);
+					guiItem.setText(child.getUid());
+				}
+			}
+		}
+		else{
+			TreeItem guiItem = new TreeItem(parent, SWT.DEFAULT);
+			guiItem.setText(item.getUid());
+		}
+	}
+}

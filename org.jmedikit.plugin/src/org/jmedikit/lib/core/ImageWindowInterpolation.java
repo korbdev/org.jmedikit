@@ -1,8 +1,11 @@
 package org.jmedikit.lib.core;
 
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.PaletteData;
+import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Display;
 import org.jmedikit.lib.image.AbstractImage;
 
 public class ImageWindowInterpolation {
@@ -24,7 +27,7 @@ public class ImageWindowInterpolation {
 		return returnValue;
 	}
 	
-	public static BufferedImage interpolateImage(AbstractImage img, float wc, float ww, int min, int max){
+	public static ImageData interpolateImage(AbstractImage img, float wc, float ww, int min, int max){
 		
 		int width = img.getWidth();
 		int height = img.getHeight();
@@ -43,7 +46,9 @@ public class ImageWindowInterpolation {
 		System.out.println(minValue + " " + maxValue);
 		System.out.println("Old Center "+ wc + ", Old Width " + ww + " ImageType = "+img.getImageType());
 		System.out.println("New Center "+ windowCenter + ", New Width " + windowWidth + " ImageType = "+img.getImageType());
-		BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
+		
+		PaletteData palette = new PaletteData(0xFF , 0xFF00 , 0xFF0000);
+		ImageData imgData = new ImageData(width, height, 24, palette);
 		
 		for(int y = 0; y < height; y++){
 			for(int x = 0; x < width; x++){
@@ -51,11 +56,11 @@ public class ImageWindowInterpolation {
 				int value = img.getPixel(x, y);
 				int grey = interpolatePixel(value, windowCenter, windowWidth, min, max);
 
-				Color c = new Color(grey, grey, grey);
-				bufferedImage.setRGB(x, y, c.getRGB());
+				RGB rgb = new RGB(grey, grey, grey);
+				imgData.setPixel(x, y, palette.getPixel(rgb));
 			}
 		}
 		
-		return bufferedImage;
+		return imgData;
 	}
 }
