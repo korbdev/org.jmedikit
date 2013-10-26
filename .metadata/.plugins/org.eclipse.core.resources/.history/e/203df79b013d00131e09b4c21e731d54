@@ -1,7 +1,0 @@
-output.. = bin/
-bin.includes = META-INF/,\
-               .,\
-               OSGI-INF/imageresourceprovider.xml,\
-               icons/
-jars.compile.order = .
-source.. = src/

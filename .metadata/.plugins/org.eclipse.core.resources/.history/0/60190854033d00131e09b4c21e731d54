@@ -1,5 +1,0 @@
-output.. = bin/
-bin.includes = .,\
-               lib/jai-imageio/
-jars.compile.order = .
-source.. = src/

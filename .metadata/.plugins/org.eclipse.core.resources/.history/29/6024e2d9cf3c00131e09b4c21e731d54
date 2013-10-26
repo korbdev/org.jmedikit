@@ -1,7 +1,0 @@
-package org.jmedikit.lib.util;
-
-import org.eclipse.e4.tools.services.BasicResourceProvider;
-
-public class ImageProvider extends BasicResourceProvider{
-	public static final String IMG_ADD = "IMG_Add";
-}

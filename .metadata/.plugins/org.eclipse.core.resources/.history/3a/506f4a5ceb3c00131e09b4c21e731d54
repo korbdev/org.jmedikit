@@ -1,5 +1,0 @@
-DICOM_TREE_ROOT=icons/fork_14x16.png
-DICOM_TREE_PATIENT=icons/user_12x16.png
-DICOM_TREE_STUDY=icons/box_16x16.png
-DICOM_TREE_SERIES=icons/folder_fill_16x16.png
-DICOM_TREE_OBJECT=image_16x16.png

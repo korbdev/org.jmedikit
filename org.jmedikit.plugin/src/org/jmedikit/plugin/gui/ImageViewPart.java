@@ -2,10 +2,12 @@ package org.jmedikit.plugin.gui;
 
 
 
+import java.security.CodeSource;
 import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.tools.services.IResourcePool;
 import org.eclipse.e4.ui.di.Focus;
@@ -34,6 +36,8 @@ import org.jmedikit.lib.core.DicomTreeItem;
 import org.jmedikit.lib.core.ImageWindowInterpolation;
 import org.jmedikit.lib.image.AbstractImage;
 import org.jmedikit.plugin.gui.events.EventConstants;
+
+import com.sun.media.imageio.stream.RawImageInputStream;
 
 
 public class ImageViewPart {
@@ -69,6 +73,16 @@ public class ImageViewPart {
 		topLabel = new Label(parent, SWT.NONE);
 		topLabel.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
 		topLabel.setImage(icon);
+		
+		Class klass = RawImageInputStream.class;
+
+	    CodeSource codeSource = klass.getProtectionDomain().getCodeSource();
+
+	    if ( codeSource != null) {
+
+	        System.out.println(codeSource.getLocation());
+
+	    }else System.out.println("LOADED");
 		
 		canvas = new Canvas(parent, SWT.NONE);
 		canvas.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));

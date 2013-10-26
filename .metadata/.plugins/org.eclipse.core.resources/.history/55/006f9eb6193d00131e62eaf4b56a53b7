@@ -1,6 +1,0 @@
-output.. = bin/
-bin.includes = .,\
-               lib/jai-imageio-1001/jai_imageio.jar,\
-               lib/jai-imageio-1001/clibwrapper_jiio.jar
-jars.compile.order = .
-source.. = src/
