@@ -1,0 +1,41 @@
+package org.jmedikit.lib.core;
+
+import org.jmedikit.lib.image.AbstractImage;
+import org.jmedikit.lib.util.SimpleImageFactory;
+
+public class BilinearInterpolation {
+	
+	private AbstractImage img;
+	
+	public BilinearInterpolation(AbstractImage src){
+		img = src;
+	}
+	
+	public AbstractImage resample(AbstractImage img, int newWidth, int newHeight){
+		
+		int width = img.getWidth();
+		int height = img.getHeight();
+		
+		AbstractImage resampled = SimpleImageFactory.getAbstractImage(img.getImageType(), newWidth, newHeight);
+		
+		float xAspectRatio = (float)newWidth/(float)width;
+		float yAspectRatio = (float)newHeight/(float)height;
+		
+		float x = 320 * xAspectRatio;
+		float y = 320 * yAspectRatio;
+		
+		System.out.println("XAR "+xAspectRatio+", YAR "+yAspectRatio);
+		
+		for(int y = 0; y < newHeight; y++){
+			for(int x = 0; x < newWidth; x++){
+				
+			}
+		}
+		return resampled;
+	}
+	
+	private float getInterpolatedPixel(float x, float y){
+		System.out.println(img.getPixel(320, 320));
+		return 0f;
+	}
+}

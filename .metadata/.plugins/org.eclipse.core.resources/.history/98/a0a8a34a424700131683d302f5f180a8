@@ -1,0 +1,48 @@
+package org.jmedikit.lib.util;
+
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.widgets.Event;
+
+
+public class MoveTool extends ATransformationTool{
+
+	public MoveTool(DicomPaintingTool paintingTool) {
+		super(paintingTool);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	void actionMouseMove(Event e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void actionMouseDown(Event e) {
+		paintingTool.mouseDown = true;
+		paintingTool.translation.x = 0;
+		paintingTool.translation.y = 0;
+	}
+
+	@Override
+	void actionMouseUp(Event e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	GC postCalculation(GC toDraw) {
+		if(paintingTool.mouseDown){
+			int rectWidth = (int) (paintingTool.imageDimension.width);
+			int rectHeight = (int) (paintingTool.imageDimension.height);
+
+			toDraw.drawRectangle(paintingTool.imageCenter.x-rectWidth/2, paintingTool.imageCenter.y - rectHeight/2, rectWidth, rectHeight);
+			toDraw.setAlpha(50);
+			toDraw.fillRectangle(paintingTool.imageCenter.x-rectWidth/2, paintingTool.imageCenter.y - rectHeight/2, rectWidth, rectHeight);
+		}
+		return toDraw;
+	}
+
+	
+
+}

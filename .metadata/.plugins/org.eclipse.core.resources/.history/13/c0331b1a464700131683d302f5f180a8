@@ -1,0 +1,55 @@
+package org.jmedikit.lib.util;
+
+
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.widgets.Event;
+
+public class ResizeTool extends ATransformationTool{
+
+	int scale;
+	
+	public ResizeTool(DicomPaintingTool paintingTool) {
+		super(paintingTool);
+		scale = 0;
+	}
+
+	@Override
+	void actionMouseMove(Event e) {
+		if(paintingTool.mouseDown){
+			int scaleOld = scale;
+			scale = paintingTool.actual.y - paintingTool.start.y;
+			System.out.println("Scale "+(float)(scale/100));
+			if(scale > 0){
+				System.out.println("width "+(int) (paintingTool.imageDimension.width * ((float)Math.abs(scale-scaleOld))));
+				System.out.println("height "+(int) (paintingTool.imageDimension.height * ((float)Math.abs(scale-scaleOld))));
+				//paintingTool.imageDimension.width = (int) (paintingTool.imageDimension.width * ((float)Math.abs(scale-scaleOld)));
+				//paintingTool.imageDimension.height = (int) (paintingTool.imageDimension.height * ((float)Math.abs(scale-scaleOld)));
+			}
+			else if(scale < 0){
+				System.out.println("width "+(int) (paintingTool.imageDimension.width * ((float)Math.abs(scale-scaleOld)/100)));
+				System.out.println("height "+(int) (paintingTool.imageDimension.height * ((float)Math.abs(scale-scaleOld)/100)));
+				//paintingTool.imageDimension.width = (int) (paintingTool.imageDimension.width * ((float)Math.abs(scale-scaleOld)/100));
+				//paintingTool.imageDimension.height = (int) (paintingTool.imageDimension.height * ((float)Math.abs(scale-scaleOld)/100));
+			}
+				
+		}
+		
+	}
+
+	@Override
+	void actionMouseDown(Event e) {
+		paintingTool.mouseDown = true;
+	}
+
+	@Override
+	void actionMouseUp(Event e) {
+		paintingTool.mouseDown = false;
+	}
+
+	@Override
+	GC postCalculation(GC toDraw) {
+		return toDraw;
+	}
+
+	
+}

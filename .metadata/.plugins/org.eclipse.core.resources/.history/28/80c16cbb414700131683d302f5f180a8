@@ -1,0 +1,20 @@
+package org.jmedikit.lib.util;
+
+import org.eclipse.swt.graphics.GC;
+
+
+public class MoveTool implements IPainter{
+
+	private IPainter paintingTool;
+	
+	public MoveTool(IPainter paintingTool){
+		this.paintingTool = paintingTool;
+	}
+	
+	@Override
+	public GC draw(GC buffer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

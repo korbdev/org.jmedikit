@@ -1,0 +1,23 @@
+package org.jmedikit.lib.util;
+
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.widgets.Canvas;
+import org.jmedikit.lib.core.DicomTreeItem;
+
+public class MoveTool extends AbstractTool{
+
+	public MoveTool(Canvas c, DicomTreeItem selection) {
+		super(c, selection);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public GC paint(GC buffer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+}

@@ -30,7 +30,12 @@ public abstract class AbstractImage {
 	 * Image height
 	 */
 	protected int height;
-
+	
+	/**
+	 * Aspect Ratio width/height
+	 */
+	protected float aspectRatio;
+	
 	/**
 	 * Minimum value in the Image
 	 */
@@ -80,6 +85,8 @@ public abstract class AbstractImage {
 	 */
 	protected int imageType;
 	
+	
+	protected ROI roi;
 	/**
 	 * Basic Image Constructor
 	 * 
@@ -89,7 +96,9 @@ public abstract class AbstractImage {
 	public AbstractImage(int width, int height){
 		this.width = width;
 		this.height = height;
+		aspectRatio = (float)width / (float)height;
 		extrema = false;
+		roi = new ROI();
 	}
 	
 	/**
@@ -114,6 +123,10 @@ public abstract class AbstractImage {
 	 */
 	public int getHeight(){
 		return height;
+	}
+	
+	public float getAspectRatio(){
+		return aspectRatio;
 	}
 	
 	public int getMin() {
@@ -163,7 +176,15 @@ public abstract class AbstractImage {
 	public void setWindowCenter(int windowCenter) {
 		this.windowCenter = windowCenter;
 	}
-
+	
+	public ROI getROI(){
+		return roi;
+	}
+	
+	public void setROI(ROI roi){
+		this.roi = roi;
+	}
+	
 	/*public void assignExtrema(boolean extrema){
 		this.extrema = extrema;
 	}*/
@@ -183,6 +204,12 @@ public abstract class AbstractImage {
 	 * @return returns a single Pixel value. Gibt int zurueck, cast von niedrige auf höher unproblematisch
 	 */
 	public abstract int getPixel(int x, int y);
+	
+	
+	/**
+	 * 
+	 */
+	public abstract void setPixel(int x, int y, int value);
 	
 	/**
 	 * 

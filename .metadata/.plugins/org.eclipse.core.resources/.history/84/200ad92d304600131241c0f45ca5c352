@@ -1,0 +1,54 @@
+package org.jmedikit.lib.util;
+
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseWheelListener;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.jmedikit.lib.core.BilinearInterpolation;
+import org.jmedikit.lib.core.DicomTreeItem;
+import org.jmedikit.lib.core.ImageWindowInterpolation;
+import org.jmedikit.lib.image.AbstractImage;
+
+public class MoveTool extends AbstractTool{
+
+	private Listener mwl = new Listener() {
+
+		@Override
+		public void handleEvent(Event event) {
+			System.out.println("SCROLL MOVE");
+		}
+		
+	};
+	
+	public MoveTool(Composite parent, DicomTreeItem selection) {
+		super(parent, selection);
+	}
+
+	public MoveTool(AbstractTool tool){
+		super(tool);
+		super.registerListener(SWT.MouseWheel, mwl);
+		System.out.println("Copy");
+		getCanvas().redraw();
+	}
+	
+	@Override
+	public GC paint(GC buffer) {
+		//BilinearInterpolation scale = new BilinearInterpolation(getSourceImage());
+		//AbstractImage resampled = scale.resampleROI(getRoi(), getSourceImage().getWidth(), getSourceImage().getHeight(), getScaledImageDimension().x, getScaledImageDimension().y);
+		System.out.println("MoveME");
+		ImageData data = ImageWindowInterpolation.interpolateImage(getSourceImage(), getWindowDimension().x, getWindowDimension().y, 0, 255);
+		Image iimg = new Image(getCanvas().getDisplay(), data);
+		buffer.drawImage(iimg, 0, 0);
+		return buffer;
+	}
+
+
+
+}

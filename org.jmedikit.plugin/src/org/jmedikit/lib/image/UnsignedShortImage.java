@@ -9,28 +9,31 @@ public class UnsignedShortImage extends AbstractImage{
 	
 	private int[] pixels;
 	
-	public UnsignedShortImage(int width, int height, DataBuffer buffer){
-		super(width, height);	
+	public UnsignedShortImage(int width, int height){
+		super(width, height);
 		imageType = AbstractImage.TYPE_SHORT_UNSIGNED;
+		pixels = new int[width*height];
+		storedValues = new int[width*height];
+	}
+	
+	public UnsignedShortImage(int width, int height, DataBuffer buffer){
+		this(width, height);	
+
 		if(buffer instanceof DataBufferUShort){
-			storedValues = new int[width*height];
 			for(int i = 0; i < buffer.getSize(); i++){
 				storedValues[i] = buffer.getElem(i);
 			}
 		}
 		else throw new IllegalArgumentException("expected buffer type DataBufferUShort, "+buffer.getClass().getName()+" given");
-	
-		printPixelValues("Samples/USIMG.txt", this);
 	}
 	
 	public UnsignedShortImage(int width, int height, DataBuffer buffer, float m, float b){
-		super(width, height);	
-		imageType = AbstractImage.TYPE_SHORT_UNSIGNED;
+		this(width, height);	
+		
 		rescaleSlope = m;
 		rescaleIntercept = b;
+		
 		if(buffer instanceof DataBufferUShort){
-			storedValues = new int[width*height];
-			pixels = new int[width*height];
 			for(int i = 0; i < buffer.getSize(); i++){
 				int value = buffer.getElem(i);
 				storedValues[i] = value;
@@ -40,8 +43,6 @@ public class UnsignedShortImage extends AbstractImage{
 		else throw new IllegalArgumentException("expected buffer type DataBufferUShort, "+buffer.getClass().getName()+" given");
 		
 		this.determineMinMaxValues(pixels);
-		
-		//printPixelValues("Samples/USIMG_mb.txt", this);
 	}
 	
 	public UnsignedShortImage(int width, int height, DataBuffer buffer, float m, float b, float windowCenter, float windowWidth){
@@ -58,5 +59,11 @@ public class UnsignedShortImage extends AbstractImage{
 	@Override
 	public Object getPixels() {
 		return pixels;
+	}
+
+	@Override
+	public void setPixel(int x, int y, int value) {
+		int newValue = value;
+		pixels[y * width + x] = newValue;
 	}
 }

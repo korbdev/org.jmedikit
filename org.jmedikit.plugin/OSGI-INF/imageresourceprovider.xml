@@ -4,5 +4,5 @@
    <service>
       <provide interface="org.eclipse.e4.tools.services.IResourceProviderService"/>
    </service>
-   <properties entry="OSGI-INF/resource.properties"/>
+   <properties entry="./OSGI-INF/resource.properties"/>
 </scr:component>

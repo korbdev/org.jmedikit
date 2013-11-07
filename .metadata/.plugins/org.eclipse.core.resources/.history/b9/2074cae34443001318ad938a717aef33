@@ -1,0 +1,64 @@
+package org.jmedikit.lib.core;
+
+import org.jmedikit.lib.image.AbstractImage;
+import org.jmedikit.lib.util.SimpleImageFactory;
+
+public class BilinearInterpolation {
+	
+	private AbstractImage img;
+	
+	public BilinearInterpolation(AbstractImage src){
+		img = src;
+	}
+	
+	public AbstractImage resample(AbstractImage img, int newWidth, int newHeight){
+		
+		int width = img.getWidth();
+		int height = img.getHeight();
+		
+		AbstractImage resampled = SimpleImageFactory.getAbstractImage(img.getImageType(), newWidth, newHeight);
+		
+		float xAspectRatio = (float)(width)/(float)(newWidth);
+		float yAspectRatio = (float)(height)/(float)(newHeight);
+		
+		float x_index;
+		float y_index;
+		
+		System.out.println("XAR "+xAspectRatio+", YAR "+yAspectRatio);
+		
+		for(int y = 0; y < newHeight; y++){
+			for(int x = 0; x < newWidth; x++){
+				x_index = x * xAspectRatio;
+				y_index = y * yAspectRatio;
+				int value = (int)(getInterpolatedPixel(x_index, y_index)+0.5);
+				resampled.setPixel(x, y, value);
+			}
+		}
+		return resampled;
+	}
+	
+	private float getInterpolatedPixel(float x, float y){
+		int x1 = (int)x;
+		int y1 = (int)y;
+		
+		float x_difference = x - x1;
+		float y_difference = y - y1;
+		
+		if(x1+1 >= img.getWidth()){
+			System.out.println("x_higher "+(x1)+", "+x+", "+y);
+		}
+		if(y1+1 >= img.getWidth()){
+			System.out.println("y_higher "+(y1+1));
+		}
+		
+		float A = img.getPixel(x1, y1);
+		float B = img.getPixel(x1+1, y1);
+		float C = img.getPixel(x1, y1+1);
+		float D = img.getPixel(x1+1, y1+1);
+		
+		float E = A + x_difference * (B - A);
+		float F = C + x_difference * (D - C);
+		
+		return E + y_difference * (F - E);
+	}
+}

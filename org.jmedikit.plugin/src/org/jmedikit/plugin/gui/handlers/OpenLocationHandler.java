@@ -23,7 +23,5 @@ public class OpenLocationHandler {
 		DirectoryDialog dialog = new DirectoryDialog(parent);
 		String location = dialog.open();
 		eventBroker.post(EventConstants.FILE_OPEN_LOCATION, location);
-		//File f = new File(location);
-		//System.out.println(f.isDirectory());
 	}
 }

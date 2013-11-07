@@ -9,12 +9,17 @@ public class ShortImage extends AbstractImage{
 	
 	private short[] pixels;
 	
-	public ShortImage(int width, int height, DataBuffer buffer) {
-		super(width, height);	
+	public ShortImage(int width, int height){
+		super(width, height);
 		imageType = AbstractImage.TYPE_SHORT_SIGNED;
-		System.out.println("SHORT IMAGE");
+		pixels = new short[width*height];
+		storedValues = new short[width*height];
+	}
+	
+	public ShortImage(int width, int height, DataBuffer buffer) {
+		this(width, height);	
+		
 		if(buffer instanceof DataBufferUShort){
-			storedValues = new short[width*height];
 			for(int i = 0; i < buffer.getSize(); i++){
 				storedValues[i] = (short) buffer.getElem(i);
 			}
@@ -23,15 +28,12 @@ public class ShortImage extends AbstractImage{
 	}
 	
 	public ShortImage(int width, int height, DataBuffer buffer, float m, float b) {
-		super(width, height);
-		imageType = AbstractImage.TYPE_SHORT_SIGNED;
+		this(width, height);
 
 		rescaleSlope = m;
 		rescaleIntercept = b;
-
+		
 		if(buffer instanceof DataBufferUShort){
-			storedValues = new short[width*height];
-			pixels = new short[width*height];
 			for(int i = 0; i < buffer.getSize(); i++){
 				short value = (short) buffer.getElem(i);
 				storedValues[i] = value;
@@ -57,6 +59,12 @@ public class ShortImage extends AbstractImage{
 	@Override
 	public Object getPixels() {
 		return pixels;
+	}
+
+	@Override
+	public void setPixel(int x, int y, int value) {
+		short newValue = (short)value;
+		pixels[y * width + x] = newValue;
 	}
 
 }

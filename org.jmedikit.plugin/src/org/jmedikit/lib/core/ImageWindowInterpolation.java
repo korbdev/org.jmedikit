@@ -40,10 +40,10 @@ public class ImageWindowInterpolation {
 			windowCenter = minValue+range/2;
 			windowWidth = range/2;
 		}
-		System.out.println(minValue + " " + maxValue);
-		System.out.println("Old Center "+ wc + ", Old Width " + ww + " ImageType = "+img.getImageType());
-		System.out.println("New Center "+ windowCenter + ", New Width " + windowWidth + " ImageType = "+img.getImageType());
-		
+		//System.out.println(minValue + " " + maxValue);
+		//System.out.println("Old Center "+ wc + ", Old Width " + ww + " ImageType = "+img.getImageType());
+		//System.out.println("New Center "+ windowCenter + ", New Width " + windowWidth + " ImageType = "+img.getImageType());
+		//System.out.println("AspectRatio "+img.getAspectRatio());
 		PaletteData palette = new PaletteData(0xFF , 0xFF00 , 0xFF0000);
 		ImageData imgData = new ImageData(width, height, 24, palette);
 		

@@ -1,0 +1,133 @@
+package org.jmedikit.lib.util;
+
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Canvas;
+import org.jmedikit.lib.core.DicomObject;
+import org.jmedikit.lib.core.DicomTreeItem;
+import org.jmedikit.lib.image.AbstractImage;
+import org.jmedikit.lib.image.ROI;
+
+public abstract class AbstractTool {
+	
+	private DicomTreeItem item;
+	
+	private int index;
+	
+	private AbstractImage sourceImage;
+	
+	private float scale;
+	
+	private Point2D<Integer> scaledImageDimension;
+	
+	private Point2D<Integer> scaledCenter;
+	
+	private Rectangle imageCoordinates;
+	
+	private Point2D<Integer> imageCenter;
+	
+	/**
+	 * Beinhaltet relative Koordinaten des sichtbaren Bildbereichs
+	 */
+	private ROI roi;
+	
+	private Point2D<Float> windowDimension;
+	
+	private Canvas canvas;
+	
+	private Rectangle clientArea;
+	
+	private Point2D<Integer> canvasDimension;
+	
+	private Point2D<Integer> canvasCenter;
+	
+	public AbstractTool(Canvas c, DicomTreeItem selection) {
+		canvas = c;
+		item = selection;
+		scale = 1f;
+		final ROI roi = new ROI();
+		
+		canvas.addPaintListener(new PaintListener() {
+			
+			@Override
+			public void paintControl(PaintEvent e) {
+				
+				DicomObject toDraw = null;
+				if(item.getLevel() == DicomTreeItem.TREE_OBJECT_LEVEL){
+					toDraw = (DicomObject)item;
+				}
+				else {
+					toDraw = (DicomObject) item.getChild(index);
+				}
+				
+				sourceImage = toDraw.getImage(0);
+				
+				windowDimension = new Point2D<Float>(sourceImage.getWindowCenter(), sourceImage.getWindowWidth());
+				
+				//+0.5 fuer Kaufmaennische Rundung, erspart Aufruf von ceil() oder floor()
+				int scaledImageWidth = (int) (scale * sourceImage.getWidth()+0.5);
+				int scaledImageHeight = (int) (scale * sourceImage.getHeight()+0.5);
+				scaledImageDimension = new Point2D<Integer>(scaledImageWidth, scaledImageHeight);
+				
+				clientArea = canvas.getClientArea();
+				canvasDimension = new Point2D<Integer>(clientArea.width-clientArea.x, clientArea.height-clientArea.y);
+				
+				//Bilddaten werden zentriert
+				canvasCenter = new Point2D<Integer>(canvasDimension.x/2, canvasDimension.y/2);
+				imageCenter = new Point2D<Integer>(canvasCenter.x, canvasCenter.y);
+				scaledCenter = new Point2D<Integer>(scaledImageDimension.x/2, scaledImageDimension.y/2);
+				
+				//Sichbarer bereich wird berechnet
+				int xTemp = imageCenter.x - scaledCenter.x;
+				int yTemp = imageCenter.y - scaledCenter.y;
+				
+				if(xTemp < 0){
+					roi.x = (float)Math.abs(xTemp)/(float)scaledImageDimension.x;
+				}
+				else roi.x = 0f;
+				
+				if(yTemp < 0){
+					roi.y = (float)Math.abs(yTemp)/(float)scaledImageDimension.y;
+				}
+				else roi.y = 0f;
+				
+				int x_offset = xTemp + scaledImageDimension.x - canvasDimension.x;
+				int y_offset = yTemp + scaledImageDimension.y - canvasDimension.y;
+				
+				if(x_offset > 0){
+					roi.width = (float)(scaledImageDimension.x-x_offset)/(float)scaledImageDimension.x;
+				}
+				else roi.width = 1f;
+				
+				if(y_offset > 0){
+					roi.height = (float)(scaledImageDimension.y-y_offset)/(float)scaledImageDimension.y;
+				}
+				else roi.height = 1f;
+				
+				//sourceImage.setROI(roi);
+				int x = (int) (roi.x * scaledImageDimension.x + 0.5);
+				int y = (int) (roi.y * scaledImageDimension.y + 0.5);
+				int width = (int) (roi.width * scaledImageDimension.x + 0.5);
+				int height = (int) (roi.height * scaledImageDimension.y + 0.5);
+				imageCoordinates = new Rectangle(x, y, width, height);
+				
+				//DoubleBuffer anlegen um Flackern der Zeichenflaeche zu verhindern
+				Image bufferImage = new Image(canvas.getDisplay(), canvasDimension.x, canvasDimension.y);
+				GC buffer = new GC(bufferImage);
+				
+				//Implementierer uebernimmt das Zeichnen
+				buffer = paint(buffer);
+				
+				e.gc.drawImage(bufferImage, 0, 0);
+				bufferImage.dispose();
+			}
+		});
+	}
+	
+	
+	
+	public abstract GC paint(GC buffer);
+}

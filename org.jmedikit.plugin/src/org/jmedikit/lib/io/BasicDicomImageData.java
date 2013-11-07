@@ -36,7 +36,7 @@ public class BasicDicomImageData implements DicomImageData{
 		dir = (DicomImageReader) ImageIO.getImageReadersByFormatName("DICOM").next();
 		param = (DicomImageReadParam) dir.getDefaultReadParam();
 		
-		System.out.println(dir.toString()+", "+iis.toString()+", "+f.getPath());
+		//System.out.println(dir.toString()+", "+iis.toString()+", "+f.getPath());
 		dir.setInput(iis);
 	}
 	
@@ -55,7 +55,7 @@ public class BasicDicomImageData implements DicomImageData{
 		String rescaleSlope = (String) data.getTagData("RescaleSlope", DicomData.RETURN_STRING);
 		String rescaleIntercept = (String) data.getTagData("RescaleIntercept", DicomData.RETURN_STRING);
 		
-		System.out.println(windowCenter+", "+windowWidth+", "+rescaleIntercept+", "+rescaleSlope);
+		//System.out.println(windowCenter+", "+windowWidth+", "+rescaleIntercept+", "+rescaleSlope);
 		
 		float wc = (windowCenter != null && !windowCenter.equals("default")) ? Float.parseFloat(windowCenter) : 0 ;
 		float ww = (windowWidth != null && !windowWidth.equals("default")) ? Float.parseFloat(windowWidth) : 0 ;
@@ -63,13 +63,13 @@ public class BasicDicomImageData implements DicomImageData{
 		float m = (rescaleSlope != null && !rescaleSlope.equals("default")) ? Float.parseFloat(rescaleSlope) : 1f ;
 		float b = (rescaleIntercept != null && !rescaleIntercept.equals("default")) ? Float.parseFloat(rescaleIntercept) : 0f ;
 		
-		System.out.println("Load Images with m = "+m+", b = "+b+", "+f.getPath()+" readRaster "+dir.canReadRaster());
+		//System.out.println("Load Images with m = "+m+", b = "+b+", "+f.getPath()+" readRaster "+dir.canReadRaster());
 		try {
 			width = dir.getWidth(index);
 			height = dir.getHeight(index);
 			
 			
-			Class klass = RawImageInputStream.class;
+			/*Class klass = RawImageInputStream.class;
 
 		    CodeSource codeSource = klass.getProtectionDomain().getCodeSource();
 
@@ -77,16 +77,12 @@ public class BasicDicomImageData implements DicomImageData{
 
 		        System.out.println(codeSource.getLocation());
 
-		    }else System.out.println("LOADED");
-
+		    }else System.out.println("LOADED");*/
 			
 			Raster r = dir.readRaster(index, null );
-			//iis.close();
 			DataBuffer buffer = r.getDataBuffer();
 			
 			int bufferType = buffer.getDataType();
-			
-			//System.out.println(buffer.getElem(50, 199));
 			
 			switch(bufferType){
 			case DataBuffer.TYPE_BYTE:

@@ -1,0 +1,132 @@
+package org.jmedikit.lib.util;
+
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseWheelListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.jmedikit.lib.core.BilinearInterpolation;
+import org.jmedikit.lib.core.DicomTreeItem;
+import org.jmedikit.lib.core.ImageWindowInterpolation;
+import org.jmedikit.lib.image.AbstractImage;
+
+public class MoveTool extends AbstractTool{
+
+	private boolean mouseDown;
+	
+	private int start_x;
+	private int start_y;
+	
+	private int end_x;
+	private int end_y;
+	
+	private int actual_x;
+	private int actual_y;
+	
+	private int translation_x;
+	private int translation_y;
+	
+	private Listener mouseDownListener = new Listener() {		
+		@Override
+		public void handleEvent(Event event) {
+			mouseDown = true;
+			start_x = event.x;
+			start_y = event.y;
+			
+			translation_x = 0;
+			translation_y = 0;
+			
+			actual_x = start_x;
+			actual_y = start_y;
+			getCanvas().redraw();
+		}
+	};
+	
+	Listener mouseUpListener = new Listener() {
+		
+		@Override
+		public void handleEvent(Event event) {
+			mouseDown = false;
+			end_x = event.x;
+			end_y = event.y;
+			
+			getImageCenter().x = getImageCenter().x+translation_x;
+			getImageCenter().y = getImageCenter().y+translation_y;
+			
+			getCanvas().redraw();
+			System.out.println("Translation "+translation_x+" x "+translation_y);
+		}
+	};
+	
+	Listener mouseMoveListener = new Listener() {
+		
+		@Override
+		public void handleEvent(Event event) {
+			if(mouseDown){
+				actual_x = event.x;
+				actual_y = event.y;
+				
+				translation_x = actual_x - start_x;
+				translation_y = actual_y - start_y;
+				
+				//image_center_x = image_center_x+translation_x;
+				//image_center_y = image_center_y+translation_y;
+				getCanvas().redraw();
+			}
+		}
+	};
+	
+	public MoveTool(Composite parent, DicomTreeItem selection) {
+		super(parent, selection);
+		registerListener(SWT.MouseDown, mouseDownListener);
+		registerListener(SWT.MouseUp, mouseUpListener);
+		registerListener(SWT.MouseMove, mouseMoveListener);
+	}
+
+	public MoveTool(AbstractTool tool){
+		super(tool);
+		registerListener(SWT.MouseDown, mouseDownListener);
+		registerListener(SWT.MouseUp, mouseUpListener);
+		registerListener(SWT.MouseMove, mouseMoveListener);
+		System.out.println("Copy");
+		getCanvas().redraw();
+	}
+	
+	@Override
+	public GC paint(GC buffer) {
+		//BilinearInterpolation scale = new BilinearInterpolation(getSourceImage());
+		//AbstractImage resampled = scale.resampleROI(getRoi(), getSourceImage().getWidth(), getSourceImage().getHeight(), getScaledImageDimension().x, getScaledImageDimension().y);
+		Display display = Display.getCurrent();
+		Color blue = display.getSystemColor(SWT.COLOR_BLUE);
+		
+		System.out.println("MoveME");
+		ImageData data = ImageWindowInterpolation.interpolateImage(getSourceImage(), getWindowDimension().x, getWindowDimension().y, 0, 255);
+		Image iimg = new Image(getCanvas().getDisplay(), data);
+		buffer.drawImage(iimg, 0, 0);
+		
+		buffer.setForeground(blue);
+		buffer.setBackground(blue);
+
+		if(mouseDown){
+			int rectWidth = (int) (getScale()*getImageDimemsion().x);
+			int rectHeight = (int) (getScale()*getImageDimemsion().y);
+
+			buffer.drawRectangle(x+translation_x, y+translation_y, rectWidth, rectHeight);
+			buffer.setAlpha(50);
+			buffer.fillRectangle(x+translation_x, y+translation_y, rectWidth, rectHeight);
+		}
+		
+		return buffer;
+	}
+
+
+
+}

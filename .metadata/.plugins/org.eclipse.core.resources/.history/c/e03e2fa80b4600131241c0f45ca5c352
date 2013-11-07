@@ -1,0 +1,13 @@
+package org.jmedikit.lib.util;
+
+import org.eclipse.swt.widgets.Canvas;
+import org.jmedikit.lib.core.DicomTreeItem;
+
+public class MoveTool extends AbstractTool{
+
+	public MoveTool(Canvas c, DicomTreeItem selection) {
+		super(c, selection);
+		// TODO Auto-generated constructor stub
+	}
+
+}

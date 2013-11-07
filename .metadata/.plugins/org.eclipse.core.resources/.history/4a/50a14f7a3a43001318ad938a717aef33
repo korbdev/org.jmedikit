@@ -1,0 +1,5 @@
+package org.jmedikit.lib.util;
+
+public abstract class SimpleImageFactory {
+	
+}
