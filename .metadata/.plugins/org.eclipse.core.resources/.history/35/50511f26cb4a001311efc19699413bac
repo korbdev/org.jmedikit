@@ -1,0 +1,5 @@
+package org.jmedikit.plugin.tools;
+
+public class WindowTool {
+
+}

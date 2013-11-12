@@ -1,0 +1,19 @@
+package org.jmedikit.lib.util;
+
+public class TransformationToolFactory extends AToolFactory{
+
+	public static final String MOVE_TOOL = "MOVE";
+	public static final String RESIZE_TOOL = "RESIZE";
+	
+	@Override
+	protected ATool produce(String toolname) {
+		if(toolname.equals(MOVE_TOOL)){
+			return new MoveTool();
+		}
+		else if(toolname.equals(RESIZE_TOOL)){
+			return new ResizeTool();
+		}
+		return null;
+	}
+
+}

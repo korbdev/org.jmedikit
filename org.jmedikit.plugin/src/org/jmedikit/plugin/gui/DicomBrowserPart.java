@@ -77,7 +77,7 @@ public class DicomBrowserPart {
 					String uid = selectedItems[0].getText();
 					
 					DicomTreeItem clickedTreeItem = treeRepository.lookUpDicomTreeItem(uid);
-					System.out.println(clickedTreeItem);
+					//System.out.println(clickedTreeItem);
 					broker.send(EventConstants.DICOMBROWSER_ITEM_SELECTION, clickedTreeItem);
 				}
 				
@@ -99,7 +99,7 @@ public class DicomBrowserPart {
 					String uid = selectedItems[0].getText();
 					
 					DicomTreeItem clickedTreeItem = treeRepository.lookUpDicomTreeItem(uid);
-					System.out.println(clickedTreeItem);
+					//System.out.println(clickedTreeItem);
 					broker.send(EventConstants.DICOMBROWSER_ITEM_SELECTION, clickedTreeItem);
 				}
 			}

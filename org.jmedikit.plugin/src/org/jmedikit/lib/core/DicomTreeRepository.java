@@ -72,7 +72,7 @@ public class DicomTreeRepository {
 		
 		while(queue.size() > 0){
 			DicomTreeItem actual = queue.poll();
-			System.out.println(actual.getUid());
+			//System.out.println(actual.getUid());
 			for(DicomTreeItem child : actual.getChildren()){
 				if(!visited.contains(child)){
 					queue.offer(child);

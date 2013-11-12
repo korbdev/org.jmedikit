@@ -4,7 +4,6 @@ import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.io.File;
 import java.io.IOException;
-import java.security.CodeSource;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -16,8 +15,6 @@ import org.jmedikit.lib.image.AbstractImage;
 import org.jmedikit.lib.image.ShortImage;
 import org.jmedikit.lib.image.UnsignedByteImage;
 import org.jmedikit.lib.image.UnsignedShortImage;
-import com.sun.media.imageio.stream.RawImageInputStream;
-//import org.eclipse.swt.awt.SWT_AWT;
 
 public class BasicDicomImageData implements DicomImageData{
 	

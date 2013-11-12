@@ -1,0 +1,61 @@
+package org.jmedikit.lib.util;
+
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.widgets.Event;
+
+
+public class MoveTool extends ATransformationTool{
+
+	private Point2D<Integer> translation;
+	
+	public MoveTool(){
+		super();
+		translation = new Point2D<Integer>(0, 0);
+	}
+	
+	public MoveTool(DicomCanvas canvas) {
+		super(canvas);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	void actionMouseMove(Event e) {
+		if(mouseDown){
+			
+			Point2D<Integer> translationOld = new Point2D<>(paintingTool.translation.x, paintingTool.translation.y);
+			
+			paintingTool.translation.x = paintingTool.actual.x - paintingTool.start.x;
+			paintingTool.translation.y = paintingTool.actual.y - paintingTool.start.y;
+			//System.out.println(translation.toString());
+			paintingTool.imageCenter = new Point2D<Integer>(paintingTool.imageCenter.x+(paintingTool.translation.x - translationOld.x), paintingTool.imageCenter.y+(paintingTool.translation.y - translationOld.y));
+		}
+	}
+
+	@Override
+	void actionMouseDown(Event e) {
+		paintingTool.mouseDown = true;
+		paintingTool.translation.x = 0;
+		paintingTool.translation.y = 0;
+	}
+
+	@Override
+	void actionMouseUp(Event e) {
+
+	}
+
+	@Override
+	GC postCalculation(GC toDraw) {
+		if(mouseDown){
+			int rectWidth = (int) (canvas.imageDimension.width);
+			int rectHeight = (int) (canvas.imageDimension.height);
+
+			toDraw.drawRectangle(canvas.imageCenter.x-rectWidth/2, canvas.imageCenter.y - rectHeight/2, rectWidth, rectHeight);
+			toDraw.setAlpha(50);
+			toDraw.fillRectangle(canvas.imageCenter.x-rectWidth/2, canvas.imageCenter.y - rectHeight/2, rectWidth, rectHeight);
+		}
+		return toDraw;
+	}
+
+	
+
+}

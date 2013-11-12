@@ -6,6 +6,8 @@ import javax.inject.Inject;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.jmedikit.plugin.gui.events.EventConstants;
+import org.jmedikit.plugin.gui.events.TransformationToolEvent;
+import org.jmedikit.plugin.tools.TransformationToolFactory;
 
 public class ToolMoveHandler {
 	
@@ -14,8 +16,9 @@ public class ToolMoveHandler {
 	
 	@Execute
 	public void execute() {
-		System.out.println("Move");
-		eventBroker.post(EventConstants.TOOL_CHANGED, "MoveTool");
+		TransformationToolFactory factory = new TransformationToolFactory();
+		String tool = EventConstants.TOOL_CHANGED_MOVE;
+		eventBroker.post(EventConstants.TOOL_CHANGED_MOVE, new TransformationToolEvent(factory, tool));
 	}
 		
 }

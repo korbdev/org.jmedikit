@@ -15,6 +15,11 @@ public class Point2D<T> {
 		this.y = y_value;
 	}
 
+	public void setPoint(T x, T y){
+		this.x = x;
+		this.y = y;
+	}
+	
 	@Override
 	public String toString(){
 		return "("+x+", "+y+")";

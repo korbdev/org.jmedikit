@@ -15,10 +15,7 @@ public class BilinearInterpolation {
 	}
 	
 	public AbstractImage resampleROI(final ROI roi, int oldWidth, int oldHeight, int newWidth, int newHeight){
-		//int width = img.getWidth();
-		//int height = img.getHeight();
-		
-		//ROI roi = img.getROI();
+
 		int resultX = (int)(roi.x * newWidth+0.5);
 		int resultY = (int)(roi.y * newHeight+0.5);
 		int resultWidth = (int)(roi.width * newWidth+0.5);
@@ -27,59 +24,37 @@ public class BilinearInterpolation {
 		int resampledWidth = resultWidth-resultX;
 		int resampledHeight = resultHeight-resultY;
 		
-		//System.out.println(img.getImageType());
 		AbstractImage resampled = SimpleImageFactory.getAbstractImage(img.getImageType(), resampledWidth, resampledHeight);
-		
-		//float xAspectRatio = (float)(width)/(float)(newWidth);
-		//float yAspectRatio = (float)(height)/(float)(newHeight);
 		
 		float x_index;
 		float y_index;
 		
-		//System.out.println("XAR "+xAspectRatio+", YAR "+yAspectRatio+ ". "+newWidth+" x "+newHeight);
-		//System.out.println(resultX+"/"+resultY+", "+resultWidth+"/"+resultHeight);
-		//System.out.println("Resampled: "+resampledWidth+" x "+resampledHeight);
-		int index_x = 0;
-		int index_y = 0;
 		for(int y = resultY; y < resultHeight; y++){
 			for(int x = resultX; x < resultWidth; x++){
 				x_index = ((float)x/(float)newWidth)*(float)oldWidth;
 				y_index = ((float)y/(float)newHeight)*(float)oldHeight;
-				//System.out.println(x_index+" x "+y_index);
+
 				int value = (int)(getInterpolatedPixel(x_index, y_index)+0.5);
 				resampled.setPixel(x-resultX, y-resultY, value);
-				index_x++;
 			}
-			index_y++;
 		}
-		
-		//System.out.println("Resampled: "+resampledWidth+" x "+resampledHeight);
 		
 		return resampled;
 	}
 	
 	public AbstractImage resample(int oldWidth, int oldHeight, int newWidth, int newHeight){
 		
-		//int width = img.getWidth();
-		//int height = img.getHeight();
-		
 		AbstractImage resampled = SimpleImageFactory.getAbstractImage(img.getImageType(), newWidth, newHeight);
-		
-		//float xAspectRatio = (float)(width)/(float)(newWidth);
-		//float yAspectRatio = (float)(height)/(float)(newHeight);
 		
 		float x_index;
 		float y_index;
 		
-		//System.out.println("XAR "+xAspectRatio+", YAR "+yAspectRatio+ ". "+newWidth+" x "+newHeight);
-		
 		for(int y = 0; y < newHeight; y++){
 			for(int x = 0; x < newWidth; x++){
-				//x_index = x * xAspectRatio;
-				//y_index = y * yAspectRatio;
+
 				x_index = ((float)x/(float)newWidth)*(float)oldWidth;
 				y_index = ((float)y/(float)newHeight)*(float)oldHeight;
-				//System.out.println(x_index+" x "+y_index);
+
 				int value = (int)(getInterpolatedPixel(x_index, y_index)+0.5);
 				resampled.setPixel(x, y, value);
 			}

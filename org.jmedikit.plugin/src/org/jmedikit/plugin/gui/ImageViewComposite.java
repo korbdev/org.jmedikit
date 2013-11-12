@@ -3,13 +3,14 @@ package org.jmedikit.plugin.gui;
 
 import org.eclipse.e4.tools.services.IResourcePool;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -17,20 +18,13 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Slider;
 import org.eclipse.swt.widgets.Text;
 import org.jmedikit.lib.core.DicomTreeItem;
-import org.jmedikit.lib.util.AbstractTool_OLD;
-import org.jmedikit.lib.util.DicomPaintingTool;
 import org.jmedikit.lib.util.ImageProvider;
-import org.jmedikit.lib.util.MoveTool;
-import org.jmedikit.lib.util.Painter;
-import org.jmedikit.lib.util.ResizeTool;
+import org.jmedikit.plugin.tools.AToolFactory;
+
 
 public class ImageViewComposite extends Composite{
 	
-	private DicomTreeItem item;
-	
-	private DicomPaintingTool painter;
-	
-	private Canvas canvas;
+	private DicomCanvas canvas;
 	
 	private Label label;
 	
@@ -42,33 +36,27 @@ public class ImageViewComposite extends Composite{
 	
 	private Text percentage;
 	
-	private Painter p;
-	//private AbstractTool_OLD tool;
-	
 	private IResourcePool imageResource;
 	
-	private Image closeLight, closeDark, minusLight, minusDark, plusLight, plusDark;
+	private ImageViewPart rootPart;
+	
+	private Image closeDark, minusDark, plusDark;
 	
 	/**
 	 * Create the composite.
 	 * @param parent
 	 * @param style
 	 */
-	public ImageViewComposite(Composite parent, int style, String title, DicomTreeItem selection, IResourcePool pool) {
+	public ImageViewComposite(Composite parent, int style, String title, DicomTreeItem selection, IResourcePool pool, ImageViewPart rootPart) {
 		super(parent, style);
 		this.parent = parent;
 		this.imageResource = pool;
-		this.item = selection;
-		//UnsignedByteImage bimg = new UnsignedByteImage(800, 600);
-		//System.out.println("ASPECT BYTE "+bimg.getAspectRatio());
+		this.rootPart = rootPart;
 		
-		closeLight = imageResource.getImageUnchecked(ImageProvider.CLOSE_LIGHT_BUTTON);
 		closeDark = imageResource.getImageUnchecked(ImageProvider.CLOSE_DARK_BUTTON);
 		
-		minusLight = imageResource.getImageUnchecked(ImageProvider.MINUS_LIGHT_BUTTON);
 		minusDark = imageResource.getImageUnchecked(ImageProvider.MINUS_DARK_BUTTON);
 		
-		plusLight = imageResource.getImageUnchecked(ImageProvider.PLUS_LIGHT_BUTTON);
 		plusDark = imageResource.getImageUnchecked(ImageProvider.PLUS_DARK_BUTTON);
 		
 		GridLayout gridLayout = new GridLayout(1, false);
@@ -93,29 +81,26 @@ public class ImageViewComposite extends Composite{
 		close.setLayoutData(gd_button_close);
 		close.setImage(closeDark);
 		
-		canvasContainer = new Composite(this, SWT.NONE);
+		canvasContainer = new Composite(this, SWT.BORDER);
 		canvasContainer.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		canvasContainer.setLayout(new GridLayout(1, false));
 		
-		painter = new DicomPaintingTool(canvasContainer, selection);
-		painter.setTool(new MoveTool(painter));
-		//tool = new ResizeTool(canvasContainer, selection);
-		//canvas = new Canvas(canvasContainer, SWT.NO_BACKGROUND);
-		//canvas.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		canvas = new DicomCanvas(canvasContainer, SWT.NO_BACKGROUND, selection);
+		canvas.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
 		controls = new Composite(this, SWT.NONE);
-		controls.setLayout(new GridLayout(4, false));
+		controls.setLayout(new GridLayout(1, false));
 		controls.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 		
 		slider = new Slider(controls, SWT.BORDER);
 		GridData gd_slider = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
 		gd_slider.heightHint = 20;
 		slider.setLayoutData(gd_slider);
-		int sliderMaximum = selection.getChildren().size()-1;
+		int sliderMaximum = selection.getChildren().size() > 0 ? selection.getChildren().size()-1 : 0;
 		System.out.println(sliderMaximum);
 		slider.setMaximum(sliderMaximum+slider.getThumb());
 		
-		minus = new Button(controls, SWT.NONE);
+		/*minus = new Button(controls, SWT.NONE);
 		GridData gd_button_1 = new GridData(SWT.RIGHT, SWT.FILL, false, true, 1, 1);
 		gd_button_1.widthHint = 25;
 		gd_button_1.heightHint = 25;
@@ -134,9 +119,7 @@ public class ImageViewComposite extends Composite{
 		gd_button.widthHint = 25;
 		gd_button.heightHint = 25;
 		plus.setLayoutData(gd_button);
-		plus.setImage(plusDark);
-		
-		//p = new Painter("paint", item, canvas);
+		plus.setImage(plusDark);*/
 
 		init();
 	}
@@ -152,28 +135,33 @@ public class ImageViewComposite extends Composite{
 			}
 		});
 		
-		minus.addListener(SWT.MouseUp, new Listener() {
+		/*minus.addListener(SWT.MouseUp, new Listener() {
 			
 			@Override
 			public void handleEvent(Event event) {
-				int percent = Integer.parseInt(percentage.getText())-10;
-				percentage.setText(percent+"");
-				painter.setTool(new MoveTool(painter));
-				//p.setSize(percent);
-				//tool = new ResizeTool(tool);
-				//tool.setScale((float)percent/(float)100);
+				
+			}
+		});
+		
+		minus.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				System.out.println("Minus lost");
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				System.out.println("Minus gained");
 			}
 		});
 		
 		plus.addListener(SWT.MouseUp, new Listener() {
 			
 			public void handleEvent(Event event) {
-				int percent = Integer.parseInt(percentage.getText())+10;
-				percentage.setText(percent+"");
-				painter.setTool(new ResizeTool(painter));
-				//p.setSize(percent);
+				
 			}
-		});
+		});*/
 	}
 	
 	private void initSlider(){
@@ -183,7 +171,8 @@ public class ImageViewComposite extends Composite{
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				painter.setIndex(slider.getSelection());
+				//painter.setIndex(slider.getSelection());
+				canvas.setIndex(slider.getSelection());
 			}
 			
 			@Override
@@ -193,7 +182,7 @@ public class ImageViewComposite extends Composite{
 	}
 	
 	
-	private void initText(){
+	/*private void initText(){
 		percentage.addListener(SWT.KeyUp, new Listener() {
 			
 			@Override
@@ -201,17 +190,48 @@ public class ImageViewComposite extends Composite{
 				if(event.keyCode == 13){
 					String percent = percentage.getText();
 					System.out.println(percent);
-					p.setSize(Integer.parseInt(percent));
+					//p.setSize(Integer.parseInt(percent));
 				}
+			}
+		});
+	}*/
+	
+	private void initCanvas(){
+		canvas.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				rootPart.setActive(ImageViewComposite.this);
 			}
 		});
 	}
 	
-	
 	private void init(){
-		initText();
+		//initText();
 		initButtons();
 		initSlider();
+		initCanvas();
+	}
+	
+	public void setTool(AToolFactory factory, String toolname){
+		canvas.setTool(factory.createTool(toolname, canvas));
+	}
+	
+	public DicomCanvas getCanvas(){
+		return canvas;
+	}
+	
+	public void setActiveCanvas(){
+		rootPart.setActive(this);
+	}
+	
+	public String getTitle(){
+		return label.getText();
 	}
 	
 	@Override

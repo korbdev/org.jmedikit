@@ -165,7 +165,7 @@ public abstract class AbstractImage {
 		return windowWidth;
 	}
 
-	public void setWindowWidth(int windowWidth) {
+	public void setWindowWidth(float windowWidth) {
 		this.windowWidth = windowWidth;
 	}
 
@@ -173,7 +173,7 @@ public abstract class AbstractImage {
 		return windowCenter;
 	}
 
-	public void setWindowCenter(int windowCenter) {
+	public void setWindowCenter(float windowCenter) {
 		this.windowCenter = windowCenter;
 	}
 	

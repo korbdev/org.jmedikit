@@ -40,7 +40,7 @@ public class ImageWindowInterpolation {
 			windowCenter = minValue+range/2;
 			windowWidth = range/2;
 		}
-		//System.out.println(minValue + " " + maxValue);
+		//System.out.println("MinMax "+minValue + " " + maxValue+", WC/WW "+windowCenter+" / "+windowWidth);
 		//System.out.println("Old Center "+ wc + ", Old Width " + ww + " ImageType = "+img.getImageType());
 		//System.out.println("New Center "+ windowCenter + ", New Width " + windowWidth + " ImageType = "+img.getImageType());
 		//System.out.println("AspectRatio "+img.getAspectRatio());

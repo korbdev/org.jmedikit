@@ -1,0 +1,61 @@
+package org.jmedikit.lib.util;
+
+
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.widgets.Event;
+
+public class ResizeTool extends ATool{
+
+	float scale;
+	
+	public ResizeTool(){
+		super();
+	}
+	
+	public ResizeTool(DicomCanvas canvas) {
+		super(canvas);
+		scale = 0;
+	}
+
+	@Override
+	void actionMouseMove(Event e) {
+		if(mouseDown){
+			float scaleOld = scale;
+			scale = (float)(actual.y - start.y)/10;
+			System.out.println("Scale "+scale);
+			if(scale > 0){
+				float newScale = (float)Math.abs(scale);
+				//System.out.println("width "+(int) (canvas.imageDimension.width * 1+newScale));
+				//System.out.println("height "+(int) (canvas.imageDimension.height * 1+newScale));
+				canvas.imageDimension.width = (int) (canvas.imageDimension.width * 1+newScale);
+				canvas.imageDimension.height = (int) (canvas.imageDimension.height * 1+newScale);
+			}
+			else{
+				float newScale = (float)Math.abs(scale);
+				//System.out.println("width "+(int) (canvas.imageDimension.width * 1-newScale));
+				//System.out.println("height "+(int) (canvas.imageDimension.height * 1-newScale));
+				canvas.imageDimension.width = (int) (canvas.imageDimension.width * 1-newScale);
+				canvas.imageDimension.height = (int) (canvas.imageDimension.height * 1-newScale);
+			}
+				
+		}
+		
+	}
+
+	@Override
+	void actionMouseDown(Event e) {
+
+	}
+
+	@Override
+	void actionMouseUp(Event e) {
+
+	}
+
+	@Override
+	GC postCalculation(GC toDraw) {
+		return toDraw;
+	}
+
+	
+}

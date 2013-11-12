@@ -15,4 +15,8 @@ public class ImageProvider extends BasicResourceProvider{
 	public static final String MINUS_DARK_BUTTON = "MINUS_DARK_BUTTON";
 	public static final String PLUS_LIGHT_BUTTON = "PLUS_LIGHT_BUTTON";
 	public static final String PLUS_DARK_BUTTON = "PLUS_DARK_BUTTON";
+	
+	public static final String TOOL_MOVE_BUTTON="TOOL_MOVE_BUTTON";
+	public static final String TOOL_RESIZE_BUTTON="TOOL_RESIZE_BUTTON";
+	public static final String TOOL_WINDOW_BUTTON="TOOL_WINDOW_BUTTON";
 }

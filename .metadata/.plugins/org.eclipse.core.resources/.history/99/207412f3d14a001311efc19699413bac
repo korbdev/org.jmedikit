@@ -1,0 +1,12 @@
+package org.jmedikit.plugin.tools;
+
+
+public abstract class AToolFactory {
+	
+	public ATool createTool(String toolname){
+		ATool tool = produce(toolname);
+		return tool;
+	}
+	
+	protected abstract ATool produce(String toolname);
+}

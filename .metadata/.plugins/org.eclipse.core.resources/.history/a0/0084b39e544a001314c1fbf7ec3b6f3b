@@ -1,0 +1,109 @@
+package org.jmedikit.plugin.gui;
+
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+
+import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.tools.services.IResourcePool;
+import org.eclipse.e4.ui.di.UIEventTopic;
+import org.eclipse.e4.ui.model.application.MApplication;
+import org.eclipse.e4.ui.model.application.ui.MUIElement;
+import org.eclipse.e4.ui.workbench.modeling.EModelService;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.jmedikit.lib.core.DicomTreeItem;
+import org.jmedikit.lib.util.ATool;
+import org.jmedikit.lib.util.DicomCanvas;
+import org.jmedikit.lib.util.TransformationToolFactory;
+import org.jmedikit.plugin.gui.events.EventConstants;
+
+public class ImageViewPart {
+	
+	@Inject
+	private IResourcePool resourcePool;
+	
+	private Composite parent;
+	
+	private ImageViewComposite active;
+	
+	
+	public ImageViewPart(){
+		
+		System.out.println("Construktor ImageViewPart ");
+	}
+	
+	@PostConstruct
+	public void createGUI(final Composite parent){
+		this.parent = parent;
+		this.parent.setLayout(new GridLayout(2, false));
+	}
+	
+	public Image getImageFromResourcePool(String image){
+		return resourcePool.getImageUnchecked(image);
+	}
+	
+	public void setActive(ImageViewComposite active){
+		System.out.println(active.getTitle());
+		this.active = active;
+	}
+	
+	@Inject
+	@Optional
+	public void getNotifiedDicomTreeSelection(@UIEventTopic(EventConstants.DICOMBROWSER_ITEM_SELECTION) final DicomTreeItem selection){
+		if(selection.getLevel() == DicomTreeItem.TREE_SERIES_LEVEL || selection.getLevel() == DicomTreeItem.TREE_OBJECT_LEVEL){
+			Display.getCurrent().syncExec(new Runnable() {
+				
+				@Override
+				public void run() {
+					if(parent.getChildren().length < 4){
+						active = new ImageViewComposite(parent, SWT.NO_SCROLL, selection.getUid(), selection, resourcePool, ImageViewPart.this);
+						setTool(active, TransformationToolFactory.MOVE_TOOL);
+						parent.layout();
+					}
+				}
+			});	
+		}
+	}
+	
+	@Inject
+	@Optional
+	public void getNotifiedDicomTreeSelection(@UIEventTopic(EventConstants.TOOL_CHANGED_ALL) String toolname){
+		
+		
+		//ATool tool = ttool.createTool(toolname, active.getCanvas());
+		for(Control c : parent.getChildren()){
+			if(c instanceof ImageViewComposite){
+				setTool((ImageViewComposite)c, toolname);
+			}
+		}
+		/*System.out.println(tool);
+		tool = tool.replace("_", ".");
+		String[] subevent = tool.split("/");
+		if(active != null && subevent.length > 1){
+			active.setTool(subevent[1]);
+		}*/
+	}
+	
+	private void setTool(ImageViewComposite c, String toolname){
+		TransformationToolFactory ttool = new TransformationToolFactory();
+		DicomCanvas canvas = c.getCanvas();
+		ATool tool = ttool.createTool(toolname, canvas);
+		canvas.setTool(tool);
+	}
+	/** CLASSLOADER TEST CODE
+		Class klass = RawImageInputStream.class;
+
+	    CodeSource codeSource = klass.getProtectionDomain().getCodeSource();
+
+	    if ( codeSource != null) {
+
+	        System.out.println(codeSource.getLocation());
+
+	    }else System.out.println("LOADED");
+	 */
+}

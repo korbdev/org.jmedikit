@@ -22,6 +22,8 @@
     </children>
     <handlers xmi:id="_jEdMoDduEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.openLocationHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.OpenLocationHandler" command="_qOWngDduEeOZNbAKmr0f_w"/>
     <handlers xmi:id="_wvZ58EV1EeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.moveToolHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.ToolMoveHandler" command="_p_fsYEV1EeOWCcj6oD6UAg"/>
+    <handlers xmi:id="_idEAEEfCEeOP95KGodiAbA" elementId="org.jmedikit.plugin.resizeToolHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.ToolResizeHandler" command="_dtG4EEfCEeOP95KGodiAbA"/>
+    <handlers xmi:id="_LqX54ErMEeOCsPmBjPKbZQ" elementId="org.jmedikit.plugin.windowToolHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.ToolWindowHandler" command="_FIPpoErMEeOCsPmBjPKbZQ"/>
     <mainMenu xmi:id="_YbxzMDdtEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.mainMenu">
       <children xsi:type="menu:Menu" xmi:id="_-F0WoDdtEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.mainMenu.file" label="Datei">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_Br4eYDduEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.mainMenu.file.open" label="&#xd6;ffne Ordner" command="_qOWngDduEeOZNbAKmr0f_w"/>
@@ -33,14 +35,17 @@
     <trimBars xmi:id="_6hcDcEVvEeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.topTrimBar">
       <children xsi:type="menu:ToolBar" xmi:id="_QAUKYEVxEeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.mainToolBar">
         <children xsi:type="menu:ToolBarSeparator" xmi:id="_HDqmMEV2EeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.toolbarSeperator.0"/>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_7ZgFIEV1EeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.toolMove" label="Move" tooltip="Move Image On Canvas" command="_p_fsYEV1EeOWCcj6oD6UAg"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_7ZgFIEV1EeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.toolMove" label="Move" iconURI="platform:/plugin/org.jmedikit.plugin/icons/move_32x32.png" tooltip="Move Image On Canvas" selected="true" type="Radio" command="_p_fsYEV1EeOWCcj6oD6UAg"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_61aD8EfCEeOP95KGodiAbA" elementId="org.jmedikit.plugin.toolResize" label="Resize" iconURI="platform:/plugin/org.jmedikit.plugin/icons/magnifying_glass_32x32.png" tooltip="Resize Image" type="Radio" command="_dtG4EEfCEeOP95KGodiAbA"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_S6fDMEV2EeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.toolWindow" label="WC/WW" iconURI="platform:/plugin/org.jmedikit.plugin/icons/sun_stroke_32x32.png" type="Radio" command="_FIPpoErMEeOCsPmBjPKbZQ"/>
         <children xsi:type="menu:ToolBarSeparator" xmi:id="_M7ptQEV2EeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.toolbarSeperator.1"/>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_S6fDMEV2EeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.toolWindow" label="WC/WW"/>
       </children>
     </trimBars>
   </children>
   <commands xmi:id="_qOWngDduEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.openLocationCommand" commandName="openLocation"/>
   <commands xmi:id="_p_fsYEV1EeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.toolMoveCommand" commandName="toolMove"/>
+  <commands xmi:id="_dtG4EEfCEeOP95KGodiAbA" elementId="org.jmedikit.plugin.toolResizeCommand" commandName="toolResize"/>
+  <commands xmi:id="_FIPpoErMEeOCsPmBjPKbZQ" elementId="org.jmedikit.plugin.toolWindowCommand" commandName="toolWindow"/>
   <addons xmi:id="_O7jMYTdoEeOZNbAKmr0f_w" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_O7jMYjdoEeOZNbAKmr0f_w" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_O7jMYzdoEeOZNbAKmr0f_w" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>
