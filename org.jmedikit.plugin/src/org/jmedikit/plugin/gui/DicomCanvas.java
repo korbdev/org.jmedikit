@@ -1,38 +1,48 @@
 package org.jmedikit.plugin.gui;
 
+import java.util.ArrayList;
+
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.jmedikit.lib.core.BilinearInterpolation;
-import org.jmedikit.lib.core.DicomObject;
 import org.jmedikit.lib.core.DicomTreeItem;
 import org.jmedikit.lib.core.ImageWindowInterpolation;
 import org.jmedikit.lib.image.AbstractImage;
 import org.jmedikit.lib.image.ROI;
 import org.jmedikit.lib.util.Dimension2D;
 import org.jmedikit.lib.util.Point2D;
-import org.jmedikit.plugin.tools.ATool;
+import org.jmedikit.plugin.gui.tools.ATool;
 
 public class DicomCanvas extends Canvas{
  
-	
 	private DicomTreeItem item;
 	
 	private int index;
 	
 	private ATool tool;
 	
+	private ArrayList<AbstractImage> images;
+	
 	public AbstractImage sourceImage;
 	public Dimension2D<Integer> sourceDimension;
 	
 	public float windowCenter;
 	public float windowWidth;
+	
+	public int min;
+	public int max;
 	
 	public Point2D<Integer> imageCenter;
 	public Dimension2D<Integer> imageDimension;
@@ -41,10 +51,17 @@ public class DicomCanvas extends Canvas{
 	
 	private boolean isInitialized;
 	
-	public DicomCanvas(Composite parent, int style, DicomTreeItem selection) {
+	private Color black;
+	private Color white;
+	
+	public DicomCanvas(Composite parent, int style, DicomTreeItem selection, ArrayList<AbstractImage> images) {
 		super(parent, style);
 
 		item = selection;
+		this.images = images;
+		
+		black = new Color(this.getDisplay(), new RGB(0, 0, 0));
+		white = new Color(this.getDisplay(), new RGB(255, 255, 255));
 		
 		sourceDimension = new Dimension2D<Integer>(0, 0);
 		imageCenter = new Point2D<Integer>(0, 0);
@@ -52,22 +69,16 @@ public class DicomCanvas extends Canvas{
 		canvasDimension = new Dimension2D<Integer>(0, 0);
 		
 		index = 0;
-		
-		//Bilddaten von DicomObject laden
-		DicomObject toDraw;
-		if(item.getLevel() == DicomTreeItem.TREE_OBJECT_LEVEL){
-			toDraw = (DicomObject)item;
-		}
-		else {
-			toDraw = (DicomObject) item.getChild(index);
-		}
-		
-		sourceImage = toDraw.getImage(0);
+
+		sourceImage = images.get(0);
 		sourceDimension.width = sourceImage.getWidth();
 		sourceDimension.height = sourceImage.getHeight();
 		
 		windowCenter = sourceImage.getWindowCenter();
 		windowWidth = sourceImage.getWindowWidth();
+		
+		min = sourceImage.getMin();
+		max = sourceImage.getMax();
 		
 		addListener(SWT.MouseDown, mouseDownListener);
 		addListener(SWT.MouseUp, mouseUpListener);
@@ -79,16 +90,7 @@ public class DicomCanvas extends Canvas{
 		@Override
 		public void handleEvent(Event event) {
 			
-			//Bilddaten von DicomObject laden
-			DicomObject toDraw;
-			if(item.getLevel() == DicomTreeItem.TREE_OBJECT_LEVEL){
-				toDraw = (DicomObject)item;
-			}
-			else {
-				toDraw = (DicomObject) item.getChild(index);
-			}
-			
-			sourceImage = toDraw.getImage(0);
+			sourceImage = images.get(index);
 			sourceDimension.width = sourceImage.getWidth();
 			sourceDimension.height = sourceImage.getHeight();
 			
@@ -101,6 +103,8 @@ public class DicomCanvas extends Canvas{
 			Image bufferImage = new  Image(DicomCanvas.this.getDisplay(), canvasDimension.width, canvasDimension.height);
 			GC buffer = new GC(bufferImage);
 			
+			Font font = new Font(Display.getCurrent(), "Verdana", 11, SWT.NONE); 
+			buffer.setFont(font);
 			//initialisierung
 			//DicomBild wird beim ersten Aufruf zentriert
 			if(!isInitialized){
@@ -123,6 +127,7 @@ public class DicomCanvas extends Canvas{
 			event.gc.drawImage(bufferImage, 0, 0);
 			bufferImage.dispose();
 			buffer.dispose();
+			font.dispose();
 		}
 	};
 	
@@ -165,7 +170,6 @@ public class DicomCanvas extends Canvas{
 			int offset_x = imageBounds.x+imageDimension.width-canvasDimension.width;
 			newBounds.width = imageBounds.width-offset_x;
 			roi.width = (float)newBounds.width / (float)imageBounds.width;
-			//System.out.println("Offset_x "+offset_x);
 		}
 		else {
 			//newBounds.width = imageBounds.width;
@@ -187,12 +191,40 @@ public class DicomCanvas extends Canvas{
 		//Roi ermittelt
 		BilinearInterpolation bilinearInterpolation = new BilinearInterpolation(sourceImage);
 		AbstractImage resampled = bilinearInterpolation.resampleROI(roi, sourceDimension.width, sourceDimension.height, imageDimension.width, imageDimension.height);
-		resampled.determineMinMaxValues(resampled.getPixels());
+		resampled.setMinMaxValues(min, max);
+		//resampled.determineMinMaxValues(resampled.getPixels());
 		
 		ImageData data = ImageWindowInterpolation.interpolateImage(resampled, windowCenter, windowWidth, 0, 255);
 		Image iimg = new Image(this.getDisplay(), data);
 
+		buffer.setBackground(black);
+		buffer.setForeground(white);
+		
+		
+		buffer.fillRectangle(0, 0, canvasDimension.width, canvasDimension.height);
+		
 		buffer.drawImage(iimg, newBounds.x, newBounds.y);
+
+		String sliceNumber = (index+1)+"/ "+item.size();
+		Point textDim = buffer.textExtent(sliceNumber);
+		
+		int xPos = canvasDimension.width-textDim.x-20;
+		int yPos = 20;
+		
+		buffer.drawText(sliceNumber, xPos, yPos);
+		
+		String scale = imageDimension.width + " x " + imageDimension.height +"\n( " + (int)(((float)imageDimension.width/(float)sourceImage.getWidth())*100) + "% )";
+		//textDim = buffer.textExtent(scale);
+		buffer.drawText(scale, 20, 20);
+		
+		String wcww = "WindowCenter:\t"+windowCenter+"\nWindowWidth:\t"+windowWidth;
+		textDim = buffer.textExtent(wcww);
+		
+		xPos = 20;
+		yPos = canvasDimension.height-textDim.y-20;
+		
+		buffer.drawText(wcww, xPos, yPos);
+		
 		iimg.dispose();
 		return buffer;
 	}
@@ -222,6 +254,25 @@ public class DicomCanvas extends Canvas{
 		}
 	};
 	
+	/*private AbstractImage loadImage(){
+		//Test, ob Bilddaten bereits geladen sind
+		AbstractImage img = images.get(index);
+		if(img == null){
+			DicomObject toDraw;
+			if(item.getLevel() == DicomTreeItem.TREE_OBJECT_LEVEL){
+				toDraw = (DicomObject)item;
+			}
+			else {
+				toDraw = (DicomObject) item.getChild(index);
+			}
+			img = toDraw.getImage(0);
+			images.add(index, img);
+			return img;
+		}
+		else return img;
+	}*/
+	
+	
 	public void setTool(ATool tool){
 		this.tool = tool;
 	}
@@ -229,5 +280,11 @@ public class DicomCanvas extends Canvas{
 	public void setIndex(int index){
 		this.index = index;
 		this.redraw();
+	}
+	
+	public Point2D<Float> getNormalizedImageCenter(){
+		float x = (float)imageCenter.x / (float)canvasDimension.width;
+		float y = (float)imageCenter.y / (float)canvasDimension.height;
+		return new Point2D<Float>(x, y);
 	}
 }

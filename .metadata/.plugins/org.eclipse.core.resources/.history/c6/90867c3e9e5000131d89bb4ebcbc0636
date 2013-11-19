@@ -1,0 +1,19 @@
+bin.includes = META-INF/,\
+               Application.e4xmi,\
+               plugin.xml,\
+               build.properties,\
+               OSGI-INF/,\
+               icons/,\
+               lib/
+src.includes = META-INF/,\
+               OSGI-INF/,\
+               Application.e4xmi,\
+               plugin.xml,\
+               build.properties,\
+               src/,\
+               lib/dcm4che2/
+src.excludes = lib/dcm4che2/bin/,\
+               lib/dcm4che2/dtd/,\
+               lib/dcm4che2/etc/,\
+               lib/dcm4che2/xml/
+ 

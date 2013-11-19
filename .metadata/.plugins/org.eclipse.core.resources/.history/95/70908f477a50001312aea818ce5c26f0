@@ -1,0 +1,31 @@
+output.. = bin/
+bin.includes = .,\
+               META-INF/,\
+               Application.e4xmi,\
+               plugin.xml,\
+               build.properties,\
+               OSGI-INF/,\
+               icons/,\
+               lib/dcm4che2/,\
+               lib/dcm4che2/lib/dcm4che-imageio-2.0.28.jar,\
+               lib/dcm4che2/lib/dcm4che-core-2.0.28.jar,\
+               lib/dcm4che2/lib/dcm4che-imageio-rle-2.0.28.jar,\
+               lib/dcm4che2/lib/dcm4che-image-2.0.28.jar
+jars.compile.order = .,\
+                     lib/dcm4che2/lib/dcm4che-imageio-2.0.28.jar,\
+                     lib/dcm4che2/lib/dcm4che-core-2.0.28.jar,\
+                     lib/dcm4che2/lib/dcm4che-imageio-rle-2.0.28.jar,\
+                     lib/dcm4che2/lib/dcm4che-image-2.0.28.jar
+source.. = 
+src.includes = META-INF/,\
+               OSGI-INF/,\
+               Application.e4xmi,\
+               plugin.xml,\
+               build.properties,\
+               src/,\
+               lib/dcm4che2/
+source.lib/dcm4che2/lib/dcm4che-imageio-2.0.28.jar = 
+source.lib/dcm4che2/lib/dcm4che-core-2.0.28.jar = 
+source.lib/dcm4che2/lib/dcm4che-imageio-rle-2.0.28.jar = 
+source.lib/dcm4che2/lib/dcm4che-image-2.0.28.jar = 
+ 

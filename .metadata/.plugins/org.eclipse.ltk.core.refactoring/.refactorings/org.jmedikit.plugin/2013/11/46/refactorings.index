@@ -4,3 +4,9 @@
 1384171372882	Move compilation unit
 1384171389257	Move compilation unit
 1384171403778	Move compilation unit
+1384289650382	Rename package 'org.jmedikit.plugin.tools'
+1384294249925	Copy field
+1384464390608	Rename field 'fullscreen'
+1384464495253	Rename field 'closeDark'
+1384517362004	Rename method 'loadImageFromDicomTreeItem'
+1384729262075	Delete element

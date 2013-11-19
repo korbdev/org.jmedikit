@@ -19,4 +19,9 @@ public class ImageProvider extends BasicResourceProvider{
 	public static final String TOOL_MOVE_BUTTON="TOOL_MOVE_BUTTON";
 	public static final String TOOL_RESIZE_BUTTON="TOOL_RESIZE_BUTTON";
 	public static final String TOOL_WINDOW_BUTTON="TOOL_WINDOW_BUTTON";
+	
+	public static final String IMAGEVIEW_FULLSCREEN = "IMAGEVIEW_FULLSCREEN";
+	public static final String IMAGEVIEW_FULLSCREEN_EXIT = "IMAGEVIEW_FULLSCREEN_EXIT";
+	public static final String IMAGEVIEW_EXIT = "IMAGEVIEW_EXIT";
+	public static final String IMAGEVIEW_RELOAD = "IMAGEVIEW_RELOAD";
 }

@@ -1,0 +1,137 @@
+package org.jmedikit.plugin.gui;
+
+import java.lang.reflect.InvocationTargetException;
+
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.e4.core.services.events.IEventBroker;
+import org.eclipse.e4.ui.di.UISynchronize;
+
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
+
+import org.eclipse.swt.widgets.Shell;
+import org.jmedikit.plugin.gui.events.EventConstants;
+
+public class ImageLoaderDialog implements IProgressMonitor{
+
+	private UISynchronize sync;
+	
+	private IEventBroker broker;
+	
+	//private ProgressBar bar;
+	private ProgressMonitorDialog dialog;
+	
+	protected ImageLoaderDialog(Shell parentShell, UISynchronize sync, IEventBroker broker) throws InvocationTargetException, InterruptedException {
+		//super(parentShell);
+		this.sync = sync;
+		this.broker = broker;
+		dialog = new ProgressMonitorDialog(parentShell);
+		dialog.run(true, false, new IRunnableWithProgress() {
+			
+			@Override
+			public void run(IProgressMonitor monitor) throws InvocationTargetException,
+					InterruptedException {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		//this.taskLabel = new Label(parentShell, SWT.NONE);
+		//taskLabel.setText("Hallo");
+	}
+
+	
+	/*@Override
+	protected Control createDialogArea(Composite parent) {
+		Composite container = (Composite) super.createDialogArea(parent);
+		container.setLayout(new GridLayout(1, false));
+		
+		GridData barData = new GridData(SWT.FILL, SWT.FILL, true, true, 0, 0);
+		bar = new ProgressBar(container, SWT.SMOOTH);
+		bar.setLayoutData(barData);
+		return container;
+	}*/
+
+	/*@Override
+	protected void createButtonsForButtonBar(Composite parent){
+		
+	}*/
+
+	@Override
+	public void beginTask(final String name, final int totalWork) {
+		sync.syncExec(new Runnable() {
+			
+			@Override
+			public void run() {
+				dialog.open();
+				System.out.println("beginTask");
+			}
+		});
+	}
+
+
+	@Override
+	public void done() {
+		sync.syncExec(new Runnable() {
+			
+			@Override
+			public void run() {
+				broker.send(EventConstants.IMAGES_LOADED, true);
+				dialog.close();
+			}
+		});
+	}
+
+
+	@Override
+	public void internalWorked(double work) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public boolean isCanceled() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public void setCanceled(boolean value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void setTaskName(String name) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void subTask(String name) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void worked(int work) {
+		dialog.getProgressMonitor().worked(work);
+	}
+
+
+	/*@Override
+	public void worked(final int work) {
+		sync.syncExec(new Runnable() {
+			@Override
+			public void run() {
+				int val = ImageLoaderDialog.this.bar.getSelection();
+				System.out.println(val+", "+work);
+				ImageLoaderDialog.this.bar.setSelection(val+work);
+			}
+		});
+	}*/
+}

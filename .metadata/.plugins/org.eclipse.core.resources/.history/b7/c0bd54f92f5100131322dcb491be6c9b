@@ -1,0 +1,19 @@
+package org.jmedikit.plugin.gui;
+
+import org.eclipse.jface.preference.DirectoryFieldEditor;
+import org.eclipse.jface.preference.FieldEditorPreferencePage;
+
+
+public class PlugInPreferences extends PreferencePage{
+
+	public PlugInPreferences() {
+		super(GRID);
+	}
+
+
+	@Override
+	protected void createFieldEditors() {
+		addField(new DirectoryFieldEditor("PATH", "&Directory preference:", getFieldEditorParent()));
+	}
+
+}

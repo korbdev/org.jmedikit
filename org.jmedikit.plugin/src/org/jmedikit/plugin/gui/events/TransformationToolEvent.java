@@ -1,6 +1,6 @@
 package org.jmedikit.plugin.gui.events;
 
-import org.jmedikit.plugin.tools.AToolFactory;
+import org.jmedikit.plugin.gui.tools.AToolFactory;
 
 public class TransformationToolEvent extends AToolEvent{
 

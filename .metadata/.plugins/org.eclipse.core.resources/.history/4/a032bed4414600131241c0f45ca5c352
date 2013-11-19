@@ -1,7 +1,0 @@
-package org.jmedikit.lib.util;
-
-import org.eclipse.swt.graphics.GC;
-
-public interface ITool {
-	public GC draw(GC buffer);
-}

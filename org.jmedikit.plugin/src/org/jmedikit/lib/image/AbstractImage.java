@@ -145,6 +145,12 @@ public abstract class AbstractImage {
 		this.max = max;
 	}
 
+	public void setMinMaxValues(int min, int max){
+		this.min = min;
+		this.max = max;
+		extrema = true;
+	}
+	
 	public float getRescaleSlope() {
 		return rescaleSlope;
 	}

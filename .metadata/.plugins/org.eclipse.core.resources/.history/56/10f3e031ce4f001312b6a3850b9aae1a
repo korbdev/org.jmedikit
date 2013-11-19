@@ -1,0 +1,54 @@
+package org.jmedikit.plugin.gui;
+
+import java.util.ArrayList;
+
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
+import org.jmedikit.lib.core.DicomObject;
+import org.jmedikit.lib.core.DicomTreeItem;
+import org.jmedikit.lib.image.AbstractImage;
+
+public class ImageLoader extends Job{
+	
+	ArrayList<AbstractImage> images;
+	
+	DicomTreeItem selection;
+	
+	IProgressMonitor monitor;
+	
+	public ImageLoader(String name, DicomTreeItem selection) {
+		super(name);
+		images = new ArrayList<AbstractImage>();
+		this.selection = selection;
+	}
+
+	private void load(){
+		AbstractImage img;
+		
+		DicomObject toDraw;
+		if(selection.getLevel() == DicomTreeItem.TREE_OBJECT_LEVEL){
+			toDraw = (DicomObject)selection;
+			img = toDraw.getImage(0);
+			images.add(0, img);
+		}
+		else {
+			for(int i = 0; i < selection.size(); i++){
+				toDraw = (DicomObject) selection.getChild(i);
+				img = toDraw.getImage(i);
+				images.add(i, img);
+			}
+		}
+	}
+	
+	@Override
+	protected IStatus run(IProgressMonitor monitor) {
+		this.monitor = monitor;
+		this.monitor.beginTask(this.getName(), selection.size());
+		load();
+		this.monitor.done();
+		return Status.OK_STATUS;
+	}
+
+}

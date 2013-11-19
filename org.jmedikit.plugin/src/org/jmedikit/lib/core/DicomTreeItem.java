@@ -62,6 +62,10 @@ public abstract class DicomTreeItem {
 		return children.remove(item);
 	}
 
+	public int size(){
+		return children.size();
+	}
+	
 	public boolean isLeaf(){
 		if(children.isEmpty()){
 			return true;

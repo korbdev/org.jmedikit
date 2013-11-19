@@ -159,11 +159,15 @@ public class DicomBrowserPart {
 					setTreeIcon(childParent, child.getLevel());
 					buildTreeItems(childParent, child);
 				}
-				else{
-					System.out.println("Leaf "+child.getUid());
-					TreeItem guiItem = new TreeItem(parent, SWT.DEFAULT);
-					guiItem.setText(child.getUid());
-					setTreeIcon(guiItem, child.getLevel());
+				else{	
+					/////////////////////////////////////////////////////
+					//Blaetter sollen im Baum nicht angezeigt werden   //
+					//zum Anzeigen folgende Zeilen Kommentar entfernen //
+					/////////////////////////////////////////////////////
+					
+					//TreeItem guiItem = new TreeItem(parent, SWT.DEFAULT);
+					//guiItem.setText(child.getUid());
+					//setTreeIcon(guiItem, child.getLevel());
 				}
 			}
 		}

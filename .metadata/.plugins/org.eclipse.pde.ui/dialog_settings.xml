@@ -1,17 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
+	<item value="0" key="org.eclipse.pde.ui.synchronizeVersions.mode"/>
+	<item value="false" key="generateActivator"/>
+	<item value="true" key="uiPlugin"/>
+	<item value="false" key="rcpPlugin"/>
+	<item value="false" key="apiAnalysis"/>
+	<item value="false" key="osgiProject"/>
+	<item value="3.5 or greater" key="targetName"/>
+	<section name="org.eclipse.pde.ui.dialogs.FeatureSelectionDialog">
+		<item value="true" key="ShowStatusLine"/>
+		<item value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#x0D;&#x0A;&lt;History/&gt;" key="History"/>
+		<section name="DialogBoundsSettings">
+			<item value="600" key="DIALOG_WIDTH"/>
+			<item value="255" key="DIALOG_Y_ORIGIN"/>
+			<item value="668" key="DIALOG_X_ORIGIN"/>
+			<item value="500" key="DIALOG_HEIGHT"/>
+			<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
+		</section>
+	</section>
 	<section name="org.eclipse.pde.ui.dialogs.PluginSelectionDialog">
 		<item value="true" key="ShowStatusLine"/>
 		<item value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#x0D;&#x0A;&lt;History/&gt;" key="History"/>
 		<section name="DialogBoundsSettings">
 			<item value="600" key="DIALOG_WIDTH"/>
 			<item value="255" key="DIALOG_Y_ORIGIN"/>
-			<item value="500" key="DIALOG_HEIGHT"/>
 			<item value="668" key="DIALOG_X_ORIGIN"/>
+			<item value="500" key="DIALOG_HEIGHT"/>
 			<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 		</section>
 	</section>
+	<section name="ProductExportWizard">
+		<item value="/org.jmedikit.product/jmedikit.product" key="productConfig1"/>
+		<item value="true" key="syncProduct"/>
+		<item value="false" key="exportSource"/>
+		<item value="Generate source bundles" key="exportSourceFormat"/>
+		<item value="true" key="p2metadata"/>
+		<item value="C:\Users\rkorb\Desktop\e4test" key="destination5"/>
+		<item value="C:\Users\rkorb\Desktop\e4" key="destination4"/>
+		<item value="C:\Users\rkorb\Desktop\e42" key="destination3"/>
+		<item value="true" key="exportDirectory"/>
+		<item value="/org.jmedikit.product/jmedikit.product" key="productConfig0"/>
+		<item value="C:\Users\rkorb\Desktop\e423" key="destination2"/>
+		<item value="C:\Users\rkorb\Desktop\jmedikit" key="destination1"/>
+		<item value="C:\Users\rkorb\Desktop\jmedikit" key="destination0"/>
+		<item value="true" key="allowBinaryCycles"/>
+		<item value="jmedikit" key="productRoot"/>
+	</section>
 	<section name="quick_assist_proposal_size">
+	</section>
+	<section name="PluginExportWizard">
+		<item value="true" key="exportUpdate"/>
+		<item value="false" key="saveAsAnt"/>
+		<item value="" key="alias"/>
+		<item value="Generate source bundles" key="exportSourceFormat"/>
+		<item value="false" key="qualifier"/>
+		<item value="C:\Users\rkorb\Desktop\test.zip" key="zipFileName0"/>
+		<item value="" key="password"/>
+		<item value="C:\Users\rkorb\Desktop\test.zip" key="zipFileName1"/>
+		<item value="" key="keypass"/>
+		<item value="false" key="exportSource"/>
+		<item value="" key="keystore"/>
+		<item value="false" key="useWorkspaceCompiledClasses"/>
+		<item value="2" key="exportType"/>
+		<item value="false" key="signJAR"/>
+		<item value="201311181839" key="qualifierName"/>
+		<item value="true" key="allowBinaryCycles"/>
+	</section>
+	<section name="JavaAttributeWizard">
+		<section name="NewClassWizardPage">
+			<item value="true" key="create_constructor"/>
+			<item value="true" key="create_unimplemented"/>
+		</section>
 	</section>
 	<section name="PDEFormActionManager">
 	</section>

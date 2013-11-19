@@ -15,8 +15,8 @@ import org.jmedikit.lib.core.DicomTreeRepository;
 
 public class DicomImporter extends Job{
 	
-	@Inject
-	IEventBroker broker;
+	//@Inject
+	//IEventBroker broker;
 	
 	File importLocation;
 	
@@ -98,7 +98,7 @@ public class DicomImporter extends Job{
 		
 		this.importDicomFiles();
 		tree.walkDicomTreeRepository();
-		monitor.done();
+		this.monitor.done();
 
 		return Status.OK_STATUS;
 	}

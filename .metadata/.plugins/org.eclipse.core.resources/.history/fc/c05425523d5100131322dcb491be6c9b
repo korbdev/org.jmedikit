@@ -1,0 +1,74 @@
+ 
+package org.jmedikit.plugin.gui.handlers;
+
+import java.io.IOException;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.eclipse.core.runtime.preferences.ConfigurationScope;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.eclipse.e4.core.di.annotations.Execute;
+import org.eclipse.e4.core.di.extensions.Preference;
+import org.eclipse.e4.tools.services.IResourcePool;
+import org.eclipse.e4.ui.model.application.MApplication;
+import org.eclipse.e4.ui.services.IServiceConstants;
+import org.eclipse.jface.preference.IPreferenceNode;
+import org.eclipse.jface.preference.PreferenceDialog;
+import org.eclipse.jface.preference.PreferenceManager;
+import org.eclipse.jface.preference.PreferenceNode;
+import org.eclipse.jface.preference.PreferenceStore;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.preferences.ScopedPreferenceStore;
+import org.jmedikit.lib.util.ImageProvider;
+import org.jmedikit.plugin.gui.PlugInPreferences;
+import org.osgi.service.prefs.BackingStoreException;
+import org.osgi.service.prefs.Preferences;
+
+
+
+public class SettingsHandler {
+	
+	@Inject @Named(IServiceConstants.ACTIVE_SHELL) 
+	protected Shell shell;
+	
+	@Inject
+	protected
+	IResourcePool imagePool;
+	
+	@Execute 
+	public void execute(){ 
+		
+		// We access the instanceScope 
+		Preferences preferences = ConfigurationScope.INSTANCE.getNode("org.jmedikit.plugin");
+
+		Preferences sub1 = preferences.node("node1");
+		Preferences sub2 = preferences.node("node2");
+		sub1.put("h1", "Hello");
+		sub1.put("h2", "Hello again");
+		sub2.put("h1", "Moin");
+		try {
+		  // forces the application to save the preferences
+		  System.out.println("Save");
+		  preferences.flush();
+		  } catch (BackingStoreException e) {
+		    e.printStackTrace();
+		  }
+		
+		/*PreferenceManager pm = new PreferenceManager();
+		Image img = imagePool.getImageUnchecked(ImageProvider.CLOSE_LIGHT_BUTTON);
+		//pm.addToRoot(new PreferenceNode("Plugin", new PlugInPreferences()));
+		IPreferenceNode node = new PreferenceNode("id", new PlugInPreferences());
+		pm.addToRoot(node);
+		pm.addTo("id", new PreferenceNode("test", new PlugInPreferences()));
+		PreferenceDialog dialog = new PreferenceDialog(shell, pm);
+		//dialog.setPreferenceStore(new ScopedPreferenceStore(ConfigurationScope.INSTANCE.get, "org.jmedikit.plugin"));
+
+		dialog.getPreferenceStore().putValue("hallo", "test");
+		
+		dialog.open();*/
+	} 	
+}
