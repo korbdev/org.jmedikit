@@ -52,6 +52,25 @@ public class BasicDicomImageData implements DicomImageData{
 		String rescaleSlope = (String) data.getTagData("RescaleSlope", DicomData.RETURN_STRING);
 		String rescaleIntercept = (String) data.getTagData("RescaleIntercept", DicomData.RETURN_STRING);
 		
+		String[] imageOrientation = (String[]) data.getTagArray("ImageOrientationPatient", DicomData.RETURN_STRING);
+		String[] imagePosistion = (String[]) data.getTagArray("ImagePositionPatient", DicomData.RETURN_STRING);
+		String[] pixelSpacing = (String[]) data.getTagArray("PixelSpacing", DicomData.RETURN_STRING);
+		
+		float[] iO = new float[imageOrientation.length];
+		float[] iP = new float[imagePosistion.length];
+		float[] pP = new float[pixelSpacing.length];
+		
+		for(int i = 0; i < imageOrientation.length; i++){
+			iO[i] = (imageOrientation[i] != null && !imageOrientation[i].equals("default")) ? Float.parseFloat(imageOrientation[i]) : 0f ;
+		}
+		
+		for(int i = 0; i < imagePosistion.length; i++){
+			iP[i] = (imagePosistion[i] != null && !imagePosistion[i].equals("default")) ? Float.parseFloat(imagePosistion[i]) : 0f ;
+		}
+		
+		for(int i = 0; i < pixelSpacing.length; i++){
+			pP[i] = (pixelSpacing[i] != null && !pixelSpacing[i].equals("default")) ? Float.parseFloat(pixelSpacing[i]) : 1f ;
+		}
 		//System.out.println(windowCenter+", "+windowWidth+", "+rescaleIntercept+", "+rescaleSlope);
 		
 		float wc = (windowCenter != null && !windowCenter.equals("default")) ? Float.parseFloat(windowCenter) : 0 ;
@@ -88,15 +107,24 @@ public class BasicDicomImageData implements DicomImageData{
 				}
 				else{
 					img = new UnsignedByteImage(width, height, buffer, m, b, wc, ww);
+					img.setImageOrientation(iO);
+					img.setImagePosition(iP);
+					img.setPixelSpacing(pP);
 					return img;
 				}
 			case DataBuffer.TYPE_USHORT:
 				if(signed == AbstractImage.TYPE_SIGNED){
 					img = new ShortImage(width, height, buffer, m, b, wc, ww);
+					img.setImageOrientation(iO);
+					img.setImagePosition(iP);
+					img.setPixelSpacing(pP);
 					return img;
 				}
 				else{
 					img = new UnsignedShortImage(width, height, buffer, m, b, wc, ww);
+					img.setImageOrientation(iO);
+					img.setImagePosition(iP);
+					img.setPixelSpacing(pP);
 					return img;
 				}		
 			default:

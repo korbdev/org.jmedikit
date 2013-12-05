@@ -60,7 +60,13 @@ public class BasicDicomData implements DicomData{
 
 	@Override
 	public Object getTagArray(String tag, int returnType) {
-		return null;
+		int dicomTag = Tag.toTag(tag);
+		switch(returnType){
+		case RETURN_STRING :
+			return dcmobj.getStrings(dicomTag);
+		default:
+			throw new IllegalArgumentException("returnType " + returnType+" not supported");
+		}
 	}
 
 	@Override

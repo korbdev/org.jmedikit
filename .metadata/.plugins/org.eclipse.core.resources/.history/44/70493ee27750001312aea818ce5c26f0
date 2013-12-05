@@ -1,7 +1,0 @@
-output.. = bin/
-bin.includes = .,\
-               META-INF/
-jars.compile.order = .
-source.. = src/
-src.includes = META-INF/,\
-               OSGI-INF/

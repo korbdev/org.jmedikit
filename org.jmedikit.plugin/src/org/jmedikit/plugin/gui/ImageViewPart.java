@@ -61,6 +61,7 @@ public class ImageViewPart {
 	
 	public ImageViewPart(){
 		images = new ArrayList<AbstractImage>();
+		toolevent = new TransformationToolEvent(new TransformationToolFactory(), TransformationToolFactory.MOVE_TOOL);
 	}
 	
 	@PostConstruct
@@ -109,7 +110,6 @@ public class ImageViewPart {
 	@Optional
 	public void getNotifiedImagesLoaded(@UIEventTopic(EventConstants.IMAGES_LOADED) ArrayList<AbstractImage> images){
 		active = new ImageViewComposite(parent, SWT.NO_SCROLL|SWT.BORDER, selection.getUid(), selection, images, resourcePool, ImageViewPart.this);
-		toolevent = new TransformationToolEvent(new TransformationToolFactory(), TransformationToolFactory.MOVE_TOOL);
 		active.setTool(toolevent.getFactory(), toolevent.getTool());
 		parent.layout();
 	}
@@ -122,10 +122,17 @@ public class ImageViewPart {
 		System.out.println(parent.getChildren().length);
 		for(Control c : parent.getChildren()){
 			if(c instanceof ImageViewComposite){
-				System.out.println("Change tool tooo "+event.getTool());
 				((ImageViewComposite) c).setTool(event.getFactory(), event.getTool());
 			}
 		}
+	}
+	
+	@Inject
+	@Optional
+	public void getNotifiedAngleChanged(@UIEventTopic(EventConstants.ANGLE_CHANGED_ALL) int[] angle){
+		
+		System.out.println(angle[0]+", "+angle[1]+", "+angle[2]);
+		active.getCanvas().setAngles(angle[0], angle[1], angle[2]);
 	}
 	
 	

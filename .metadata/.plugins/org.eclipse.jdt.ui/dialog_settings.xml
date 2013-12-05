@@ -34,6 +34,16 @@
 	</section>
 	<section name="quick_assist_proposal_size">
 	</section>
+	<section name="ProblemSeveritiesConfigurationBlock">
+		<item value="false" key="expanded4"/>
+		<item value="false" key="expanded3"/>
+		<item value="false" key="expanded2"/>
+		<item value="false" key="expanded1"/>
+		<item value="false" key="expanded7"/>
+		<item value="false" key="expanded6"/>
+		<item value="false" key="expanded5"/>
+		<item value="true" key="expanded0"/>
+	</section>
 	<section name="ClasspathContainerSelectionPage">
 		<item value="0" key="index"/>
 	</section>
@@ -45,6 +55,48 @@
 		<item value="false" key="SynchronizedModifier"/>
 		<item value="false" key="Blocks"/>
 		<item value="false" key="FinalModifier"/>
+	</section>
+	<section name="JavaBuildConfigurationBlock">
+		<item value="false" key="expanded2"/>
+		<item value="false" key="expanded1"/>
+		<item value="true" key="expanded0"/>
+	</section>
+	<section name="javadoc">
+		<item value="false" key="nodeprecatedlist"/>
+		<item value="false" key="notree"/>
+		<item value="true" key="splitindex"/>
+		<item value="C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javadoc.exe" key="javadoc_command_history"/>
+		<item value="true" key="use"/>
+		<item value="false" key="nonavbar"/>
+		<item value="private" key="access"/>
+		<item value="true" key="version"/>
+		<item value="false" key="nodeprecated"/>
+		<item value="C:\Users\rkorb\master_thesis\source\org.jmedikit.plugin\doc" key="destdir"/>
+		<item value="true" key="author"/>
+		<item value="" key="docletname"/>
+		<item value="1.7" key="source"/>
+		<item value="false" key="openinbrowser"/>
+		<item value="false" key="noindex"/>
+		<item value="" key="docletpath"/>
+		<item value="C:\Users\rkorb\master_thesis\source\org.jmedikit.plugin\javadoc.xml" key="antpath"/>
+		<item value="true" key="fromStandard"/>
+		<section name="projects">
+			<section name="org.jmedikit.plugin">
+				<item value="C:\Users\rkorb\master_thesis\source\org.jmedikit.plugin\doc" key="destdir"/>
+				<item value="" key="href"/>
+				<item value="C:\Users\rkorb\master_thesis\source\org.jmedikit.plugin\javadoc.xml" key="antpath"/>
+			</section>
+			<section name="org.jmedikit.product">
+				<item value="C:\Users\rkorb\master_thesis\source\org.jmedikit.product\doc" key="destdir"/>
+				<item value="" key="href"/>
+				<item value="C:\Users\rkorb\master_thesis\source\org.jmedikit.product\javadoc.xml" key="antpath"/>
+			</section>
+			<section name="org.jmedikit.feature">
+				<item value="C:\Users\rkorb\master_thesis\source\org.jmedikit.feature\doc" key="destdir"/>
+				<item value="" key="href"/>
+				<item value="C:\Users\rkorb\master_thesis\source\org.jmedikit.feature\javadoc.xml" key="antpath"/>
+			</section>
+		</section>
 	</section>
 	<section name="NewPackageWizardPage">
 		<item value="false" key="create_package_info_java"/>
@@ -97,6 +149,13 @@
 	<section name="AddGetterSetterDialog">
 		<item value="false" key="RemoveFinal"/>
 		<item value="false" key="SortOrdering"/>
+	</section>
+	<section name="JavadocWizardDialog">
+		<item value="616" key="DIALOG_WIDTH"/>
+		<item value="178" key="DIALOG_Y_ORIGIN"/>
+		<item value="616" key="DIALOG_HEIGHT"/>
+		<item value="660" key="DIALOG_X_ORIGIN"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="DialogBounds_GenerateHashCodeEqualsDialog">
 		<item value="516" key="DIALOG_WIDTH"/>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" configuration-policy="optional" enabled="true" immediate="false" name="org.jmedikit.plugin.lib.imageprovider">
-   <implementation class="org.jmedikit.lib.util.ImageProvider"/>
-   <service>
-      <provide interface="org.eclipse.e4.tools.services.IResourceProviderService"/>
-   </service>
-   <properties entry="OSGI-INF/resource.properties"/>
-</scr:component>

@@ -297,6 +297,7 @@ public class ImageViewComposite extends Composite{
 			public void widgetSelected(SelectionEvent e) {
 				//painter.setIndex(slider.getSelection());
 				canvas.setIndex(slider.getSelection());
+				
 			}
 			
 			@Override

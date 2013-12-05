@@ -1,0 +1,17 @@
+package org.jmedikit.plugin.gui;
+
+import javax.annotation.PostConstruct;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Spinner;
+
+public class AngleControl {
+	@PostConstruct
+	public void constructGUI(Composite parent){
+		parent.setLayout(new FillLayout());
+		Spinner alpha = new Spinner(parent, SWT.NONE);
+		alpha.setMinimum(-90);
+	}
+}

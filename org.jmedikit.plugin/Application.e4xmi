@@ -41,6 +41,7 @@
         <children xsi:type="menu:HandledToolItem" xmi:id="_61aD8EfCEeOP95KGodiAbA" elementId="org.jmedikit.plugin.toolResize" label="Resize" iconURI="platform:/plugin/org.jmedikit.plugin/icons/magnifying_glass_32x32.png" tooltip="Resize Image" type="Radio" command="_dtG4EEfCEeOP95KGodiAbA"/>
         <children xsi:type="menu:HandledToolItem" xmi:id="_S6fDMEV2EeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.toolWindow" label="WC/WW" iconURI="platform:/plugin/org.jmedikit.plugin/icons/sun_stroke_32x32.png" type="Radio" command="_FIPpoErMEeOCsPmBjPKbZQ"/>
         <children xsi:type="menu:ToolBarSeparator" xmi:id="_M7ptQEV2EeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.toolbarSeperator.1"/>
+        <children xsi:type="menu:ToolControl" xmi:id="_eGjGEF2rEeOOqfCGPLe33g" elementId="org.jmedikit.plugin.toolcontrol.angle" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.AngleControl"/>
       </children>
     </trimBars>
   </children>
