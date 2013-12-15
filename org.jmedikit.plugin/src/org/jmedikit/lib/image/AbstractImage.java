@@ -14,6 +14,18 @@ public abstract class AbstractImage {
 	public static final int TYPE_SHORT_SIGNED = 2;
 	public static final int TYPE_SHORT_UNSIGNED = 3;
 	
+	public static final String PATIENT_RIGHT = "R";
+	public static final String PATIENT_LEFT = "L";
+	public static final String PATIENT_ANTERIOR = "A";
+	public static final String PATIENT_POSTERIOR = "P";
+	public static final String PATIENT_HEAD = "H";
+	public static final String PATIENT_FOOT = "F";
+	
+	public static final String CORONAL = "CORONAL";
+	public static final String SAGITTAL = "SAGITTAL";
+	public static final String AXIAL = "AXIAL";
+	private static final String OBLIQUE = "OBLIQUE";
+	
 	/**
 	 * PixelData is stored as unsigned value
 	 */
@@ -23,6 +35,7 @@ public abstract class AbstractImage {
 	 * PixelData is stored as Two Complement
 	 */
 	public static final int TYPE_SIGNED = 1;
+	
 	
 	/**
 	 * Image width
@@ -90,11 +103,13 @@ public abstract class AbstractImage {
 	protected Vector3D<Float> imagePosition;
 	
 	protected Point2D<Float> pixelSpacing;
+	
 	/**
 	 * Beschreibt den Typ des Bildes
 	 */
 	protected int imageType;
 	
+	protected String mprType;
 	
 	protected ROI roi;
 	/**
@@ -114,6 +129,8 @@ public abstract class AbstractImage {
 		columnVector = new Vector3D<Float>(0f, 0f, 0f, 1f);
 		imagePosition = new Vector3D<Float>(0f, 0f, 0f, 1f);
 		pixelSpacing = new Point2D<Float>(1f, 1f);
+		
+		mprType = "DEFAULT";
 	}
 	
 	/**
@@ -144,6 +161,23 @@ public abstract class AbstractImage {
 		return aspectRatio;
 	}
 	
+	public String getMprType() {
+		return mprType;
+	}
+
+	public void setMprType(String mprType) {
+		if(mprType.equals(AXIAL)){
+			this.mprType = AXIAL;
+		}
+		else if(mprType.equals(CORONAL)){
+			this.mprType = CORONAL;
+		}
+		else if(mprType.equals(SAGITTAL)){
+			this.mprType = SAGITTAL;
+		}
+		else this.mprType = OBLIQUE;
+	}
+
 	public void setImageOrientation(float[] vectors){
 		if(vectors.length == 6){
 			rowVector.setVector(vectors[0], vectors[1], vectors[2]);
@@ -159,6 +193,10 @@ public abstract class AbstractImage {
 		else throw new IllegalArgumentException("Vector must have 3 values: got "+vector.length);
 	}
 	
+	public void setImagePosition(Vector3D<Float> v){
+		imagePosition = v;
+	}
+	
 	public void setPixelSpacing(float[] point){
 		if(point.length == 2){
 			pixelSpacing.setPoint(point[0], point[1]);
@@ -170,8 +208,16 @@ public abstract class AbstractImage {
 		return rowVector;
 	}
 	
+	public void setRowImageOrientation(Vector3D<Float> v){
+		rowVector = v;
+	}
+	
 	public Vector3D<Float> getColumnImageOrientation(){
 		return columnVector;
+	}
+	
+	public void setColumnImageOrientation(Vector3D<Float> v){
+		columnVector = v;
 	}
 	
 	public Vector3D<Float> getImagePosition(){
@@ -449,13 +495,115 @@ public abstract class AbstractImage {
 		pWriter.flush();
 	}
 	
+	private static String[] getDominantAxis(float x, float y, float z){
+		
+		String[] xDirection = new String[2];
+		String[] yDirection = new String[2];
+		String[] zDirection = new String[2];
+		
+		if(x < 0){
+			xDirection[0] = PATIENT_RIGHT;
+			xDirection[1] = PATIENT_LEFT;
+		}
+		else{
+			xDirection[0] = PATIENT_LEFT;
+			xDirection[1] = PATIENT_RIGHT;
+		}
+		
+		if(y < 0){
+			yDirection[0] = PATIENT_ANTERIOR;
+			yDirection[1] = PATIENT_POSTERIOR;
+		}
+		else{
+			yDirection[0] = PATIENT_POSTERIOR;
+			yDirection[1] = PATIENT_ANTERIOR;
+		}
+		
+		if(z < 0){
+			zDirection[0] = PATIENT_FOOT;
+			zDirection[1] = PATIENT_HEAD;
+		}
+		else{
+			zDirection[0] = PATIENT_HEAD;
+			zDirection[1] = PATIENT_FOOT;
+		}
+		
+		float absx = Math.abs(x);
+		float absy = Math.abs(y);
+		float absz = Math.abs(z);
+		
+		//System.out.println("XYZ "+ x+ ", "+y+", "+z);
+		
+		if(absx > absy && absx > absz){
+			return xDirection;
+		}
+		else if(absy > absx && absy > absz){
+			return yDirection;
+		}
+		else if(absz > absx && absz > absy){
+			return zDirection;
+		}
+		else return new String[]{"-","-"};
+	}
 	
 	/**
 	 * @see <ul><li><a target="_blank" href="http://www.itk.org/pipermail/insight-users/2005-March/012246.html">http://www.itk.org/pipermail/insight-users/2005-March/012246.html</a></li></ul>
 	 * @return
 	 */
 	public String[] getImageOrientationAxis(){
-		return null;
+		
+		String[] axes = new String[4];
+		
+		String[] row = getDominantAxis(rowVector.x, rowVector.y, rowVector.z);
+		String[] col = getDominantAxis(columnVector.x, columnVector.y, columnVector.z);
+		
+		// Top -> Left -> Bottom -> Right
+		axes[0] = col[1]; //Top
+		axes[1] = row[0]; //Left
+		axes[2] = col[0]; //Bottom
+		axes[3] = row[1]; //Right
+		
+		if (!row.equals("-") && !col.equals("-")) {
+			if      ((row[0].equals("R") || row[0].equals("L")) && (col[0].equals("A") || col[0].equals("P"))) mprType=AXIAL;
+			else if ((col[0].equals("R") || col[0].equals("L")) && (row[0].equals("A") || row[0].equals("P"))) mprType=AXIAL;
+		
+			else if ((row[0].equals("R") || row[0].equals("L")) && (col[0].equals("H") || col[0].equals("F"))) mprType=CORONAL;
+			else if ((col[0].equals("R") || col[0].equals("L")) && (row[0].equals("H") || row[0].equals("F"))) mprType=CORONAL;
+		
+			else if ((row[0].equals("A") || row[0].equals("P")) && (col[0].equals("H") || col[0].equals("F"))) mprType=SAGITTAL;
+			else if ((col[0].equals("A") || col[0].equals("P")) && (row[0].equals("H") || row[0].equals("F"))) mprType=SAGITTAL;
+		}
+		else {
+			mprType=OBLIQUE;
+		}
+		
+		for(int i = 0; i < 4; i++){
+			//System.out.print(axes[i]+", ");
+		}
+		
+		//System.out.println(mprType);
+		return axes;
 	}
 	
+	
+	public static String getImageOrientation(Vector3D<Float> rowVector, Vector3D<Float> columnVector){
+		
+		String[] row = getDominantAxis(rowVector.x, rowVector.y, rowVector.z);
+		String[] col = getDominantAxis(columnVector.x, columnVector.y, columnVector.z);
+		
+		if (!row.equals("-") && !col.equals("-")) {
+			if      ((row[0].equals("R") || row[0].equals("L")) && (col[0].equals("A") || col[0].equals("P"))) return AXIAL;
+			else if ((col[0].equals("R") || col[0].equals("L")) && (row[0].equals("A") || row[0].equals("P"))) return AXIAL;
+		
+			else if ((row[0].equals("R") || row[0].equals("L")) && (col[0].equals("H") || col[0].equals("F"))) return CORONAL;
+			else if ((col[0].equals("R") || col[0].equals("L")) && (row[0].equals("H") || row[0].equals("F"))) return CORONAL;
+		
+			else if ((row[0].equals("A") || row[0].equals("P")) && (col[0].equals("H") || col[0].equals("F"))) return SAGITTAL;
+			else if ((col[0].equals("A") || col[0].equals("P")) && (row[0].equals("H") || row[0].equals("F"))) return SAGITTAL;
+		}
+		else {
+			return OBLIQUE;
+		}
+		return null;
+	}
 }

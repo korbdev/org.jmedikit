@@ -25,6 +25,9 @@
     <handlers xmi:id="_idEAEEfCEeOP95KGodiAbA" elementId="org.jmedikit.plugin.resizeToolHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.ToolResizeHandler" command="_dtG4EEfCEeOP95KGodiAbA"/>
     <handlers xmi:id="_LqX54ErMEeOCsPmBjPKbZQ" elementId="org.jmedikit.plugin.windowToolHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.ToolWindowHandler" command="_FIPpoErMEeOCsPmBjPKbZQ"/>
     <handlers xmi:id="_BaLTwFEfEeOQ9todOzTHzw" elementId="org.jmedikit.plugin.windowSettings" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.SettingsHandler" command="_YglWAFEcEeOQ9todOzTHzw"/>
+    <handlers xmi:id="_fr3RIGTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.axialHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.AxialHandler" command="_T5Rz4GTJEeOQ-uwt3ZM7YA"/>
+    <handlers xmi:id="_n0uOoGTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.coronalHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.CoronalHandler" command="_XXZgkGTJEeOQ-uwt3ZM7YA"/>
+    <handlers xmi:id="_tw_YwGTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.sagittalHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.SagittalHandler" command="_Zg3HcGTJEeOQ-uwt3ZM7YA"/>
     <mainMenu xmi:id="_YbxzMDdtEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.mainMenu">
       <children xsi:type="menu:Menu" xmi:id="_-F0WoDdtEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.mainMenu.file" label="Datei">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_Br4eYDduEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.mainMenu.file.open" label="&#xd6;ffne Ordner" command="_qOWngDduEeOZNbAKmr0f_w"/>
@@ -42,6 +45,9 @@
         <children xsi:type="menu:HandledToolItem" xmi:id="_S6fDMEV2EeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.toolWindow" label="WC/WW" iconURI="platform:/plugin/org.jmedikit.plugin/icons/sun_stroke_32x32.png" type="Radio" command="_FIPpoErMEeOCsPmBjPKbZQ"/>
         <children xsi:type="menu:ToolBarSeparator" xmi:id="_M7ptQEV2EeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.toolbarSeperator.1"/>
         <children xsi:type="menu:ToolControl" xmi:id="_eGjGEF2rEeOOqfCGPLe33g" elementId="org.jmedikit.plugin.toolcontrol.angle" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.AngleControl"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_OklAEGTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.axial" label="Axial" command="_T5Rz4GTJEeOQ-uwt3ZM7YA"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_7pEi4GTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.coronal" label="Coronal" command="_XXZgkGTJEeOQ-uwt3ZM7YA"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="__QtX8GTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.sagittal" label="Sagittal" command="_Zg3HcGTJEeOQ-uwt3ZM7YA"/>
       </children>
     </trimBars>
   </children>
@@ -50,6 +56,9 @@
   <commands xmi:id="_dtG4EEfCEeOP95KGodiAbA" elementId="org.jmedikit.plugin.toolResizeCommand" commandName="toolResize"/>
   <commands xmi:id="_FIPpoErMEeOCsPmBjPKbZQ" elementId="org.jmedikit.plugin.toolWindowCommand" commandName="toolWindow"/>
   <commands xmi:id="_YglWAFEcEeOQ9todOzTHzw" elementId="org.jmedikit.plugin.settings" commandName="settingsWindow"/>
+  <commands xmi:id="_T5Rz4GTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.axialCommand" commandName="axialCommand"/>
+  <commands xmi:id="_XXZgkGTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.coronalCommand" commandName="coronalCommand"/>
+  <commands xmi:id="_Zg3HcGTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.sagittalCommand" commandName="sagittalCommand"/>
   <addons xmi:id="_O7jMYTdoEeOZNbAKmr0f_w" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_O7jMYjdoEeOZNbAKmr0f_w" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_O7jMYzdoEeOZNbAKmr0f_w" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

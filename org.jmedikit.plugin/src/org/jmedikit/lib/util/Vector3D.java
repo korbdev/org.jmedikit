@@ -280,13 +280,6 @@ public class Vector3D<T> {
 			}
 		}
 		
-		for(int i = 0; i < translationMatrix.length; i++){
-			for(int j = 0; j < translationMatrix[i].length; j++){
-				System.out.print(translationMatrix[i][j]+" ");
-			}
-			System.out.println("");
-		}
-		
 		return translatedVector;
 	}
 }

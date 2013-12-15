@@ -15,5 +15,10 @@ public class EventConstants {
 	public final static String ANGLE_CHANGED_BETA = "ANGLE_CHANGED/BETA";
 	public final static String ANGLE_CHANGED_GAMMA = "ANGLE_CHANGED/GAMMA";
 	
+	public final static String ORIENTATION_CHANGED_ALL = "ORIENTATION_CHANGED/*";
+	public final static String ORIENTATION_CHANGED_AXIAL = "ORIENTATION_CHANGED/AXIAL";
+	public final static String ORIENTATION_CHANGED_CORONAL = "ORIENTATION_CHANGED/CORONAL";
+	public final static String ORIENTATION_CHANGED_SAGITTAL = "ORIENTATION_CHANGED/SAGITTAL";
+	
 	public final static String IMAGES_LOADED = "IMAGES_LOADED";
 }

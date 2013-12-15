@@ -162,7 +162,7 @@ public class DicomBrowserPart {
 				else{	
 					/////////////////////////////////////////////////////
 					//Blaetter sollen im Baum nicht angezeigt werden   //
-					//zum Anzeigen folgende Zeilen Kommentar entfernen //
+					//zum Anzeigen folgende Zeilen den Kommentar entfernen //
 					/////////////////////////////////////////////////////
 					
 					//TreeItem guiItem = new TreeItem(parent, SWT.DEFAULT);

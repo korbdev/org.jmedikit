@@ -9,36 +9,30 @@ import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.events.ShellEvent;
-import org.eclipse.swt.events.ShellListener;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Slider;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.jmedikit.lib.core.DicomTreeItem;
 import org.jmedikit.lib.image.AbstractImage;
+import org.jmedikit.lib.util.IObserver;
+import org.jmedikit.lib.util.ISubject;
 import org.jmedikit.lib.util.ImageProvider;
-import org.jmedikit.lib.util.Point2D;
 import org.jmedikit.plugin.gui.tools.AToolFactory;
 
 
-public class ImageViewComposite extends Composite{
+public class ImageViewComposite extends Composite implements ISubject, IObserver{
 	
 	private String title;
 	
 	private DicomTreeItem item;
+	
+	private ArrayList<AbstractImage> images;
 	
 	private DicomCanvas canvas;
 	
@@ -57,6 +51,9 @@ public class ImageViewComposite extends Composite{
 	private Shell fullScreenShell;
 	
 	private boolean isFullscreen;
+	
+	private ArrayList<IObserver> observers;
+	
 	/**
 	 * Create the composite.
 	 * @param parent
@@ -64,11 +61,16 @@ public class ImageViewComposite extends Composite{
 	 */
 	public ImageViewComposite(Composite parent, int style, String title, DicomTreeItem selection, ArrayList<AbstractImage> images, IResourcePool pool, ImageViewPart rootPart) {
 		super(parent, style);
+		
+		observers = new ArrayList<IObserver>();
+		
 		this.title = title;
 		this.parent = parent;
 		this.imageResource = pool;
 		this.rootPart = rootPart;
 		this.item = selection;
+		this.images = images;
+		
 		isFullscreen = false;
 		fullScreenShell = new Shell(SWT.NO_TRIM | SWT.ON_TOP);
 		closeImg = imageResource.getImageUnchecked(ImageProvider.CLOSE_DARK_BUTTON);
@@ -87,25 +89,12 @@ public class ImageViewComposite extends Composite{
 
 		canvasContainer = new Composite(this, SWT.NONE);
 		canvasContainer.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 0, 0));
-		//canvasContainer.setLayout(new GridLayout(1, false));
+
 		GridLayout canvasContainerLayout = new GridLayout(1, false);
 		canvasContainerLayout.marginHeight = 0;
 		canvasContainerLayout.marginWidth = 0;
 		canvasContainerLayout.horizontalSpacing = 0;
 		canvasContainer.setLayout(canvasContainerLayout);
-		
-		/*titlebar = new Composite(canvasContainer, SWT.NONE);
-		GridData titlebarData = new GridData(SWT.FILL, SWT.FILL, true, false, 0, 0);
-		titlebarData.heightHint = 40;
-		GridLayout titlebarLayout = new GridLayout(1, false);
-		titlebarLayout.marginHeight = 3;
-		titlebarLayout.marginWidth = 3;
-		titlebar.setLayout(titlebarLayout);
-		titlebar.setLayoutData(titlebarData);
-		
-		label = new Label(titlebar, SWT.NONE);
-		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true, 0, 0));
-		label.setText(title);*/
 		
 		canvas = new DicomCanvas(canvasContainer, SWT.NO_BACKGROUND, selection, images);
 		canvas.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 0, 0));
@@ -123,28 +112,13 @@ public class ImageViewComposite extends Composite{
 		controls.setLayoutData(controlsLayoutData);
 		
 		ToolBar imageViewTools = new ToolBar(controls, SWT.FLAT | SWT.VERTICAL);
-		//imageViewTools.setLayout(new GridLayout(1, false));
-		//GridData toolbarData = new GridData(SWT.FILL, SWT.FILL, true, false, 0, 0);
-		//toolbarData.widthHint = controlsSizeWidth;
-		//imageViewTools.setLayoutData(toolbarData);
-		
 		
 		close = new ToolItem(imageViewTools, SWT.NONE);
 		close.setImage(closeImg);
-		//GridData gd_button_close = new GridData(SWT.CENTER, SWT.FILL, false, false, 0, 0);
-		//gd_button_close.widthHint = controlsSizeWidth;
-		//gd_button_close.heightHint = controlsSiteHeight;
-		//close.setLayoutData(gd_button_close);
-		//close.setImage(closeImg);
-		
+
 		fullscreen = new ToolItem(imageViewTools, SWT.NONE);
 		fullscreen.setImage(fullscreenImg);
-		//GridData gd_button_fullscreen = new GridData(SWT.CENTER, SWT.FILL, false, false, 0, 0);
-		//gd_button_fullscreen.widthHint = controlsSizeWidth;
-		//gd_button_fullscreen.heightHint = controlsSiteHeight;
-		//fullscreen.setLayoutData(gd_button_fullscreen);
-		//fullscreen.setImage(fullscreenImg);
-		
+
 		reload = new ToolItem(imageViewTools, SWT.NONE);
 		reload.setImage(reloadImg);
 		
@@ -156,6 +130,8 @@ public class ImageViewComposite extends Composite{
 		System.out.println(sliderMaximum);
 		slider.setMaximum(sliderMaximum+slider.getThumb());
 
+		
+		
 		init();
 	}
 
@@ -259,45 +235,17 @@ public class ImageViewComposite extends Composite{
 				
 			}
 		});
-		/*minus.addListener(SWT.MouseUp, new Listener() {
-			
-			@Override
-			public void handleEvent(Event event) {
-				
-			}
-		});
-		
-		minus.addFocusListener(new FocusListener() {
-			
-			@Override
-			public void focusLost(FocusEvent e) {
-				System.out.println("Minus lost");
-			}
-			
-			@Override
-			public void focusGained(FocusEvent e) {
-				System.out.println("Minus gained");
-			}
-		});
-		
-		plus.addListener(SWT.MouseUp, new Listener() {
-			
-			public void handleEvent(Event event) {
-				
-			}
-		});*/
 	}
 	
 	private void initSlider(){
-		System.out.println("initSlider");
-		System.out.println("Get max "+slider.getMaximum());
+		//System.out.println("initSlider");
+		//System.out.println("Get max "+slider.getMaximum());
 		slider.addSelectionListener(new SelectionListener() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//painter.setIndex(slider.getSelection());
 				canvas.setIndex(slider.getSelection());
-				
+				notifyObservers(canvas.getActualImageWidth(), canvas.getActualImageHeight(), slider.getSelection());
 			}
 			
 			@Override
@@ -305,21 +253,6 @@ public class ImageViewComposite extends Composite{
 			}
 		});
 	}
-	
-	
-	/*private void initText(){
-		percentage.addListener(SWT.KeyUp, new Listener() {
-			
-			@Override
-			public void handleEvent(Event event) {
-				if(event.keyCode == 13){
-					String percent = percentage.getText();
-					System.out.println(percent);
-					//p.setSize(Integer.parseInt(percent));
-				}
-			}
-		});
-	}*/
 	
 	private void initCanvas(){
 		canvas.addFocusListener(new FocusListener() {
@@ -337,7 +270,6 @@ public class ImageViewComposite extends Composite{
 	}
 	
 	private void init(){
-		//initText();
 		initButtons();
 		initSlider();
 		initCanvas();
@@ -355,6 +287,12 @@ public class ImageViewComposite extends Composite{
 		rootPart.setActive(this);
 	}
 	
+	public void setSliderMaximum(int max){
+		slider.setMaximum(max+slider.getThumb());
+		slider.setSelection(0);
+		canvas.redraw();
+	}
+	
 	public String getTitle(){
 		return title;
 	}
@@ -362,5 +300,85 @@ public class ImageViewComposite extends Composite{
 	@Override
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
+	}
+
+	@Override
+	public void registerObserver(IObserver o) {
+		observers.add(o);
+	}
+
+	@Override
+	public void removeObserver(IObserver o) {
+		if(observers.contains(o)){
+			observers.remove(o);
+		}
+	}
+
+	@Override
+	public void notifyObservers(int x, int y, int z) {
+		for(IObserver o : observers){
+			if(o instanceof ImageViewComposite){
+				String actualIOT = this.getCanvas().imageOrientationType;
+				String observerIOT = ((ImageViewComposite) o).getCanvas().imageOrientationType;
+				if(actualIOT.equals(observerIOT)){
+					o.update(z);
+				}
+				else{
+					o.updateScoutingLine(z, z, actualIOT);
+				}
+			}
+		}
+	}
+	
+	@Override
+	public void dispose(){
+		super.dispose();
+		System.out.println("Remove Observers");
+		rootPart.deleteChild(this);
+	}
+	
+	@Override
+	public void update(int index){
+		canvas.setIndex(index);
+		slider.setSelection(index);
+		//System.out.println("Update "+title);
+	}
+
+	@Override
+	public void updateScoutingLine(int xIndex, int yIndex, String mprType){
+		String IOT = this.getCanvas().imageOrientationType;
+		System.out.println("OWN "+IOT+", sender "+mprType+" index "+xIndex+", "+yIndex);
+
+		if(mprType.equals(AbstractImage.AXIAL) && IOT.equals(AbstractImage.CORONAL)){
+			canvas.setDoYLineUpdate(true);
+			canvas.setyLineIndex(yIndex);
+		}
+		if(mprType.equals(AbstractImage.AXIAL) && IOT.equals(AbstractImage.SAGITTAL)){
+			canvas.setDoYLineUpdate(true);
+			canvas.setyLineIndex(yIndex);
+		}
+		if(mprType.equals(AbstractImage.CORONAL) && IOT.equals(AbstractImage.AXIAL)){
+			canvas.setDoYLineUpdate(true);
+			canvas.setyLineIndex(yIndex);
+		}
+		if(mprType.equals(AbstractImage.CORONAL) && IOT.equals(AbstractImage.SAGITTAL)){
+			System.out.println("WUT "+canvas.getxLineIndex()+", "+canvas.getyLineIndex());
+			canvas.setDoXLineUpdate(true);
+			canvas.setxLineIndex(xIndex);
+		}
+		if(mprType.equals(AbstractImage.SAGITTAL) && IOT.equals(AbstractImage.AXIAL)){
+			canvas.setDoXLineUpdate(true);
+			canvas.setxLineIndex(xIndex);
+		}
+		if(mprType.equals(AbstractImage.SAGITTAL) && IOT.equals(AbstractImage.CORONAL)){
+			canvas.setDoXLineUpdate(true);
+			canvas.setxLineIndex(xIndex);
+		}
+		canvas.redraw();
+	}
+	
+	public void recalulateImages() {
+		// TODO Auto-generated method stub
+		
 	}
 }

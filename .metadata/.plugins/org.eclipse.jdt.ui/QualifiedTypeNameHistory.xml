@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.eclipse.e4.ui.workbench.UIEvents.Command"/>
-<fullyQualifiedTypeName name="org.eclipse.e4.core.commands.EHandlerService"/>
-<fullyQualifiedTypeName name="org.eclipse.e4.core.commands.ECommandService"/>
-<fullyQualifiedTypeName name="org.eclipse.core.commands.Command"/>
-<fullyQualifiedTypeName name="org.eclipse.core.commands.ParameterizedCommand"/>
-<fullyQualifiedTypeName name="org.eclipse.jface.preference.PreferenceDialog"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Shell"/>
 <fullyQualifiedTypeName name="org.eclipse.jface.preference.PreferenceManager"/>
 <fullyQualifiedTypeName name="javax.inject.Named"/>
 <fullyQualifiedTypeName name="org.eclipse.e4.ui.services.IServiceConstants"/>
@@ -40,14 +33,12 @@
 <fullyQualifiedTypeName name="org.eclipse.jface.resource.ImageDescriptor"/>
 <fullyQualifiedTypeName name="org.jmedikit.lib.core.DicomTreeItem"/>
 <fullyQualifiedTypeName name="java.lang.IllegalArgumentException"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="org.jmedikit.lib.image.ImageCube"/>
 <fullyQualifiedTypeName name="java.lang.Math"/>
 <fullyQualifiedTypeName name="org.jmedikit.lib.util.SimpleImageFactory"/>
 <fullyQualifiedTypeName name="org.jmedikit.lib.util.Point2D"/>
 <fullyQualifiedTypeName name="org.jmedikit.lib.image.ROI"/>
 <fullyQualifiedTypeName name="java.lang.Float"/>
-<fullyQualifiedTypeName name="org.jmedikit.lib.image.AbstractImage"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Text"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Spinner"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Composite"/>
@@ -56,8 +47,17 @@
 <fullyQualifiedTypeName name="org.eclipse.swt.events.SelectionListener"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Listener"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="org.eclipse.ui.dialogs.IOverwriteQuery"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.util.ISubject"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.util.IObserver"/>
+<fullyQualifiedTypeName name="com.sun.org.apache.xpath.internal.axes.AxesWalker"/>
+<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.DicomCanvas"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.util.Vector3D"/>
 <fullyQualifiedTypeName name="org.eclipse.e4.core.services.events.IEventBroker"/>
 <fullyQualifiedTypeName name="javax.inject.Inject"/>
 <fullyQualifiedTypeName name="org.jmedikit.plugin.gui.events.EventConstants"/>
-<fullyQualifiedTypeName name="org.jmedikit.lib.util.Vector3D"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.core.BilinearInterpolation"/>
+<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.ImageViewComposite"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.image.AbstractImage"/>
 </qualifiedTypeNameHistroy>
