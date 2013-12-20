@@ -3,6 +3,7 @@ package org.jmedikit.lib.image;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import org.jmedikit.lib.util.Point2D;
 import org.jmedikit.lib.util.Vector3D;
@@ -13,6 +14,8 @@ public abstract class AbstractImage {
 	public static final int TYPE_BYTE_UNSIGNED = 1;
 	public static final int TYPE_SHORT_SIGNED = 2;
 	public static final int TYPE_SHORT_UNSIGNED = 3;
+	public static final int TYPE_INT_SIGNED = 4;
+	public static final int TYPE_INT_UNSIGNED = 5;
 	
 	public static final String PATIENT_RIGHT = "R";
 	public static final String PATIENT_LEFT = "L";
@@ -36,6 +39,7 @@ public abstract class AbstractImage {
 	 */
 	public static final int TYPE_SIGNED = 1;
 	
+	protected String title;
 	
 	/**
 	 * Image width
@@ -46,6 +50,8 @@ public abstract class AbstractImage {
 	 * Image height
 	 */
 	protected int height;
+	
+	protected int samplesPerPixel;
 	
 	/**
 	 * Aspect Ratio width/height
@@ -112,6 +118,8 @@ public abstract class AbstractImage {
 	protected String mprType;
 	
 	protected ROI roi;
+	
+	protected ArrayList<Point2D<Float>> selectedPoints;
 	/**
 	 * Basic Image Constructor
 	 * 
@@ -119,18 +127,27 @@ public abstract class AbstractImage {
 	 * @param height
 	 */
 	public AbstractImage(int width, int height){
+		title = "";
 		this.width = width;
 		this.height = height;
 		aspectRatio = (float)width / (float)height;
 		extrema = false;
 		roi = new ROI();
-		
+		selectedPoints = new ArrayList<Point2D<Float>>();
 		rowVector = new Vector3D<Float>(0f, 0f, 0f, 1f);
 		columnVector = new Vector3D<Float>(0f, 0f, 0f, 1f);
 		imagePosition = new Vector3D<Float>(0f, 0f, 0f, 1f);
 		pixelSpacing = new Point2D<Float>(1f, 1f);
-		
+		samplesPerPixel = 1;
 		mprType = "DEFAULT";
+	}
+	
+	public String getTitle(){
+		return title;
+	}
+	
+	public void setTitle(String title){
+		this.title = title;
 	}
 	
 	/**
@@ -141,6 +158,10 @@ public abstract class AbstractImage {
 		return imageType;
 	}
 	
+	public int getSamplesPerPixel() {
+		return samplesPerPixel;
+	}
+
 	/**
 	 * 
 	 * @return returns the image width 
@@ -290,6 +311,50 @@ public abstract class AbstractImage {
 		this.roi = roi;
 	}
 	
+	public void addPoint(Point2D<Float> p){
+		selectedPoints.add(p);
+	}
+	
+	public Point2D<Float> getPoint(int index){
+		return selectedPoints.get(index);
+	}
+	
+	public Point2D<Float> getPoint(int x, int y){
+		float xN = (float)x/(float)width;
+		float yN = (float)y/(float)height;
+		
+		for(Point2D<Float> p : selectedPoints){
+			if(xN == p.x && yN == p.y){
+				return p;
+			}
+		}
+		return null;
+	}
+	
+	public Point2D<Float> getPoint(float xN, float yN){
+		for(Point2D<Float> p : selectedPoints){
+			if(xN == p.x && yN == p.y){
+				return p;
+			}
+		}
+		return null;
+	}
+	
+	public void removePoint(int index){
+		selectedPoints.remove(index);
+	}
+	
+	public void deletePoints(){
+		selectedPoints.clear();
+	}
+	
+	public ArrayList<Point2D<Float>> getPoints(){
+		return selectedPoints;
+	}
+	
+	public void setPoints(ArrayList<Point2D<Float>> points){
+		selectedPoints = points;
+	}
 	/*public void assignExtrema(boolean extrema){
 		this.extrema = extrema;
 	}*/
@@ -605,5 +670,15 @@ public abstract class AbstractImage {
 			return OBLIQUE;
 		}
 		return null;
+	}
+	
+	public void copySignificantAttributes(AbstractImage img){
+		windowCenter = img.windowCenter;
+		windowWidth = img.windowWidth;
+		min = img.min;
+		max = img.max;
+		pixelSpacing = img.pixelSpacing;
+		rescaleIntercept = img.rescaleIntercept;
+		rescaleSlope = img.rescaleSlope;
 	}
 }

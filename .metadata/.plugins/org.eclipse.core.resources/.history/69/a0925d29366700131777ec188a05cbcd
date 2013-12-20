@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ASCII"?>
+<application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_O7jMYDdoEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.application">
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_QrWWEDdoEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.main">
+    <children xsi:type="advanced:PerspectiveStack" xmi:id="_QHQ0wDdsEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.defaultPerspectiveStack">
+      <children xsi:type="advanced:Perspective" xmi:id="_UtTLwDdsEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.default">
+        <children xsi:type="basic:PartSashContainer" xmi:id="_cOdQEDdsEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.container" horizontal="true">
+          <children xsi:type="basic:PartSashContainer" xmi:id="_hPAY0DdsEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.fileContainer" containerData="2000">
+            <children xsi:type="basic:PartStack" xmi:id="_qdStUDdsEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.dicombrowserStack">
+              <children xsi:type="basic:Part" xmi:id="_x3P9cDdsEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.dicombrowser" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.DicomBrowserPart" label="DicomBrowser"/>
+            </children>
+          </children>
+          <children xsi:type="basic:PartSashContainer" xmi:id="_j-EAEDdsEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.mainContainer" containerData="8000">
+            <children xsi:type="basic:PartStack" xmi:id="_32EsUDdsEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.imageviewStack" containerData="8000">
+              <children xsi:type="basic:Part" xmi:id="_5zkTwDdsEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.imageview" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.ImageViewPart" label="Image View" iconURI="platform:/plugin/org.jmedikit.plugin/icons/layers_16x14.png"/>
+            </children>
+            <children xsi:type="basic:PartStack" xmi:id="_C9GEEDdtEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.consoleStack" containerData="2000">
+              <children xsi:type="basic:Part" xmi:id="_EZM1sDdtEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.console" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.ConsoleView" label="Console"/>
+            </children>
+          </children>
+        </children>
+      </children>
+    </children>
+    <handlers xmi:id="_jEdMoDduEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.openLocationHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.OpenLocationHandler" command="_qOWngDduEeOZNbAKmr0f_w"/>
+    <handlers xmi:id="_wvZ58EV1EeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.moveToolHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.ToolMoveHandler" command="_p_fsYEV1EeOWCcj6oD6UAg"/>
+    <handlers xmi:id="_idEAEEfCEeOP95KGodiAbA" elementId="org.jmedikit.plugin.resizeToolHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.ToolResizeHandler" command="_dtG4EEfCEeOP95KGodiAbA"/>
+    <handlers xmi:id="_LqX54ErMEeOCsPmBjPKbZQ" elementId="org.jmedikit.plugin.windowToolHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.ToolWindowHandler" command="_FIPpoErMEeOCsPmBjPKbZQ"/>
+    <handlers xmi:id="_BaLTwFEfEeOQ9todOzTHzw" elementId="org.jmedikit.plugin.windowSettings" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.SettingsHandler" command="_YglWAFEcEeOQ9todOzTHzw"/>
+    <handlers xmi:id="_fr3RIGTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.axialHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.AxialHandler" command="_T5Rz4GTJEeOQ-uwt3ZM7YA"/>
+    <handlers xmi:id="_n0uOoGTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.coronalHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.CoronalHandler" command="_XXZgkGTJEeOQ-uwt3ZM7YA"/>
+    <handlers xmi:id="_tw_YwGTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.sagittalHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.SagittalHandler" command="_Zg3HcGTJEeOQ-uwt3ZM7YA"/>
+    <handlers xmi:id="_5kcK8Gc1EeOA-puiBwJr7Q" elementId="org.jmedikit.plugin.toolPointHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.ToolPointHandler" command="_zCPCMGc1EeOA-puiBwJr7Q"/>
+    <mainMenu xmi:id="_YbxzMDdtEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.mainMenu">
+      <children xsi:type="menu:Menu" xmi:id="_-F0WoDdtEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.mainMenu.file" label="Datei">
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_Br4eYDduEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.mainMenu.file.open" label="&#xd6;ffne Ordner" command="_qOWngDduEeOZNbAKmr0f_w"/>
+      </children>
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_Qv0vcFEcEeOQ9todOzTHzw" elementId="org.jmedikit.plugin.handledmenuitem.0" label="Einstellungen" command="_YglWAFEcEeOQ9todOzTHzw"/>
+    </mainMenu>
+    <trimBars xmi:id="_eydA4DirEeOIzL0oF_dERw" elementId="org.jmedikit.plugin.bottomTrimBar" side="Bottom">
+      <children xsi:type="menu:ToolControl" xmi:id="_j718kDirEeOIzL0oF_dERw" elementId="org.jmedikit.plugin.toolcontrol.status" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.StatusControl"/>
+    </trimBars>
+    <trimBars xmi:id="_6hcDcEVvEeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.topTrimBar">
+      <children xsi:type="menu:ToolBar" xmi:id="_QAUKYEVxEeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.mainToolBar">
+        <children xsi:type="menu:ToolBarSeparator" xmi:id="_HDqmMEV2EeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.toolbarSeperator.0"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_7ZgFIEV1EeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.toolMove" label="Move" iconURI="platform:/plugin/org.jmedikit.plugin/icons/move_32x32.png" tooltip="Move Image On Canvas" selected="true" type="Radio" command="_p_fsYEV1EeOWCcj6oD6UAg"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_61aD8EfCEeOP95KGodiAbA" elementId="org.jmedikit.plugin.toolResize" label="Resize" iconURI="platform:/plugin/org.jmedikit.plugin/icons/magnifying_glass_32x32.png" tooltip="Resize Image" type="Radio" command="_dtG4EEfCEeOP95KGodiAbA"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_S6fDMEV2EeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.toolWindow" label="WC/WW" iconURI="platform:/plugin/org.jmedikit.plugin/icons/sun_stroke_32x32.png" type="Radio" command="_FIPpoErMEeOCsPmBjPKbZQ"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_BstSkGc2EeOA-puiBwJr7Q" elementId="org.jmedikit.plugin.toolPoint" label="Point Selection" iconURI="platform:/plugin/org.jmedikit.plugin/icons/cursor_32x32.png" type="Radio"/>
+        <children xsi:type="menu:ToolBarSeparator" xmi:id="_M7ptQEV2EeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.toolbarSeperator.1"/>
+        <children xsi:type="menu:ToolControl" xmi:id="_eGjGEF2rEeOOqfCGPLe33g" elementId="org.jmedikit.plugin.toolcontrol.angle" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.AngleControl"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_OklAEGTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.axial" label="Axial" iconURI="platform:/plugin/org.jmedikit.plugin/icons/axial_32x32.png" command="_T5Rz4GTJEeOQ-uwt3ZM7YA"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_7pEi4GTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.coronal" label="Coronal" iconURI="platform:/plugin/org.jmedikit.plugin/icons/coronal_32x32.png" command="_XXZgkGTJEeOQ-uwt3ZM7YA"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="__QtX8GTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.sagittal" label="Sagittal" iconURI="platform:/plugin/org.jmedikit.plugin/icons/sagittal_32x32.png" command="_Zg3HcGTJEeOQ-uwt3ZM7YA"/>
+      </children>
+    </trimBars>
+  </children>
+  <commands xmi:id="_qOWngDduEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.openLocationCommand" commandName="openLocation"/>
+  <commands xmi:id="_p_fsYEV1EeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.toolMoveCommand" commandName="toolMove"/>
+  <commands xmi:id="_dtG4EEfCEeOP95KGodiAbA" elementId="org.jmedikit.plugin.toolResizeCommand" commandName="toolResize"/>
+  <commands xmi:id="_FIPpoErMEeOCsPmBjPKbZQ" elementId="org.jmedikit.plugin.toolWindowCommand" commandName="toolWindow"/>
+  <commands xmi:id="_zCPCMGc1EeOA-puiBwJr7Q" elementId="org.jmedikit.plugin.toolPointCommand" commandName="toolPointCommand"/>
+  <commands xmi:id="_YglWAFEcEeOQ9todOzTHzw" elementId="org.jmedikit.plugin.settings" commandName="settingsWindow"/>
+  <commands xmi:id="_T5Rz4GTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.axialCommand" commandName="axialCommand"/>
+  <commands xmi:id="_XXZgkGTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.coronalCommand" commandName="coronalCommand"/>
+  <commands xmi:id="_Zg3HcGTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.sagittalCommand" commandName="sagittalCommand"/>
+  <addons xmi:id="_O7jMYTdoEeOZNbAKmr0f_w" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
+  <addons xmi:id="_O7jMYjdoEeOZNbAKmr0f_w" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
+  <addons xmi:id="_O7jMYzdoEeOZNbAKmr0f_w" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>
+  <addons xmi:id="_O7jMZDdoEeOZNbAKmr0f_w" elementId="org.eclipse.e4.ui.workbench.commands.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.CommandProcessingAddon"/>
+  <addons xmi:id="_O7jMZTdoEeOZNbAKmr0f_w" elementId="org.eclipse.e4.ui.workbench.contexts.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.ContextProcessingAddon"/>
+  <addons xmi:id="_O7jMZjdoEeOZNbAKmr0f_w" elementId="org.eclipse.e4.ui.workbench.bindings.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.swt/org.eclipse.e4.ui.workbench.swt.util.BindingProcessingAddon"/>
+  <addons xmi:id="_O7jMZzdoEeOZNbAKmr0f_w" elementId="org.eclipse.e4.ui.workbench.handler.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.HandlerProcessingAddon"/>
+</application:Application>

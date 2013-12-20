@@ -63,6 +63,11 @@ public abstract class AbstractDicomObject extends DicomTreeItem implements Dicom
 	}
 	
 	@Override
+	public int getSimplePixel(int x, int y, int z){
+		return imagedata.getSimplePixel(x, y, z);
+	}
+	
+	@Override
 	public AbstractImage getImage(int index){
 		return imagedata.getImage(index);
 	}

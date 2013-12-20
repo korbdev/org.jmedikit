@@ -1,6 +1,8 @@
 package org.jmedikit.plugin.gui.tools;
 
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Event;
@@ -19,6 +21,8 @@ public class ResizeTool extends ATool{
 	
 	public ResizeTool(DicomCanvas canvas) {
 		super(canvas);
+		Cursor cursor = new Cursor(canvas.getDisplay(), SWT.CURSOR_SIZENS);
+		canvas.setCursor(cursor);
 		scale = 0f;
 		textScale = (float)canvas.imageDimension.width / (float)canvas.sourceImage.getWidth();
 	}
@@ -64,6 +68,18 @@ public class ResizeTool extends ATool{
 	@Override
 	public GC preCalculation(GC toDraw) {
 		return toDraw;
+	}
+
+	@Override
+	public void actionMouseEnter(Event e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionMouseExit(Event e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

@@ -1,6 +1,0 @@
-package org.jmedikit.lib.util;
-
-public interface IObserver {
-	public void getTitle(String title);
-	public void update();
-}

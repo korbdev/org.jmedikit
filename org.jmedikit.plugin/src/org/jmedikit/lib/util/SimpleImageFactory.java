@@ -1,6 +1,7 @@
 package org.jmedikit.lib.util;
 
 import org.jmedikit.lib.image.AbstractImage;
+import org.jmedikit.lib.image.IntegerImage;
 import org.jmedikit.lib.image.ShortImage;
 import org.jmedikit.lib.image.UnsignedByteImage;
 import org.jmedikit.lib.image.UnsignedShortImage;
@@ -17,6 +18,8 @@ public class SimpleImageFactory {
 			return new ShortImage(width, height);
 		case AbstractImage.TYPE_SHORT_UNSIGNED:
 			return new UnsignedShortImage(width, height);
+		case AbstractImage.TYPE_INT_SIGNED:
+			return new IntegerImage(width, height);
 		default:
 			throw new IllegalArgumentException("ImageType "+type+" not supported");
 		}

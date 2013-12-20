@@ -3,17 +3,12 @@ package org.jmedikit.plugin.gui;
 import java.util.ArrayList;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.jmedikit.lib.core.DicomObject;
 import org.jmedikit.lib.core.DicomTreeItem;
 import org.jmedikit.lib.image.AbstractImage;
 import org.jmedikit.plugin.gui.events.EventConstants;
-
-import com.sun.xml.internal.fastinfoset.stax.events.EventBase;
 
 public class ImageLoader implements IRunnableWithProgress{
 	
@@ -39,6 +34,7 @@ public class ImageLoader implements IRunnableWithProgress{
 		if(selection.getLevel() == DicomTreeItem.TREE_OBJECT_LEVEL){
 			toDraw = (DicomObject)selection;
 			img = toDraw.getImage(0);
+			img.setTitle(toDraw.getUid());
 			images.add(0, img);
 			monitor.worked(1);
 		}
@@ -46,6 +42,7 @@ public class ImageLoader implements IRunnableWithProgress{
 			for(int i = 0; i < selection.size(); i++){
 				toDraw = (DicomObject) selection.getChild(i);
 				img = toDraw.getImage(0);
+				img.setTitle(toDraw.getUid());
 				images.add(i, img);
 				monitor.worked(1);
 				monitor.subTask((i+1)+" Bilder von "+selection.size()+" geladen");
@@ -62,6 +59,7 @@ public class ImageLoader implements IRunnableWithProgress{
 		load();
 		this.monitor.done();
 		broker.send(EventConstants.IMAGES_LOADED, images);
+		//images.clear();
 		//return Status.OK_STATUS;
 	}
 	

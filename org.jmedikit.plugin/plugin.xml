@@ -13,6 +13,10 @@
                name="appName"
                value="JMediKit">
          </property>
+         <property
+               name="windowImages"
+               value="icons/sagittal_32x32.png">
+         </property>
       </product>
    </extension>
    <extension

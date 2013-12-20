@@ -59,7 +59,7 @@ public class ImageViewPart {
 	
 	public ImageViewPart(){
 		children = new ArrayList<ImageViewComposite>();
-		//images = new ArrayList<AbstractImage>();
+		System.out.println("CONSTRUCT IVP");
 		toolevent = new TransformationToolEvent(new TransformationToolFactory(), TransformationToolFactory.MOVE_TOOL);
 	}
 	
@@ -108,9 +108,13 @@ public class ImageViewPart {
 	@Inject
 	@Optional
 	public void getNotifiedImagesLoaded(@UIEventTopic(EventConstants.IMAGES_LOADED) ArrayList<AbstractImage> images){
-		active = new ImageViewComposite(parent, SWT.NO_SCROLL|SWT.BORDER, selection.getUid(), selection, images, resourcePool, ImageViewPart.this);
+		//System.out.println(images.size());
+		//ArrayList<AbstractImage> loaded = new ArrayList<AbstractImage>(images);
+		//images.clear();
+		active = new ImageViewComposite(parent, SWT.NO_SCROLL|SWT.BORDER, selection.getUid(), selection, new ArrayList<AbstractImage>(images), resourcePool, ImageViewPart.this);
+		active.getCanvas().setFocus();
 		active.setTool(toolevent.getFactory(), toolevent.getTool());
-		
+		images.clear();
 		for(ImageViewComposite child : children){
 			if(child.getTitle().equals(active.getTitle())){
 				child.registerObserver((IObserver)active);
@@ -126,7 +130,7 @@ public class ImageViewPart {
 	public void getNotifiedToolSelection(@UIEventTopic(EventConstants.TOOL_CHANGED_ALL) AToolEvent event){
 		
 		toolevent = event;
-		System.out.println(parent.getChildren().length);
+		System.out.println(event.getTool());
 		for(Control c : parent.getChildren()){
 			if(c instanceof ImageViewComposite){
 				((ImageViewComposite) c).setTool(event.getFactory(), event.getTool());
@@ -139,28 +143,30 @@ public class ImageViewPart {
 	public void getNotifiedAngleChanged(@UIEventTopic(EventConstants.ANGLE_CHANGED_ALL) int[] angle){
 		//active.getCanvas().setAngles(angle[0], angle[1], angle[2]);
 		//int index = active.getCanvas().recalculateImages(angle[0], angle[1], angle[2]);
-		System.out.println("IP ");
+		System.out.println("IP");
 		//active.setSliderMaximum(index);
 	}
 	
 	@Inject
 	@Optional
 	public void getNotifiedOrientationChanged(@UIEventTopic(EventConstants.ORIENTATION_CHANGED_ALL) String type){
+		int newIndex = 1;
 		if(type.equals(EventConstants.ORIENTATION_CHANGED_AXIAL)){
-			System.out.println("AXIAL");
+			newIndex = active.getCanvas().getMaxAxialIndex();
 			active.getCanvas().recalculateImages(AbstractImage.AXIAL);
-			active.setSliderMaximum(active.getCanvas().getImageStackSize()-1);
+			active.setSliderMaximum(newIndex-1);
 		}
 		else if(type.equals(EventConstants.ORIENTATION_CHANGED_CORONAL)){
-			System.out.println("CORONAL");
+			newIndex = active.getCanvas().getMaxCoronalIndex();
 			active.getCanvas().recalculateImages(AbstractImage.CORONAL);
-			active.setSliderMaximum(active.getCanvas().getImageStackSize()-1);
+			active.setSliderMaximum(newIndex-1);
 		}
 		else if(type.equals(EventConstants.ORIENTATION_CHANGED_SAGITTAL)){
-			System.out.println("SAGITTAL");
+			newIndex = active.getCanvas().getMaxSagittalIndex();
 			active.getCanvas().recalculateImages(AbstractImage.SAGITTAL);
-			active.setSliderMaximum(active.getCanvas().getImageStackSize()-1);
+			active.setSliderMaximum(newIndex-1);
 		}
+		active.getCanvas().setMaxCurrentIndex(newIndex);
 	}
 	
 	public Shell getShell(){

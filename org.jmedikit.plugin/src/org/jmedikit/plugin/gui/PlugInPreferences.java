@@ -68,7 +68,8 @@ public class PlugInPreferences extends FieldEditorPreferencePage{
 	@Override
 	public boolean performOk(){
 		boolean returnVal = super.performOk();
-		System.out.println("Hallo Ok");
+		System.out.println("OK");
+		//performApply();
 		return returnVal;
 	}
 }

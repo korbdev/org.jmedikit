@@ -161,13 +161,7 @@ public class ImageCube {
 				result.imagePosition = I;
 				result.rowVector = R_rotated;
 				result.columnVector = C_rotated;
-				result.windowCenter = img.windowCenter;
-				result.windowWidth = img.windowWidth;
-				result.min = img.min;
-				result.max = img.max;
-				result.pixelSpacing = img.pixelSpacing;
-				result.rescaleIntercept = img.rescaleIntercept;
-				result.rescaleSlope = img.rescaleSlope;
+				result.copySignificantAttributes(img);
 				recalculatedImages.add(result);
 			}
 			System.out.println("done");
@@ -236,13 +230,7 @@ public class ImageCube {
 				result.imagePosition = I;
 				result.rowVector = R_rotated;
 				result.columnVector = C_rotated;
-				result.windowCenter = img.windowCenter;
-				result.windowWidth = img.windowWidth;
-				result.min = img.min;
-				result.max = img.max;
-				result.pixelSpacing = img.pixelSpacing;
-				result.rescaleIntercept = img.rescaleIntercept;
-				result.rescaleSlope = img.rescaleSlope;
+				result.copySignificantAttributes(img);
 
 				recalculatedImages.add(result);
 			}
@@ -315,13 +303,7 @@ public class ImageCube {
 				result.imagePosition = I;
 				result.rowVector = R_rotated;
 				result.columnVector = C_rotated;
-				result.windowCenter = img.windowCenter;
-				result.windowWidth = img.windowWidth;
-				result.min = img.min;
-				result.max = img.max;
-				result.pixelSpacing = img.pixelSpacing;
-				result.rescaleIntercept = img.rescaleIntercept;
-				result.rescaleSlope = img.rescaleSlope;
+				result.copySignificantAttributes(img);
 				recalculatedImages.add(result);
 			}
 			System.out.println("done");
@@ -390,13 +372,7 @@ public class ImageCube {
 				result.imagePosition = I;
 				result.rowVector = R_rotated;
 				result.columnVector = C_rotated;
-				result.windowCenter = img.windowCenter;
-				result.windowWidth = img.windowWidth;
-				result.min = img.min;
-				result.max = img.max;
-				result.pixelSpacing = img.pixelSpacing;
-				result.rescaleIntercept = img.rescaleIntercept;
-				result.rescaleSlope = img.rescaleSlope;
+				result.copySignificantAttributes(img);
 	
 				recalculatedImages.add(result);
 			}
@@ -466,13 +442,7 @@ public class ImageCube {
 				result.imagePosition = I;
 				result.rowVector = R_rotated;
 				result.columnVector = C_rotated;
-				result.windowCenter = img.windowCenter;
-				result.windowWidth = img.windowWidth;
-				result.min = img.min;
-				result.max = img.max;
-				result.pixelSpacing = img.pixelSpacing;
-				result.rescaleIntercept = img.rescaleIntercept;
-				result.rescaleSlope = img.rescaleSlope;
+				result.copySignificantAttributes(img);
 
 				recalculatedImages.add(result);
 			}
@@ -542,13 +512,7 @@ public class ImageCube {
 				result.imagePosition = I;
 				result.rowVector = R_rotated;
 				result.columnVector = C_rotated;
-				result.windowCenter = img.windowCenter;
-				result.windowWidth = img.windowWidth;
-				result.min = img.min;
-				result.max = img.max;
-				result.pixelSpacing = img.pixelSpacing;
-				result.rescaleIntercept = img.rescaleIntercept;
-				result.rescaleSlope = img.rescaleSlope;
+				result.copySignificantAttributes(img);
 	
 				recalculatedImages.add(result);
 			}

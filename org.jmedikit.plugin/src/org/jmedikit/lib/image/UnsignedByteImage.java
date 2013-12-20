@@ -5,7 +5,7 @@ import java.awt.image.DataBufferByte;
 
 public class UnsignedByteImage extends AbstractImage{
 	
-	private short[] storedValues;
+	//private short[] storedValues;
 	
 	private short[] pixels;
 	
@@ -13,7 +13,7 @@ public class UnsignedByteImage extends AbstractImage{
 		super(width, height);
 		imageType = AbstractImage.TYPE_BYTE_UNSIGNED;
 		pixels = new short[width*height];
-		storedValues = new short[width*height];
+		//storedValues = new short[width*height];
 	}
 	
 	public UnsignedByteImage(int width, int height, DataBuffer buffer) {
@@ -21,7 +21,8 @@ public class UnsignedByteImage extends AbstractImage{
 
 		if(buffer instanceof DataBufferByte){
 			for(int i = 0; i < buffer.getSize(); i++){
-				storedValues[i] = (short) buffer.getElem(i);
+				//storedValues[i] = (short) buffer.getElem(i);
+				pixels[i]= (short) buffer.getElem(i);
 			}
 		}
 		else throw new IllegalArgumentException("expected buffer type DataBufferUShort, "+buffer.getClass().getName()+" given");
@@ -36,7 +37,7 @@ public class UnsignedByteImage extends AbstractImage{
 		if(buffer instanceof DataBufferByte){
 			for(int i = 0; i < buffer.getSize(); i++){
 				short value = (short) buffer.getElem(i);
-				storedValues[i] = value;
+				//storedValues[i] = value;
 				pixels[i] = (short) (rescaleSlope * value + rescaleIntercept);
 			}
 		}

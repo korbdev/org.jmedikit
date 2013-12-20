@@ -60,13 +60,27 @@ public abstract class ATool {
 		actionMouseUp(e);
 	}
 	
+	public void handleMouseEnter(Event event) {
+		actionMouseEnter(event);
+	}
+
+	public void handleMouseExit(Event event) {
+		actionMouseExit(event);
+	}
+	
 	public abstract void actionMouseMove(Event e);
 	
 	public abstract void actionMouseDown(Event e);
 
 	public abstract void actionMouseUp(Event e);
 	
+	public abstract void actionMouseEnter(Event e);
+	
+	public abstract void actionMouseExit(Event e);
+	
 	public abstract GC preCalculation(GC toDraw);
 	
 	public abstract GC postCalculation(GC toDraw);
+
+	
 }

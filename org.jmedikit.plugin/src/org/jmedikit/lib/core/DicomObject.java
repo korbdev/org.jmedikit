@@ -10,5 +10,4 @@ public class DicomObject extends AbstractDicomObject{
 		super(path);
 		level = DicomTreeItem.TREE_OBJECT_LEVEL;
 	}
-	
 }

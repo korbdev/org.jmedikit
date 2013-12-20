@@ -63,7 +63,8 @@ public class BasicDicomData implements DicomData{
 		int dicomTag = Tag.toTag(tag);
 		switch(returnType){
 		case RETURN_STRING :
-			return dcmobj.getStrings(dicomTag);
+			//return dcmobj.getStrings(dicomTag);
+			return (dcmobj.getStrings(dicomTag) != null) ? dcmobj.getStrings(dicomTag) : new String[]{"default"};
 		default:
 			throw new IllegalArgumentException("returnType " + returnType+" not supported");
 		}

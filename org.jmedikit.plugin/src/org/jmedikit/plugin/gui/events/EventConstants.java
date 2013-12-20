@@ -9,6 +9,7 @@ public class EventConstants {
 	public final static String TOOL_CHANGED_MOVE = "TOOL_CHANGED/MOVE";
 	public final static String TOOL_CHANGED_RESIZE = "TOOL_CHANGED/RESIZE";
 	public final static String TOOL_CHANGED_WINDOW = "TOOL_CHANGED/WINDOW";
+	public final static String TOOL_CHANGED_POINT = "TOOL_CHANGED/POINT";
 	
 	public final static String ANGLE_CHANGED_ALL = "ANGLE_CHANGED/*";
 	public final static String ANGLE_CHANGED_ALPHA = "ANGLE_CHANGED/ALPHA";

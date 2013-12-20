@@ -28,6 +28,7 @@
     <handlers xmi:id="_fr3RIGTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.axialHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.AxialHandler" command="_T5Rz4GTJEeOQ-uwt3ZM7YA"/>
     <handlers xmi:id="_n0uOoGTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.coronalHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.CoronalHandler" command="_XXZgkGTJEeOQ-uwt3ZM7YA"/>
     <handlers xmi:id="_tw_YwGTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.sagittalHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.SagittalHandler" command="_Zg3HcGTJEeOQ-uwt3ZM7YA"/>
+    <handlers xmi:id="_5kcK8Gc1EeOA-puiBwJr7Q" elementId="org.jmedikit.plugin.toolPointHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.ToolPointHandler" command="_zCPCMGc1EeOA-puiBwJr7Q"/>
     <mainMenu xmi:id="_YbxzMDdtEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.mainMenu">
       <children xsi:type="menu:Menu" xmi:id="_-F0WoDdtEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.mainMenu.file" label="Datei">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_Br4eYDduEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.mainMenu.file.open" label="&#xd6;ffne Ordner" command="_qOWngDduEeOZNbAKmr0f_w"/>
@@ -43,11 +44,13 @@
         <children xsi:type="menu:HandledToolItem" xmi:id="_7ZgFIEV1EeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.toolMove" label="Move" iconURI="platform:/plugin/org.jmedikit.plugin/icons/move_32x32.png" tooltip="Move Image On Canvas" selected="true" type="Radio" command="_p_fsYEV1EeOWCcj6oD6UAg"/>
         <children xsi:type="menu:HandledToolItem" xmi:id="_61aD8EfCEeOP95KGodiAbA" elementId="org.jmedikit.plugin.toolResize" label="Resize" iconURI="platform:/plugin/org.jmedikit.plugin/icons/magnifying_glass_32x32.png" tooltip="Resize Image" type="Radio" command="_dtG4EEfCEeOP95KGodiAbA"/>
         <children xsi:type="menu:HandledToolItem" xmi:id="_S6fDMEV2EeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.toolWindow" label="WC/WW" iconURI="platform:/plugin/org.jmedikit.plugin/icons/sun_stroke_32x32.png" type="Radio" command="_FIPpoErMEeOCsPmBjPKbZQ"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_BstSkGc2EeOA-puiBwJr7Q" elementId="org.jmedikit.plugin.toolPoint" label="Point Selection" iconURI="platform:/plugin/org.jmedikit.plugin/icons/cursor_32x32.png" type="Radio" command="_zCPCMGc1EeOA-puiBwJr7Q"/>
         <children xsi:type="menu:ToolBarSeparator" xmi:id="_M7ptQEV2EeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.toolbarSeperator.1"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_OklAEGTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.axial" label="Axial" iconURI="platform:/plugin/org.jmedikit.plugin/icons/axial_32x32.png" command="_T5Rz4GTJEeOQ-uwt3ZM7YA"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_7pEi4GTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.coronal" label="Coronal" iconURI="platform:/plugin/org.jmedikit.plugin/icons/coronal_32x32.png" command="_XXZgkGTJEeOQ-uwt3ZM7YA"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="__QtX8GTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.sagittal" label="Sagittal" iconURI="platform:/plugin/org.jmedikit.plugin/icons/sagittal_32x32.png" command="_Zg3HcGTJEeOQ-uwt3ZM7YA"/>
+        <children xsi:type="menu:ToolBarSeparator" xmi:id="_NO900Gc2EeOA-puiBwJr7Q" elementId="org.jmedikit.plugin.toolbarseparator.0"/>
         <children xsi:type="menu:ToolControl" xmi:id="_eGjGEF2rEeOOqfCGPLe33g" elementId="org.jmedikit.plugin.toolcontrol.angle" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.AngleControl"/>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_OklAEGTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.axial" label="Axial" command="_T5Rz4GTJEeOQ-uwt3ZM7YA"/>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_7pEi4GTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.coronal" label="Coronal" command="_XXZgkGTJEeOQ-uwt3ZM7YA"/>
-        <children xsi:type="menu:HandledToolItem" xmi:id="__QtX8GTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.sagittal" label="Sagittal" command="_Zg3HcGTJEeOQ-uwt3ZM7YA"/>
       </children>
     </trimBars>
   </children>
@@ -55,6 +58,7 @@
   <commands xmi:id="_p_fsYEV1EeOWCcj6oD6UAg" elementId="org.jmedikit.plugin.toolMoveCommand" commandName="toolMove"/>
   <commands xmi:id="_dtG4EEfCEeOP95KGodiAbA" elementId="org.jmedikit.plugin.toolResizeCommand" commandName="toolResize"/>
   <commands xmi:id="_FIPpoErMEeOCsPmBjPKbZQ" elementId="org.jmedikit.plugin.toolWindowCommand" commandName="toolWindow"/>
+  <commands xmi:id="_zCPCMGc1EeOA-puiBwJr7Q" elementId="org.jmedikit.plugin.toolPointCommand" commandName="toolPointCommand"/>
   <commands xmi:id="_YglWAFEcEeOQ9todOzTHzw" elementId="org.jmedikit.plugin.settings" commandName="settingsWindow"/>
   <commands xmi:id="_T5Rz4GTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.axialCommand" commandName="axialCommand"/>
   <commands xmi:id="_XXZgkGTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.coronalCommand" commandName="coronalCommand"/>

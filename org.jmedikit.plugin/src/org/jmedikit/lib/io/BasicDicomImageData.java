@@ -12,6 +12,7 @@ import javax.imageio.stream.ImageInputStream;
 import org.dcm4che2.imageio.plugins.dcm.DicomImageReadParam;
 import org.dcm4che2.imageioimpl.plugins.dcm.DicomImageReader;
 import org.jmedikit.lib.image.AbstractImage;
+import org.jmedikit.lib.image.IntegerImage;
 import org.jmedikit.lib.image.ShortImage;
 import org.jmedikit.lib.image.UnsignedByteImage;
 import org.jmedikit.lib.image.UnsignedShortImage;
@@ -38,6 +39,28 @@ public class BasicDicomImageData implements DicomImageData{
 	}
 	
 	@Override
+	public int getSimplePixel(int x, int y, int z){
+		
+		Raster r = null;
+		try {
+			r = dir.readRaster(z, null);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		DataBuffer buffer = r.getDataBuffer();
+		
+		String rescaleSlope = (String) data.getTagData("RescaleSlope", DicomData.RETURN_STRING);
+		String rescaleIntercept = (String) data.getTagData("RescaleIntercept", DicomData.RETURN_STRING);
+		
+		float m = (rescaleSlope != null && !rescaleSlope.equals("default")) ? Float.parseFloat(rescaleSlope) : 1f ;
+		float b = (rescaleIntercept != null && !rescaleIntercept.equals("default")) ? Float.parseFloat(rescaleIntercept) : 0f ;
+	
+		int value = buffer.getElem(y * r.getWidth() +x);
+		return (int) (m * value + b);
+	}
+	
+	@Override
 	public AbstractImage getImage(int index){
 		AbstractImage img = null;
 		
@@ -45,6 +68,16 @@ public class BasicDicomImageData implements DicomImageData{
 		int height = 0;
 		
 		int signed = (int) data.getTagData("PixelRepresentation", DicomData.RETURN_INT);
+		
+		int samplesPerPixel = (int)data.getTagData("SamplesPerPixel", DicomData.RETURN_INT);
+		int planarConfiguration = (int)data.getTagData("PlanarConfiguration", DicomData.RETURN_INT);
+		
+		try {
+			System.out.println("SAMPLES PER PIXEL "+samplesPerPixel+", PC "+planarConfiguration+", "+dir.getNumImages(true));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		String windowCenter = (String) data.getTagData("WindowCenter", DicomData.RETURN_STRING);
 		String windowWidth = (String) data.getTagData("WindowWidth", DicomData.RETURN_STRING);
@@ -56,9 +89,13 @@ public class BasicDicomImageData implements DicomImageData{
 		String[] imagePosistion = (String[]) data.getTagArray("ImagePositionPatient", DicomData.RETURN_STRING);
 		String[] pixelSpacing = (String[]) data.getTagArray("PixelSpacing", DicomData.RETURN_STRING);
 		
-		float[] iO = new float[imageOrientation.length];
-		float[] iP = new float[imagePosistion.length];
-		float[] pP = new float[pixelSpacing.length];
+		//float[] iO = new float[imageOrientation.length];
+		//float[] iP = new float[imagePosistion.length];
+		//float[] pP = new float[pixelSpacing.length];
+		
+		float[] iO = new float[]{0f,0f,0f,0f,0f,0f};
+		float[] iP = new float[]{0f,0f,0f};
+		float[] pP = new float[]{0f,0f};
 		
 		for(int i = 0; i < imageOrientation.length; i++){
 			iO[i] = (imageOrientation[i] != null && !imageOrientation[i].equals("default")) ? Float.parseFloat(imageOrientation[i]) : 0f ;
@@ -95,15 +132,23 @@ public class BasicDicomImageData implements DicomImageData{
 
 		    }else System.out.println("LOADED");*/
 			
-			Raster r = dir.readRaster(index, null );
+			Raster r = dir.readRaster(0, param);
 			DataBuffer buffer = r.getDataBuffer();
-			
+			System.out.println("LOADED BUFFER "+buffer.getSize()+", "+r.getBounds().toString());
 			int bufferType = buffer.getDataType();
-			
+			//ConstantHelper.printDataBufferConstants();
+			//System.out.println("IS "+bufferType);
 			switch(bufferType){
 			case DataBuffer.TYPE_BYTE:
 				if(signed == AbstractImage.TYPE_SIGNED){
 					System.out.println("TODO: SIGNED BYTE IMAGE");
+				}
+				else if(samplesPerPixel > 0){
+					img = new IntegerImage(width, height, buffer, m, b, planarConfiguration, wc, ww);
+					img.setImageOrientation(iO);
+					img.setImagePosition(iP);
+					img.setPixelSpacing(pP);
+					return img;
 				}
 				else{
 					img = new UnsignedByteImage(width, height, buffer, m, b, wc, ww);

@@ -3,6 +3,7 @@ package org.jmedikit.plugin.gui;
 
 import java.util.ArrayList;
 
+import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.e4.tools.services.IResourcePool;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
@@ -24,6 +25,7 @@ import org.jmedikit.lib.util.IObserver;
 import org.jmedikit.lib.util.ISubject;
 import org.jmedikit.lib.util.ImageProvider;
 import org.jmedikit.plugin.gui.tools.AToolFactory;
+import org.osgi.service.prefs.Preferences;
 
 
 public class ImageViewComposite extends Composite implements ISubject, IObserver{
@@ -42,11 +44,13 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 	
 	private ToolItem close, fullscreen, reload;
 	
+	private ToolItem imageSelection, annotations, scoutingLines;
+	
 	private IResourcePool imageResource;
 	
 	private ImageViewPart rootPart;
 	
-	private Image closeImg, fullscreenImg, fullscreenExitImg, reloadImg;
+	private Image closeImg, currentImg, fullscreenImg, fullscreenExitImg, reloadImg, imageSelectionImg, annotationsImg, scoutingLinesImg;
 	
 	private Shell fullScreenShell;
 	
@@ -74,9 +78,13 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		isFullscreen = false;
 		fullScreenShell = new Shell(SWT.NO_TRIM | SWT.ON_TOP);
 		closeImg = imageResource.getImageUnchecked(ImageProvider.CLOSE_DARK_BUTTON);
+		currentImg = imageResource.getImageUnchecked(ImageProvider.IMAGEVIEW_CURRENT);
 		fullscreenImg = imageResource.getImageUnchecked(ImageProvider.IMAGEVIEW_FULLSCREEN);
 		fullscreenExitImg = imageResource.getImageUnchecked(ImageProvider.IMAGEVIEW_FULLSCREEN_EXIT);
 		reloadImg = imageResource.getImageUnchecked(ImageProvider.IMAGEVIEW_RELOAD);
+		imageSelectionImg = imageResource.getImageUnchecked(ImageProvider.IMAGEVIEW_SELECTION);
+		annotationsImg = imageResource.getImageUnchecked(ImageProvider.IMAGEVIEW_ANNOTATION);
+		scoutingLinesImg = imageResource.getImageUnchecked(ImageProvider.IMAGEVIEW_SCOUTINGLINES);
 		
 		GridLayout gridLayout = new GridLayout(2, false);
 		gridLayout.marginHeight = 0;
@@ -96,7 +104,7 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		canvasContainerLayout.horizontalSpacing = 0;
 		canvasContainer.setLayout(canvasContainerLayout);
 		
-		canvas = new DicomCanvas(canvasContainer, SWT.NO_BACKGROUND, selection, images);
+		canvas = new DicomCanvas(canvasContainer, SWT.NO_BACKGROUND, selection, images, pool);
 		canvas.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 0, 0));
 		
 		int controlsSizeWidth = 20;
@@ -114,7 +122,7 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		ToolBar imageViewTools = new ToolBar(controls, SWT.FLAT | SWT.VERTICAL);
 		
 		close = new ToolItem(imageViewTools, SWT.NONE);
-		close.setImage(closeImg);
+		close.setImage(currentImg);
 
 		fullscreen = new ToolItem(imageViewTools, SWT.NONE);
 		fullscreen.setImage(fullscreenImg);
@@ -127,11 +135,19 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		gd_slider.widthHint = controlsSizeWidth;
 		slider.setLayoutData(gd_slider);
 		int sliderMaximum = selection.getChildren().size() > 0 ? selection.getChildren().size()-1 : 0;
-		System.out.println(sliderMaximum);
+		//System.out.println(sliderMaximum);
 		slider.setMaximum(sliderMaximum+slider.getThumb());
 
+		ToolBar annotationTools = new ToolBar(controls, SWT.FLAT | SWT.VERTICAL);
+		imageSelection = new ToolItem(annotationTools, SWT.CHECK);
+		imageSelection.setImage(imageSelectionImg);
+		annotations = new ToolItem(annotationTools, SWT.CHECK);
+		annotations.setImage(annotationsImg);
+		scoutingLines = new ToolItem(annotationTools, SWT.CHECK);
+		scoutingLines.setImage(scoutingLinesImg);
 		
-		
+		Preferences prefs = ConfigurationScope.INSTANCE.getNode("org.jmedikit.plugin");
+		System.out.println(prefs.get(PlugInPreferences.PLUGIN_DIRECTORY, "notset"));
 		init();
 	}
 
@@ -157,8 +173,7 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 			
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
-				// TODO Auto-generated method stub
-				
+				widgetSelected(e);
 			}
 		});
 		
@@ -231,8 +246,61 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 			
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
-				// TODO Auto-generated method stub
-				
+				widgetSelected(e);
+			}
+		});
+		
+		imageSelection.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				boolean toggle = canvas.isDrawSelection();
+				if(toggle){
+					canvas.setDrawSelection(false);
+				}
+				else canvas.setDrawSelection(true);
+				canvas.redraw();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+		});
+		
+		annotations.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				boolean toggle = canvas.isDrawAnnotations();
+				if(toggle){
+					canvas.setDrawAnnotations(false);
+				}
+				else canvas.setDrawAnnotations(true);
+				canvas.redraw();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+		});
+		
+		scoutingLines.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				boolean toggle = canvas.isDrawScoutingLines();
+				if(toggle){
+					canvas.setDrawScoutingLines(false);
+				}
+				else canvas.setDrawScoutingLines(true);
+				canvas.redraw();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
 			}
 		});
 	}
@@ -259,12 +327,13 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 			
 			@Override
 			public void focusLost(FocusEvent e) {
-
+				close.setImage(closeImg);
 			}
 			
 			@Override
 			public void focusGained(FocusEvent e) {
 				rootPart.setActive(ImageViewComposite.this);
+				close.setImage(currentImg);
 			}
 		});
 	}

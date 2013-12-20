@@ -2,6 +2,7 @@ package org.jmedikit.plugin.gui;
 
 import java.util.ArrayList;
 
+import org.eclipse.e4.tools.services.IResourcePool;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
@@ -16,13 +17,21 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.itk.simple.CastImageFilter;
+import org.itk.simple.PixelIDValueEnum;
+import org.itk.simple.SmoothingRecursiveGaussianImageFilter;
+import org.itk.simple.VectorUInt32;
 import org.jmedikit.lib.core.BilinearInterpolation;
+import org.jmedikit.lib.core.DicomObject;
 import org.jmedikit.lib.core.DicomTreeItem;
 import org.jmedikit.lib.core.ImageWindowInterpolation;
 import org.jmedikit.lib.image.AbstractImage;
 import org.jmedikit.lib.image.ImageCube;
+import org.jmedikit.lib.image.IntegerImage;
+import org.jmedikit.lib.image.MultiplanarReconstruction;
 import org.jmedikit.lib.image.ROI;
 import org.jmedikit.lib.util.Dimension2D;
+import org.jmedikit.lib.util.ImageProvider;
 import org.jmedikit.lib.util.Point2D;
 import org.jmedikit.lib.util.Vector3D;
 import org.jmedikit.plugin.gui.tools.ATool;
@@ -35,14 +44,23 @@ public class DicomCanvas extends Canvas{
 	
 	private int index;
 	
+	private int maxAxialIndex;
+	private int maxCoronalIndex;
+	private int maxSagittalIndex;
+	
+	private int maxCurrentIndex;
+	
 	private ATool tool;
 	
 	private ArrayList<AbstractImage> images;
 	
 	private ImageCube cube;
+	//private MultiplanarReconstruction cube;
 	
 	public AbstractImage sourceImage;
+	public AbstractImage sampleImage;
 	public Dimension2D<Integer> sourceDimension;
+	public String initialImageOrientationType;
 	public String imageOrientationType;
 	
 	public float windowCenter;
@@ -55,18 +73,27 @@ public class DicomCanvas extends Canvas{
 	
 	public Point2D<Integer> imageCenter;
 	public Dimension2D<Integer> imageDimension;
-	
+	public ROI roi;
 	public Dimension2D<Integer> canvasDimension;
+	public Rectangle visibleImageBounds;
 	
 	private boolean isInitialized;
 	private boolean doXLineUpdate;
 	private boolean doYLineUpdate;
 	
-	private Color black;
-	private Color white;
-	private Color yellow;
-	private Color brightBlue;
-	private Color lightRed;
+	public Color black;
+	public Color white;
+	public Color yellow;
+	
+	private Color hLineColor;
+	private Color hLineShadow;
+	private Color hLineHighlight;
+	
+	private Color vLineColor;
+	private Color vLineShadow;
+	private Color vLineHighlight;
+	
+	private Color selectedPointsColor;
 	
 	private float alpha;
 	private float beta;
@@ -84,35 +111,55 @@ public class DicomCanvas extends Canvas{
 	private int xIndex;
 	private int yIndex;
 	
-	public DicomCanvas(Composite parent, int style, DicomTreeItem selection, ArrayList<AbstractImage> images) {
+	private boolean drawSelection;
+	private boolean drawAnnotations;
+	private boolean drawScoutingLines;
+	
+	private Image axialImage, coronalImage, sagittalImage;
+	
+	public DicomCanvas(Composite parent, int style, DicomTreeItem selection, ArrayList<AbstractImage> images, IResourcePool pool) {
 		super(parent, style);
 
 		item = selection;
 		this.images = images;
-		startWidth = images.get(0).getWidth();
-		startHeight = images.get(0).getHeight();
-		
-		actualWidth = startWidth;
-		actualHeight = startHeight;
 		
 		cube = new ImageCube(images);
+		//cube = new MultiplanarReconstruction(this);
+		initializeColors();
 		
-		black = new Color(this.getDisplay(), new RGB(0, 0, 0));
-		white = new Color(this.getDisplay(), new RGB(255, 255, 255));
-		yellow = new Color(this.getDisplay(), new RGB(250, 250, 210));
-		brightBlue = new Color(this.getDisplay(), new RGB(116, 232, 230));
-		lightRed = new Color(this.getDisplay(), new RGB(232, 116, 118));
+		IntegerImage colorImg = new IntegerImage(images.get(0).getWidth(), images.get(0).getHeight());
+		
+		for( int y = 0; y < colorImg.getHeight(); y++){
+			for( int x = 0; x < colorImg.getWidth(); x++){
+				if(y % 2 == 0){
+					colorImg.setPixel(x, y, 255, 0, 0);
+				}
+				else colorImg.setPixel(x, y, 0, 255, 0);
+			}
+		}
+		
+		images.add(1, colorImg);
+		
+		axialImage = pool.getImageUnchecked(ImageProvider.AXIAL_W_ICON);
+		coronalImage = pool.getImageUnchecked(ImageProvider.CORONAL_W_ICON);
+		sagittalImage = pool.getImageUnchecked(ImageProvider.SAGITTAL_W_ICON);
 		
 		sourceDimension = new Dimension2D<Integer>(0, 0);
 		imageCenter = new Point2D<Integer>(0, 0);
 		imageDimension = new Dimension2D<Integer>(0, 0);
 		canvasDimension = new Dimension2D<Integer>(0, 0);
 		
-		index = 0;
-
 		sourceImage = images.get(0);
+		//sourceImage = loadImage(0);
+		sampleImage = sourceImage;
 		sourceDimension.width = sourceImage.getWidth();
 		sourceDimension.height = sourceImage.getHeight();
+		
+		startWidth = sourceDimension.width;
+		startHeight = sourceDimension.height;
+		
+		actualWidth = startWidth;
+		actualHeight = startHeight;
 		
 		windowCenter = sourceImage.getWindowCenter();
 		windowWidth = sourceImage.getWindowWidth();
@@ -123,16 +170,32 @@ public class DicomCanvas extends Canvas{
 		doXLineUpdate = false;
 		doYLineUpdate = false;
 		
+		index = 0;
+		setMaxCurrentIndex(item.size());
+		
 		xLineIndex = 0;
 		yLineIndex = 0;
 		
 		xIndex = 0;
 		yIndex = 0;
 		
+		setDrawSelection(true);
+		setDrawAnnotations(true);
+		setDrawScoutingLines(true);
+		
+		axes = sourceImage.getImageOrientationAxis();
+		imageOrientationType = sourceImage.getMprType();
+		initialImageOrientationType = imageOrientationType;
+		//mit imageOrientationType wurde der initiale MPR-Typ bestimmt
+		//Index kann nun festgelegt werden
+		determineMaxIndizes();
+		
 		addListener(SWT.MouseDown, mouseDownListener);
 		addListener(SWT.MouseUp, mouseUpListener);
 		addListener(SWT.MouseMove, mouseMoveListener);
 		addListener(SWT.Paint, paintListener);
+		addListener(SWT.MouseEnter, mouseEnterListener);
+		addListener(SWT.MouseExit, mouseExitListener);
 	}
 
 	private Listener paintListener = new Listener() {
@@ -140,7 +203,39 @@ public class DicomCanvas extends Canvas{
 		public void handleEvent(Event event) {
 			
 			sourceImage = images.get(index);
-			//System.out.println(sourceImage.getWidth());
+			//sourceImage = loadImage(index);
+			//if(initialImageOrientationType.equals(imageOrientationType)){
+			//	sourceImage = loadImage(index);
+			//}
+			//else recalculateImages(imageOrientationType);
+			
+			/*org.itk.simple.Image img = new org.itk.simple.Image(sourceImage.getWidth(), sourceImage.getHeight(),PixelIDValueEnum.sitkUInt16);
+			for(int y = 0; y < img.getHeight(); y++){
+				for(int x = 0; x < img.getWidth(); x++){
+					VectorUInt32 v = new VectorUInt32(2);
+					v.set(0, x);
+					v.set(1, y);
+					img.setPixelAsUInt16(v, sourceImage.getPixel(x, y));
+				}
+			}
+			
+			org.itk.simple.SmoothingRecursiveGaussianImageFilter gauss = new SmoothingRecursiveGaussianImageFilter();
+			gauss.setSigma(10.0);
+			org.itk.simple.Image gaussImg = gauss.execute(img);
+
+			org.itk.simple.CastImageFilter cast = new CastImageFilter();
+			cast.setOutputPixelType(PixelIDValueEnum.sitkUInt16);
+			org.itk.simple.Image output = cast.execute(gaussImg);
+			
+			for(int y = 0; y < img.getHeight(); y++){
+				for(int x = 0; x < img.getWidth(); x++){
+					VectorUInt32 v = new VectorUInt32(2);
+					v.set(0, x);
+					v.set(1, y);
+					int value = output.getPixelAsUInt16(v);
+					sourceImage.setPixel(x, y, value);
+				}
+			}*/
 			
 			actualWidth = sourceImage.getWidth();
 			actualHeight = sourceImage.getHeight();
@@ -154,15 +249,17 @@ public class DicomCanvas extends Canvas{
 				BilinearInterpolation resampleImg = new BilinearInterpolation(sourceImage);
 				AbstractImage res = resampleImg.resample(actualWidth, actualHeight, startWidth, startHeight);
 				res.setImagePosition(sourceImage.getImagePosition());
+				res.setTitle(sourceImage.getTitle());
+				res.setPoints(sourceImage.getPoints());
 				res.setRowImageOrientation(sourceImage.getRowImageOrientation());
 				res.setColumnImageOrientation(sourceImage.getColumnImageOrientation());
+				res.copySignificantAttributes(sourceImage);
 				sourceImage = res;
 			}
+			
 			axes = sourceImage.getImageOrientationAxis();
 			imageOrientationType = sourceImage.getMprType();
-			
-			//System.out.println("x, y, z "+actualWidth+", "+actualHeight+", "+index+" normal "+Vector3D.crossProduct(sourceImage.getRowImageOrientation(), sourceImage.getColumnImageOrientation()).toString());
-			
+						
 			sourceDimension.width = sourceImage.getWidth();
 			sourceDimension.height = sourceImage.getHeight();
 			
@@ -212,7 +309,7 @@ public class DicomCanvas extends Canvas{
 		Rectangle imageBounds = new Rectangle(x, y, width, height);
 		Rectangle newBounds = new Rectangle(x, y, width, height);
 		
-		ROI roi = new ROI(0f, 0f, 1f, 1f);
+		roi = new ROI(0f, 0f, 1f, 1f);
 		
 		if(imageBounds.x < 0){
 			//top_left_x ragt ueber den rand hinaus
@@ -258,133 +355,177 @@ public class DicomCanvas extends Canvas{
 			roi.height = 1.0f;
 		}
 		
-		//System.out.println(roi.toString());
+		visibleImageBounds = newBounds;
 		
 		//Roi ermittelt
 		BilinearInterpolation bilinearInterpolation = new BilinearInterpolation(sourceImage);
 		AbstractImage resampled = bilinearInterpolation.resampleROI(roi, sourceDimension.width, sourceDimension.height, imageDimension.width, imageDimension.height);
 		resampled.setMinMaxValues(min, max);
-		//resampled.determineMinMaxValues(resampled.getPixels());
+
 		
 		ImageData data = ImageWindowInterpolation.interpolateImage(resampled, windowCenter, windowWidth, 0, 255);
 		Image iimg = new Image(this.getDisplay(), data);
-		
-		GC scoutingLines = new GC(iimg);
-		scoutingLines.setLineWidth(4);
-		//System.out.println("YLINEINDEX ! "+yLineIndex);
-		if(yLineIndex != 0){
-			if(startHeight != actualHeight && doYLineUpdate){
-				if(startHeight > actualHeight){
-					yLineIndex *= (int)((float)startHeight/(float)actualHeight+0.5f);
-				}
-				else yLineIndex *= (int)((float)actualHeight/(float)startHeight+0.5f);
-				doYLineUpdate = false;
-			}
-			
-			float yLineNormaliezed = (float)yLineIndex/(float)startWidth;
-			//int yIndex = 0;
-			if(roi.y < yLineNormaliezed){
-				float temp = yLineNormaliezed-roi.y;
-				//System.out.println("TEMP "+temp);
-				yIndex = (int) (temp * imageDimension.height);
-				
-				//GC scoutingLines = new GC(iimg);
-				
-				scoutingLines.setForeground(lightRed);
-				scoutingLines.drawLine(0, yIndex, iimg.getBounds().width, yIndex);
-				
-				//scoutingLines.dispose();
-			}
-			
-			//System.out.println("YINDEX "+yIndex+" STARTDIM "+startWidth+" x "+startHeight+", ACTDIM "+actualWidth+" x "+actualHeight);
-		}
-		
-		if(xLineIndex != 0){
-			if(startWidth != actualWidth && doXLineUpdate){
-				if(startWidth > actualWidth){
-					xLineIndex *= (int)((float)startWidth/(float)actualWidth+0.5f);
-				}
-				else xLineIndex *= (int)((float)actualWidth/(float)startWidth+0.5f);
-				doXLineUpdate = false;
-			}
-			
-			float xLineNormaliezed = (float)xLineIndex/(float)startWidth;
-			//int xIndex = 0;
-			if(roi.x < xLineNormaliezed){
-				float temp = xLineNormaliezed-roi.x;
-				//System.out.println("TEMP "+temp);
-				xIndex = (int) (temp * imageDimension.width);			
-				
-				scoutingLines.setForeground(brightBlue);
-				scoutingLines.drawLine(xIndex, 0, xIndex, iimg.getBounds().height);
-				
-				
-			}
-			
-			//System.out.println("XINDEX "+xIndex+" STARTDIM "+startWidth+" x "+startHeight+", ACTDIM "+actualWidth+" x "+actualHeight);
-		}
-		
-		scoutingLines.dispose();
-		
-		//System.out.println("IIMG "+iimg.getBounds().toString());
+
 		buffer.setBackground(black);
 		buffer.setForeground(white);
-		
-		//GC lineGc = new GC(iimg);
-		//lineGc.drawLine(0, sourceDimension.height/2, sourceDimension.width, sourceDimension.height/2);
-		
 		buffer.fillRectangle(0, 0, canvasDimension.width, canvasDimension.height);
+		
+		if(drawSelection){
+			System.out.println(sourceImage.getTitle());
+			GC selection = new GC(iimg);
+			selection.setLineWidth(2);
+			selection.setForeground(selectedPointsColor);
+			for(Point2D<Float> p : sourceImage.getPoints()){
+				System.out.println(roi.toString()+" "+p.toString());
+				if(roi.x < p.x && roi.y < p.y){
+					int pX = (int)((p.x-roi.x) * imageDimension.width);
+					int pY = (int)((p.y-roi.y) * imageDimension.height);
+					System.out.println("DRAW "+pX+" x "+pY);
+					selection.drawLine(pX-5, pY-5, pX+5, pY+5);
+					selection.drawLine(pX+5, pY-5, pX-5, pY+5);
+				}
+			}
+			selection.dispose();
+		}
+		
+		if(drawScoutingLines){
+			GC scoutingLines = new GC(iimg);
+			scoutingLines.setLineWidth(2);
+			if(yLineIndex != 0){
+				if(startHeight != actualHeight && doYLineUpdate){
+					if(startHeight > actualHeight){
+						yLineIndex *= (int)((float)startHeight/(float)actualHeight+0.5f);
+					}
+					else yLineIndex *= (int)((float)actualHeight/(float)startHeight+0.5f);
+					doYLineUpdate = false;
+				}
+				
+				float yLineNormalized = (float)yLineIndex/(float)startHeight;
+				//int yIndex = 0;
+				if(roi.y < yLineNormalized){
+					float temp = yLineNormalized-roi.y;
+					//System.out.println("TEMP "+temp);
+					yIndex = (int) (temp * imageDimension.height);
+					
+					//GC scoutingLines = new GC(iimg);
+					
+					scoutingLines.setForeground(hLineColor);
+					scoutingLines.drawLine(0, yIndex, iimg.getBounds().width, yIndex);
+					
+					scoutingLines.setLineWidth(1);
+					scoutingLines.setForeground(hLineHighlight);
+					scoutingLines.drawLine(0, yIndex+1, iimg.getBounds().width, yIndex+1);
+					scoutingLines.setForeground(hLineShadow);
+					scoutingLines.drawLine(0, yIndex+2, iimg.getBounds().width, yIndex+2);
+					scoutingLines.drawLine(0, yIndex-1, iimg.getBounds().width, yIndex-1);
+					
+					//scoutingLines.dispose();
+					int canvasLineYIndex = newBounds.y+yIndex;
+					buffer.setForeground(hLineColor);
+					buffer.drawLine(0, canvasLineYIndex, newBounds.x, canvasLineYIndex);
+					buffer.drawLine(newBounds.width, canvasLineYIndex, canvasDimension.width, canvasLineYIndex);
+					buffer.setLineWidth(2);
+				}
+				
+				//System.out.println("YINDEX "+yIndex+" STARTDIM "+startWidth+" x "+startHeight+", ACTDIM "+actualWidth+" x "+actualHeight);
+			}
+			
+			if(xLineIndex != 0){
+				if(startWidth != actualWidth && doXLineUpdate){
+					if(startWidth > actualWidth){
+						xLineIndex *= (int)((float)startWidth/(float)actualWidth+0.5f);
+					}
+					else xLineIndex *= (int)((float)actualWidth/(float)startWidth+0.5f);
+					doXLineUpdate = false;
+				}
+				
+				float xLineNormalized = (float)xLineIndex/(float)startWidth;
+				//int xIndex = 0;
+				if(roi.x < xLineNormalized){
+					float temp = xLineNormalized-roi.x;
+					//System.out.println("TEMP "+temp);
+					xIndex = (int) (temp * imageDimension.width);			
+					
+					scoutingLines.setForeground(vLineColor);
+					scoutingLines.drawLine(xIndex, 0, xIndex, iimg.getBounds().height);
+					
+					scoutingLines.setLineWidth(1);
+					scoutingLines.setForeground(vLineHighlight);
+					scoutingLines.drawLine(xIndex+1, 0, xIndex+1, iimg.getBounds().height);
+					scoutingLines.setForeground(vLineShadow);
+					scoutingLines.drawLine(xIndex+2, 0, xIndex+2, iimg.getBounds().height);
+					scoutingLines.drawLine(xIndex-1, 0, xIndex-1, iimg.getBounds().height);
+					
+					int canvasLineXIndex = newBounds.x+xIndex;
+					buffer.setForeground(vLineColor);
+					buffer.drawLine(canvasLineXIndex, 0, canvasLineXIndex, newBounds.y);
+					buffer.drawLine(canvasLineXIndex, newBounds.height, canvasLineXIndex, canvasDimension.height);
+					buffer.setLineWidth(2);
+				}
+				
+				//System.out.println("XINDEX "+xIndex+" STARTDIM "+startWidth+" x "+startHeight+", ACTDIM "+actualWidth+" x "+actualHeight);
+			}
+			
+			scoutingLines.dispose();
+		}
 		
 		buffer.drawImage(iimg, newBounds.x, newBounds.y);
 
-		String sliceNumber = (index+1)+"/ "+images.size();
-		Point textDim = buffer.textExtent(sliceNumber);
+		buffer.setBackground(black);
+		buffer.setForeground(white);
 		
-		int xPos = canvasDimension.width-textDim.x-20;
-		int yPos = 20;
-		
-		buffer.drawText(sliceNumber, xPos, yPos);
-		
-		String scale = imageDimension.width + " x " + imageDimension.height +"\n( " + (int)(((float)imageDimension.width/(float)sourceImage.getWidth())*100) + "% )";
-		//textDim = buffer.textExtent(scale);
-		buffer.drawText(scale, 20, 20);
-		
-		String wcww = "WindowCenter:\t"+windowCenter+"\nWindowWidth:\t"+windowWidth;
-		textDim = buffer.textExtent(wcww);
-		
-		xPos = 20;
-		yPos = canvasDimension.height-textDim.y-20;
-		
-		buffer.drawText(wcww, xPos, yPos);
-		
-		//Zeichnen des Koordinatensystems
-		
-		buffer.setForeground(yellow);
-		
-		String top = axes[0];
-		Point textDimTop = buffer.textExtent(top);
-		xPos = canvasDimension.width/2-textDimTop.x/2;
-		yPos = 10;
-		buffer.drawText(top, xPos, yPos);
-		
-		String right = axes[1];
-		Point textDimRight = buffer.textExtent(right);
-		xPos = canvasDimension.width-(textDimRight.x+10);
-		yPos = canvasDimension.height/2-textDimRight.y/2;
-		buffer.drawText(right, xPos, yPos);
-		
-		String bottom = axes[2];
-		Point textDimBottom = buffer.textExtent(bottom);
-		xPos = canvasDimension.width/2-textDimBottom.x/2;
-		yPos = canvasDimension.height-(textDimBottom.y+10);
-		buffer.drawText(bottom, xPos, yPos);
-		
-		String left = axes[3];
-		Point textDimLeft = buffer.textExtent(left);
-		xPos = 10;
-		yPos = canvasDimension.height/2-textDimLeft.y/2;
-		buffer.drawText(left, xPos, yPos);
-		
+		if(drawAnnotations){
+			String sliceNumber = (index+1)+"/ "+maxCurrentIndex;
+			Point textDim = buffer.textExtent(sliceNumber);
+			
+			int xPos = canvasDimension.width-textDim.x-20;
+			int yPos = 20;
+			
+			buffer.drawText(sliceNumber, xPos, yPos);
+			
+			String scale = imageDimension.width + " x " + imageDimension.height +"\n( " + (int)(((float)imageDimension.width/(float)sourceImage.getWidth())*100) + "% )";
+			//textDim = buffer.textExtent(scale);
+			buffer.drawText(scale, 20, 20);
+			
+			String wcww = "WindowCenter:\t"+windowCenter+"\nWindowWidth:\t"+windowWidth;
+			textDim = buffer.textExtent(wcww);
+			
+			xPos = 20;
+			yPos = canvasDimension.height-textDim.y-20;
+			
+			buffer.drawText(wcww, xPos, yPos);
+			
+			//Zeichnen des Koordinatensystems
+			
+			buffer.setForeground(yellow);
+			
+			String top = axes[0];
+			Point textDimTop = buffer.textExtent(top);
+			xPos = canvasDimension.width/2-textDimTop.x/2;
+			yPos = 10;
+			buffer.drawText(top, xPos, yPos);
+			
+			String right = axes[1];
+			Point textDimRight = buffer.textExtent(right);
+			xPos = canvasDimension.width-(textDimRight.x+10);
+			yPos = canvasDimension.height/2-textDimRight.y/2;
+			buffer.drawText(right, xPos, yPos);
+			
+			String bottom = axes[2];
+			Point textDimBottom = buffer.textExtent(bottom);
+			xPos = canvasDimension.width/2-textDimBottom.x/2;
+			yPos = canvasDimension.height-(textDimBottom.y+10);
+			buffer.drawText(bottom, xPos, yPos);
+			
+			String left = axes[3];
+			Point textDimLeft = buffer.textExtent(left);
+			xPos = 10;
+			yPos = canvasDimension.height/2-textDimLeft.y/2;
+			buffer.drawText(left, xPos, yPos);
+			
+			setMprIcon(buffer, sourceImage.getMprType());
+		}
+
 		iimg.dispose();
 		return buffer;
 	}
@@ -414,25 +555,81 @@ public class DicomCanvas extends Canvas{
 		}
 	};
 	
-	/*private AbstractImage loadImage(){
+	private Listener mouseEnterListener = new Listener() {
+
+		@Override
+		public void handleEvent(Event event) {
+			tool.handleMouseEnter(event);
+			DicomCanvas.this.redraw();
+		}
+		
+	};
+	
+	private Listener mouseExitListener = new Listener() {
+
+		@Override
+		public void handleEvent(Event event) {
+			tool.handleMouseExit(event);
+			DicomCanvas.this.redraw();
+		}
+		
+	};
+	
+	public AbstractImage loadImage(int i){
 		//Test, ob Bilddaten bereits geladen sind
-		AbstractImage img = images.get(index);
+		AbstractImage img;
+		try {
+			img = images.get(i);
+		} catch (Exception e) {
+			DicomObject toDraw;
+			if(item.getLevel() == DicomTreeItem.TREE_OBJECT_LEVEL){
+				toDraw = (DicomObject)item;
+			}
+			else {
+				toDraw = (DicomObject) item.getChild(i);
+			}
+			img = toDraw.getImage(0);
+			//images.add(i, img);
+			return img;
+		}
+		return img;
+	}
+	
+	/*public AbstractImage loadImage(int i){
+		//Test, ob Bilddaten bereits geladen sind
+		AbstractImage img = images.get(i);
 		if(img == null){
 			DicomObject toDraw;
 			if(item.getLevel() == DicomTreeItem.TREE_OBJECT_LEVEL){
 				toDraw = (DicomObject)item;
 			}
 			else {
-				toDraw = (DicomObject) item.getChild(index);
+				toDraw = (DicomObject) item.getChild(i);
 			}
 			img = toDraw.getImage(0);
-			images.add(index, img);
+			//images.add(i, img);
 			return img;
 		}
 		else return img;
 	}*/
 	
 	
+	public DicomTreeItem getItem() {
+		return item;
+	}
+
+	/*public void setItem(DicomTreeItem item) {
+		this.item = item;
+	}*/
+
+	public ArrayList<AbstractImage> getImages() {
+		return images;
+	}
+
+	public AbstractImage getSampleImage() {
+		return sampleImage;
+	}
+
 	public void setTool(ATool tool){
 		this.tool = tool;
 	}
@@ -462,8 +659,26 @@ public class DicomCanvas extends Canvas{
 		this.redraw();
 	}
 	
+	/*public void recalculateImages(String newOrientation){
+		isInitialized = false;
+		//System.out.println("NEW "+newOrientation);
+		initialImageOrientationType = newOrientation;
+		//index = 0;
+		if(newOrientation.equals(AbstractImage.AXIAL)){
+			sourceImage = cube.calculateAxialView(index);
+		}
+		else if(newOrientation.equals(AbstractImage.CORONAL)){
+			sourceImage = cube.calculateCoronalView(index);
+			System.out.println("SI "+sourceDimension.toString());
+		}
+		else if(newOrientation.equals(AbstractImage.SAGITTAL)){
+			sourceImage = cube.calculateSagittalView(index);
+		}
+		this.redraw();
+	}*/
+	
 	public int getImageStackSize(){
-		return images.size();
+		return item.size();
 	}
 	
 	public void setAngles(float alpha, float beta, float gamma){
@@ -480,6 +695,83 @@ public class DicomCanvas extends Canvas{
 		return new Point2D<Float>(x, y);
 	}
 
+	private GC setMprIcon(GC buffer, String mprType){
+		if(mprType.equals(AbstractImage.AXIAL)){
+			buffer.drawImage(axialImage, canvasDimension.width-axialImage.getBounds().width-20, canvasDimension.height-axialImage.getBounds().height-20);
+		}
+		else if(mprType.equals(AbstractImage.CORONAL)){
+			buffer.drawImage(coronalImage, canvasDimension.width-coronalImage.getBounds().width-20, canvasDimension.height-coronalImage.getBounds().height-20);
+		}
+		else if(mprType.equals(AbstractImage.SAGITTAL)){
+			buffer.drawImage(sagittalImage, canvasDimension.width-sagittalImage.getBounds().width-20, canvasDimension.height-sagittalImage.getBounds().height-20);
+		}
+		return buffer;
+	}
+	
+	private void initializeColors(){
+		black = new Color(this.getDisplay(), new RGB(0, 0, 0));
+		white = new Color(this.getDisplay(), new RGB(255, 255, 255));
+		yellow = new Color(this.getDisplay(), new RGB(250, 250, 210));
+		hLineColor = new Color(this.getDisplay(), new RGB(0, 255, 255));
+		hLineShadow = new Color(this.getDisplay(), new RGB(0, 150, 150));
+		hLineHighlight = new Color(this.getDisplay(), new RGB(180, 255, 255));
+		vLineColor = new Color(this.getDisplay(), new RGB(255, 255, 0));
+		vLineShadow = new Color(this.getDisplay(), new RGB(150, 150, 0));
+		vLineHighlight = new Color(this.getDisplay(), new RGB(255, 255, 180));
+		selectedPointsColor = new Color(this.getDisplay(), new RGB(187, 74, 75));
+	}
+	
+	public int getMaxAxialIndex() {
+		return maxAxialIndex;
+	}
+
+	public void setMaxAxialIndex(int maxAxialIndex) {
+		this.maxAxialIndex = maxAxialIndex;
+	}
+
+	public int getMaxCoronalIndex() {
+		return maxCoronalIndex;
+	}
+
+	public void setMaxCoronalIndex(int maxCoronalIndex) {
+		this.maxCoronalIndex = maxCoronalIndex;
+	}
+
+	public int getMaxSagittalIndex() {
+		return maxSagittalIndex;
+	}
+
+	public void setMaxSagittalIndex(int maxSagittalIndex) {
+		this.maxSagittalIndex = maxSagittalIndex;
+	}
+
+	public int getMaxCurrentIndex() {
+		return maxCurrentIndex;
+	}
+
+	public void setMaxCurrentIndex(int maxCurrentIndex) {
+		this.maxCurrentIndex = maxCurrentIndex;
+	}
+
+	private void determineMaxIndizes(){
+		if(imageOrientationType.equals(AbstractImage.AXIAL)){
+			maxAxialIndex = item.size();
+			maxCoronalIndex = startHeight;
+			maxSagittalIndex = startWidth;
+		}
+		if(imageOrientationType.equals(AbstractImage.CORONAL)){
+			maxAxialIndex = startHeight;
+			maxCoronalIndex = item.size();
+			maxSagittalIndex = startWidth;
+		}
+		if(imageOrientationType.equals(AbstractImage.SAGITTAL)){
+			maxAxialIndex = startHeight;
+			maxCoronalIndex = startWidth;
+			maxSagittalIndex = item.size();
+		}
+	}
+	
+	
 	public int getxLineIndex() {
 		return xLineIndex;
 	}
@@ -518,5 +810,29 @@ public class DicomCanvas extends Canvas{
 	
 	public int getActualImageHeight(){
 		return actualHeight;
+	}
+
+	public boolean isDrawAnnotations() {
+		return drawAnnotations;
+	}
+
+	public void setDrawAnnotations(boolean drawAnnotations) {
+		this.drawAnnotations = drawAnnotations;
+	}
+
+	public boolean isDrawSelection() {
+		return drawSelection;
+	}
+
+	public void setDrawSelection(boolean drawSelection) {
+		this.drawSelection = drawSelection;
+	}
+
+	public boolean isDrawScoutingLines() {
+		return drawScoutingLines;
+	}
+
+	public void setDrawScoutingLines(boolean drawScoutingLines) {
+		this.drawScoutingLines = drawScoutingLines;
 	}
 }

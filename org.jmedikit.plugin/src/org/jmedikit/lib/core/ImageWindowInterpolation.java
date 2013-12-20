@@ -7,7 +7,7 @@ import org.jmedikit.lib.image.AbstractImage;
 
 public class ImageWindowInterpolation {
 
-	private static int interpolatePixel(int value, int wc, int ww, int min, int max){
+	public static int interpolatePixel(int value, int wc, int ww, int min, int max){
 		int returnValue = 0;
 		int c = wc;
 		int w = ww;
@@ -40,7 +40,7 @@ public class ImageWindowInterpolation {
 			windowCenter = minValue+range/2;
 			windowWidth = range/2;
 		}
-		//System.out.println("MinMax "+minValue + " " + maxValue+", WC/WW "+windowCenter+" / "+windowWidth);
+		System.out.println("MinMax "+minValue + " " + maxValue+", WC/WW "+windowCenter+" / "+windowWidth);
 		//System.out.println("Old Center "+ wc + ", Old Width " + ww + " ImageType = "+img.getImageType());
 		//System.out.println("New Center "+ windowCenter + ", New Width " + windowWidth + " ImageType = "+img.getImageType());
 		//System.out.println("AspectRatio "+img.getAspectRatio());
@@ -51,9 +51,16 @@ public class ImageWindowInterpolation {
 			for(int x = 0; x < width; x++){
 
 				int value = img.getPixel(x, y);
-				int grey = interpolatePixel(value, windowCenter, windowWidth, min, max);
-
-				RGB rgb = new RGB(grey, grey, grey);
+				int interpolatedValue = interpolatePixel(value, windowCenter, windowWidth, min, max);
+				
+				int r = interpolatedValue; int g = interpolatedValue; int b = interpolatedValue;
+				
+				if(img.getSamplesPerPixel() > 1){
+					r = interpolatePixel(((value & 0xff0000) >> 16), windowCenter, windowWidth, min, max);
+					g = interpolatePixel(((value & 0xff00) >> 8), windowCenter, windowWidth, min, max);
+					b = interpolatePixel((value & 0xff), windowCenter, windowWidth, min, max);
+				}
+				RGB rgb = new RGB(r, g, b);
 				imgData.setPixel(x, y, palette.getPixel(rgb));
 			}
 		}

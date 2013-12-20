@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/SimpleITK/simpleitk-0.6.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/dcm4che2/lib/commons-cli-1.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/dcm4che2/lib/dcm4che-audit-2.0.28.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/dcm4che2/lib/dcm4che-base64-2.0.28.jar"/>

@@ -86,14 +86,64 @@ public class BilinearInterpolation {
 			index_y_1 = index_y;
 		}
 		
-		float A = img.getPixel(index_x, index_y);
-		float B = img.getPixel(index_x_1, index_y);
-		float C = img.getPixel(index_x, index_y_1);
-		float D = img.getPixel(index_x_1, index_y_1);
+		float result = 0f;
 		
-		float E = A + x_difference * (B - A);
-		float F = C + x_difference * (D - C);
-		
-		return E + y_difference * (F - E);
+		if(img.getSamplesPerPixel() > 1){
+			float result_r = 0f;
+			float result_g = 0f;
+			float result_b = 0f;
+			
+			float A_r = (float)( (img.getPixel(index_x, index_y) & 0xff0000) >> 16 );
+			float B_r = (float)( (img.getPixel(index_x_1, index_y) & 0xff0000) >> 16 );
+			float C_r = (float)( (img.getPixel(index_x, index_y_1) & 0xff0000) >> 16 );
+			float D_r = (float)( (img.getPixel(index_x_1, index_y_1) & 0xff0000) >> 16 );
+			
+			//System.out.println(A+", "+B+", "+C+", "+D+", int "+img.getPixel(index_x, index_y)+", to Int "+((int)A));
+			
+			float E_r = A_r + x_difference * (B_r - A_r);
+			float F_r = C_r + x_difference * (D_r - C_r);
+			
+			result_r = (E_r + y_difference * (F_r - E_r))+0.5f;
+			
+			float A_g = (float)( (img.getPixel(index_x, index_y) & 0xff00) >> 8 );
+			float B_g = (float)( (img.getPixel(index_x_1, index_y) & 0xff00) >> 8 );
+			float C_g = (float)( (img.getPixel(index_x, index_y_1) & 0xff00) >> 8 );
+			float D_g = (float)( (img.getPixel(index_x_1, index_y_1) & 0xff00) >> 8 );
+			
+			//System.out.println(A+", "+B+", "+C+", "+D+", int "+img.getPixel(index_x, index_y)+", to Int "+((int)A));
+			
+			float E_g = A_g + x_difference * (B_g - A_g);
+			float F_g = C_g + x_difference * (D_g - C_g);
+			
+			result_g = (E_g + y_difference * (F_g - E_g))+0.5f;
+			
+			float A_b = (float)( (img.getPixel(index_x, index_y) & 0xff) );
+			float B_b = (float)( (img.getPixel(index_x_1, index_y) & 0xff) );
+			float C_b = (float)( (img.getPixel(index_x, index_y_1) & 0xff) );
+			float D_b = (float)( (img.getPixel(index_x_1, index_y_1) & 0xff) );
+			
+			//System.out.println(A+", "+B+", "+C+", "+D+", int "+img.getPixel(index_x, index_y)+", to Int "+((int)A));
+			
+			float E_b = A_b + x_difference * (B_b - A_b);
+			float F_b = C_b + x_difference * (D_b - C_b);
+			
+			result_b = (E_b + y_difference * (F_b - E_b))+0.5f;
+			
+			result = (int)result_b + ((int)result_g << 8) + ((int)result_r << 16) ;
+		}
+		else{
+			float A = (float)(img.getPixel(index_x, index_y));
+			float B = (float)(img.getPixel(index_x_1, index_y));
+			float C = (float)(img.getPixel(index_x, index_y_1));
+			float D = (float)(img.getPixel(index_x_1, index_y_1));
+			
+			//System.out.println(A+", "+B+", "+C+", "+D+", int "+img.getPixel(index_x, index_y)+", to Int "+((int)A));
+			
+			float E = A + x_difference * (B - A);
+			float F = C + x_difference * (D - C);
+			
+			result = (E + y_difference * (F - E))+0.5f;
+		}
+		return result;
 	}
 }

@@ -1,5 +1,7 @@
 package org.jmedikit.plugin.gui.tools;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Event;
 import org.jmedikit.plugin.gui.DicomCanvas;
@@ -14,6 +16,8 @@ public class WindowTool extends ATool{
 	
 	public WindowTool(DicomCanvas c){
 		super(c);
+		Cursor cursor = new Cursor(canvas.getDisplay(), SWT.CURSOR_CROSS);
+		canvas.setCursor(cursor);
 		x_move = 0;
 		y_move = 0;
 		wc = canvas.windowCenter;
@@ -56,6 +60,18 @@ public class WindowTool extends ATool{
 		//canvas.windowWidth = ww+y_move;
 		
 		return toDraw;
+	}
+
+	@Override
+	public void actionMouseEnter(Event e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionMouseExit(Event e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
