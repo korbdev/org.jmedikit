@@ -9,7 +9,7 @@ import org.jmedikit.lib.util.Vector3D;
 
 public class ImageCube {
 	
-	private ArrayList<AbstractImage> images;
+	private ArrayList<AImage> images;
 	
 	/**
 	 * Rotation um die X-Achse angabe im Bogenmass
@@ -34,45 +34,45 @@ public class ImageCube {
 	 */
 	private float translation;
 	
-	public ImageCube(ArrayList<AbstractImage> images){
+	public ImageCube(ArrayList<AImage> images){
 		this.images = images;
 	}
 	
-	public ArrayList<AbstractImage> calc3DTest(){
+	public ArrayList<AImage> calc3DTest(){
 		return calculateSagittalView();
 	}
 	
-	public ArrayList<AbstractImage> calculateAxialView(){
-		AbstractImage img = images.get(0);
+	public ArrayList<AImage> calculateAxialView(){
+		AImage img = images.get(0);
 
-		if(img.mprType.equals(AbstractImage.SAGITTAL)){
+		if(img.mprType.equals(AImage.SAGITTAL)){
 			return sagittalToAxial(img);
 		}
-		else if(img.mprType.equals(AbstractImage.CORONAL)){
+		else if(img.mprType.equals(AImage.CORONAL)){
 			return coronalToAxial(img);
 		}
 		else return images;
 	}
 	
-	public ArrayList<AbstractImage> calculateCoronalView(){
-		AbstractImage img = images.get(0);
+	public ArrayList<AImage> calculateCoronalView(){
+		AImage img = images.get(0);
 		
-		if(img.mprType.equals(AbstractImage.AXIAL)){
+		if(img.mprType.equals(AImage.AXIAL)){
 			return axialToCoronal(img);
 		}
-		else if(img.mprType.equals(AbstractImage.SAGITTAL)){
+		else if(img.mprType.equals(AImage.SAGITTAL)){
 			return sagittalToCoronal(img);
 		}
 		else return images;
 	}
 	
-	public ArrayList<AbstractImage> calculateSagittalView(){
-		AbstractImage img = images.get(0);
+	public ArrayList<AImage> calculateSagittalView(){
+		AImage img = images.get(0);
 		
-		if(img.mprType.equals(AbstractImage.AXIAL)){
+		if(img.mprType.equals(AImage.AXIAL)){
 			return axialToSagittal(img);
 		}
-		else if(img.mprType.equals(AbstractImage.CORONAL)){
+		else if(img.mprType.equals(AImage.CORONAL)){
 			return coronalToSagittal(img);
 		}
 		else return images;
@@ -95,8 +95,8 @@ public class ImageCube {
 		else return false;
 	}
 	
-	public ArrayList<AbstractImage> axialToCoronal(AbstractImage img){
-		ArrayList<AbstractImage> recalculatedImages = new ArrayList<AbstractImage>();
+	public ArrayList<AImage> axialToCoronal(AImage img){
+		ArrayList<AImage> recalculatedImages = new ArrayList<AImage>();
 		
 		Vector3D<Float> rotation = new Vector3D<Float>(90f, 0f, 0f, 1f);
 		
@@ -148,7 +148,7 @@ public class ImageCube {
 		
 		for(int z = 0; z < zLength; z++){
 
-			AbstractImage result = SimpleImageFactory.getAbstractImage(img.imageType, xLength, yLength);
+			AImage result = SimpleImageFactory.getAbstractImage(img.imageType, xLength, yLength);
 			
 				for(int y = 0; y < yLength; y++){
 					for(int x = 0; x < xLength; x++){
@@ -168,8 +168,8 @@ public class ImageCube {
 			return recalculatedImages;
 	}
 	
-	public ArrayList<AbstractImage> axialToSagittal(AbstractImage img){
-		ArrayList<AbstractImage> recalculatedImages = new ArrayList<AbstractImage>();
+	public ArrayList<AImage> axialToSagittal(AImage img){
+		ArrayList<AImage> recalculatedImages = new ArrayList<AImage>();
 		
 		Vector3D<Float> rotation = new Vector3D<Float>(90f, 90f, 0f, 1f);
 		
@@ -217,7 +217,7 @@ public class ImageCube {
 		
 		for(int z = 0; z < zLength; z++){
 
-			AbstractImage result = SimpleImageFactory.getAbstractImage(img.imageType, xLength, yLength);
+			AImage result = SimpleImageFactory.getAbstractImage(img.imageType, xLength, yLength);
 			
 				for(int y = 0; y < yLength; y++){
 					for(int x = 0; x < xLength; x++){
@@ -238,8 +238,8 @@ public class ImageCube {
 			return recalculatedImages;
 	}
 	
-	public ArrayList<AbstractImage> coronalToAxial(AbstractImage img){
-		ArrayList<AbstractImage> recalculatedImages = new ArrayList<AbstractImage>();
+	public ArrayList<AImage> coronalToAxial(AImage img){
+		ArrayList<AImage> recalculatedImages = new ArrayList<AImage>();
 		
 		Vector3D<Float> rotation = new Vector3D<Float>(90f, 0f, 0f, 1f);
 		
@@ -290,7 +290,7 @@ public class ImageCube {
 		
 		for(int z = 0; z < zLength; z++){
 
-			AbstractImage result = SimpleImageFactory.getAbstractImage(img.imageType, xLength, yLength);
+			AImage result = SimpleImageFactory.getAbstractImage(img.imageType, xLength, yLength);
 			
 				for(int y = 0; y < yLength; y++){
 					for(int x = 0; x < xLength; x++){
@@ -310,8 +310,8 @@ public class ImageCube {
 			return recalculatedImages;
 	}
 	
-	public ArrayList<AbstractImage> coronalToSagittal(AbstractImage img){
-		ArrayList<AbstractImage> recalculatedImages = new ArrayList<AbstractImage>();
+	public ArrayList<AImage> coronalToSagittal(AImage img){
+		ArrayList<AImage> recalculatedImages = new ArrayList<AImage>();
 		
 		Vector3D<Float> rotation = new Vector3D<Float>(0f, 0f,90f, 1f);
 		
@@ -359,7 +359,7 @@ public class ImageCube {
 		
 		for(int z = 0; z < zLength; z++){
 	
-			AbstractImage result = SimpleImageFactory.getAbstractImage(img.imageType, xLength, yLength);
+			AImage result = SimpleImageFactory.getAbstractImage(img.imageType, xLength, yLength);
 			
 				for(int y = 0; y < yLength; y++){
 					for(int x = 0; x < xLength; x++){
@@ -380,8 +380,8 @@ public class ImageCube {
 			return recalculatedImages;
 	}
 
-	public ArrayList<AbstractImage> sagittalToAxial(AbstractImage img){
-		ArrayList<AbstractImage> recalculatedImages = new ArrayList<AbstractImage>();
+	public ArrayList<AImage> sagittalToAxial(AImage img){
+		ArrayList<AImage> recalculatedImages = new ArrayList<AImage>();
 		
 		Vector3D<Float> rotation = new Vector3D<Float>(90f, 0f, -90f, 1f);
 		
@@ -429,7 +429,7 @@ public class ImageCube {
 		
 		for(int z = 0; z < zLength; z++){
 
-			AbstractImage result = SimpleImageFactory.getAbstractImage(img.imageType, xLength, yLength);
+			AImage result = SimpleImageFactory.getAbstractImage(img.imageType, xLength, yLength);
 			
 				for(int y = 0; y < yLength; y++){
 					for(int x = 0; x < xLength; x++){
@@ -450,8 +450,8 @@ public class ImageCube {
 			return recalculatedImages;
 	}
 	
-	public ArrayList<AbstractImage> sagittalToCoronal(AbstractImage img){
-		ArrayList<AbstractImage> recalculatedImages = new ArrayList<AbstractImage>();
+	public ArrayList<AImage> sagittalToCoronal(AImage img){
+		ArrayList<AImage> recalculatedImages = new ArrayList<AImage>();
 		
 		Vector3D<Float> rotation = new Vector3D<Float>(0f, 0f,90f, 1f);
 		
@@ -499,7 +499,7 @@ public class ImageCube {
 		
 		for(int z = 0; z < zLength; z++){
 	
-			AbstractImage result = SimpleImageFactory.getAbstractImage(img.imageType, xLength, yLength);
+			AImage result = SimpleImageFactory.getAbstractImage(img.imageType, xLength, yLength);
 			
 				for(int y = 0; y < yLength; y++){
 					for(int x = 0; x < xLength; x++){
@@ -520,10 +520,10 @@ public class ImageCube {
 			return recalculatedImages;
 	}
 
-	public ArrayList<AbstractImage> calc3D(int index){
+	public ArrayList<AImage> calc3D(int index){
 		
-		AbstractImage img = images.get(index);
-		ArrayList<AbstractImage> recalculatedImages = new ArrayList<AbstractImage>();
+		AImage img = images.get(index);
+		ArrayList<AImage> recalculatedImages = new ArrayList<AImage>();
 		
 		Vector3D<Float> I = img.getImagePosition();
 		Vector3D<Float> R = img.getRowImageOrientation();
@@ -652,7 +652,7 @@ public class ImageCube {
 		Vector3D<Float> oldI = I;
 		
 		for(int i = 0; i < slicesIndex; i++){
-			AbstractImage result = SimpleImageFactory.getAbstractImage(img.imageType, width, height);
+			AImage result = SimpleImageFactory.getAbstractImage(img.imageType, width, height);
 			
 			translation = i*sliceSpacing;
 			
@@ -668,7 +668,7 @@ public class ImageCube {
 					Vector3D<Float> tempDist = Vector3D.substract(coordinate, firstSlice);
 					float layer = (float) (((Math.abs(tempDist.get(maxIndex))/Math.abs(maxDistance.get(maxIndex)))*images.size())+0.5);
 					
-					AbstractImage layerImg;
+					AImage layerImg;
 					ArrayList<Vector3D<Float>> boundingBox;
 
 					if(layer < images.size()){
@@ -815,7 +815,7 @@ public class ImageCube {
 			
 			ArrayList<Vector3D<Float>> boundingBox = new ArrayList<Vector3D<Float>>();
 			
-			AbstractImage img = images.get(i);
+			AImage img = images.get(i);
 			
 			Vector3D<Float> P_i = img.getImagePosition();
 			

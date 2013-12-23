@@ -1,20 +1,20 @@
 package org.jmedikit.lib.core;
 
-import org.jmedikit.lib.image.AbstractImage;
+import org.jmedikit.lib.image.AImage;
 import org.jmedikit.lib.image.ROI;
 import org.jmedikit.lib.util.SimpleImageFactory;
 
 public class BilinearInterpolation {
 	
-	private AbstractImage img;
+	private AImage img;
 	
-	private AbstractImage newImg;
+	private AImage newImg;
 	
-	public BilinearInterpolation(AbstractImage src){
+	public BilinearInterpolation(AImage src){
 		img = src;
 	}
 	
-	public AbstractImage resampleROI(final ROI roi, int oldWidth, int oldHeight, int newWidth, int newHeight){
+	public AImage resampleROI(final ROI roi, int oldWidth, int oldHeight, int newWidth, int newHeight){
 
 		int resultX = (int)(roi.x * newWidth+0.5);
 		int resultY = (int)(roi.y * newHeight+0.5);
@@ -24,7 +24,7 @@ public class BilinearInterpolation {
 		int resampledWidth = resultWidth-resultX;
 		int resampledHeight = resultHeight-resultY;
 		
-		AbstractImage resampled = SimpleImageFactory.getAbstractImage(img.getImageType(), resampledWidth, resampledHeight);
+		AImage resampled = SimpleImageFactory.getAbstractImage(img.getImageType(), resampledWidth, resampledHeight);
 		
 		float x_index;
 		float y_index;
@@ -42,9 +42,9 @@ public class BilinearInterpolation {
 		return resampled;
 	}
 	
-	public AbstractImage resample(int oldWidth, int oldHeight, int newWidth, int newHeight){
+	public AImage resample(int oldWidth, int oldHeight, int newWidth, int newHeight){
 		
-		AbstractImage resampled = SimpleImageFactory.getAbstractImage(img.getImageType(), newWidth, newHeight);
+		AImage resampled = SimpleImageFactory.getAbstractImage(img.getImageType(), newWidth, newHeight);
 		
 		float x_index;
 		float y_index;
@@ -63,7 +63,7 @@ public class BilinearInterpolation {
 		return resampled;
 	}
 	
-	public AbstractImage getResampled(){
+	public AImage getResampled(){
 		return newImg;
 	}
 	

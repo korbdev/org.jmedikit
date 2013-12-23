@@ -1,0 +1,26 @@
+ 
+package org.jmedikit.plugin.gui;
+
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.e4.ui.di.AboutToShow;
+import org.eclipse.e4.ui.model.application.ui.MElementContainer;
+import org.eclipse.e4.ui.model.application.ui.MExpression;
+import org.eclipse.e4.ui.model.application.ui.MUIElement;
+import org.eclipse.e4.ui.model.application.ui.advanced.MPlaceholder;
+import org.eclipse.e4.ui.model.application.ui.menu.MDirectMenuItem;
+import org.eclipse.e4.ui.model.application.ui.menu.MMenuElement;
+import org.eclipse.e4.ui.model.application.ui.menu.MMenuFactory;
+
+public class PlugInMenu {
+	@AboutToShow
+	public void aboutToShow(List<MMenuElement> items) {
+		MDirectMenuItem item = MMenuFactory.INSTANCE.createDirectMenuItem();
+		item.setLabel("HALLO");
+		item.setContributionURI("bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.ToolPointHandler");
+		
+		items.add(item);
+	}
+		
+}

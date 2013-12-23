@@ -9,10 +9,10 @@ import javax.inject.Inject;
 
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.core.services.events.IEventBroker;
+import org.eclipse.e4.core.services.log.Logger;
 import org.eclipse.e4.tools.services.IResourcePool;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.di.UISynchronize;
-
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -21,14 +21,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-
 import org.jmedikit.lib.core.DicomTreeItem;
-import org.jmedikit.lib.image.AbstractImage;
-import org.jmedikit.lib.util.IObserver;
+import org.jmedikit.lib.image.AImage;
 import org.jmedikit.plugin.gui.events.AToolEvent;
 import org.jmedikit.plugin.gui.events.EventConstants;
 import org.jmedikit.plugin.gui.events.TransformationToolEvent;
 import org.jmedikit.plugin.gui.tools.TransformationToolFactory;
+import org.jmedikit.plugin.io.PlugInClassLoader;
+import org.jmedikit.plugin.util.IObserver;
 
 
 public class ImageViewPart {
@@ -43,7 +43,8 @@ public class ImageViewPart {
 	private Shell shell;
 	
 	@Inject
-	//private UISynchronize sync;
+	private static Shell staticShell;
+	
 	
 	private Composite parent;
 	
@@ -57,6 +58,7 @@ public class ImageViewPart {
 	
 	private DicomTreeItem selection;
 	
+	@SuppressWarnings("restriction")
 	public ImageViewPart(){
 		children = new ArrayList<ImageViewComposite>();
 		System.out.println("CONSTRUCT IVP");
@@ -107,11 +109,11 @@ public class ImageViewPart {
 	
 	@Inject
 	@Optional
-	public void getNotifiedImagesLoaded(@UIEventTopic(EventConstants.IMAGES_LOADED) ArrayList<AbstractImage> images){
+	public void getNotifiedImagesLoaded(@UIEventTopic(EventConstants.IMAGES_LOADED) ArrayList<AImage> images){
 		//System.out.println(images.size());
 		//ArrayList<AbstractImage> loaded = new ArrayList<AbstractImage>(images);
 		//images.clear();
-		active = new ImageViewComposite(parent, SWT.NO_SCROLL|SWT.BORDER, selection.getUid(), selection, new ArrayList<AbstractImage>(images), resourcePool, ImageViewPart.this);
+		active = new ImageViewComposite(parent, SWT.NO_SCROLL|SWT.BORDER, selection.getUid(), selection, new ArrayList<AImage>(images), resourcePool, ImageViewPart.this);
 		active.getCanvas().setFocus();
 		active.setTool(toolevent.getFactory(), toolevent.getTool());
 		images.clear();
@@ -153,25 +155,48 @@ public class ImageViewPart {
 		int newIndex = 1;
 		if(type.equals(EventConstants.ORIENTATION_CHANGED_AXIAL)){
 			newIndex = active.getCanvas().getMaxAxialIndex();
-			active.getCanvas().recalculateImages(AbstractImage.AXIAL);
+			active.getCanvas().recalculateImages(AImage.AXIAL);
 			active.setSliderMaximum(newIndex-1);
 		}
 		else if(type.equals(EventConstants.ORIENTATION_CHANGED_CORONAL)){
 			newIndex = active.getCanvas().getMaxCoronalIndex();
-			active.getCanvas().recalculateImages(AbstractImage.CORONAL);
+			active.getCanvas().recalculateImages(AImage.CORONAL);
 			active.setSliderMaximum(newIndex-1);
 		}
 		else if(type.equals(EventConstants.ORIENTATION_CHANGED_SAGITTAL)){
 			newIndex = active.getCanvas().getMaxSagittalIndex();
-			active.getCanvas().recalculateImages(AbstractImage.SAGITTAL);
+			active.getCanvas().recalculateImages(AImage.SAGITTAL);
 			active.setSliderMaximum(newIndex-1);
 		}
 		active.getCanvas().setMaxCurrentIndex(newIndex);
 	}
 	
+	@Inject
+	@Optional
+	public void getNotifiedSelectionEvent(@UIEventTopic(EventConstants.SELECTION_ALL) String type){
+		if(type.equals(EventConstants.SELECTION_REMOVE_ALL)){
+			active.removeSelection();
+		}
+		else if(type.equals(EventConstants.SELECTION_REMOVE_SINGLE)){
+			active.removeSingleSelection();
+		}
+	}
+	
+	@Inject
+	@Optional
+	public void getNotifiedPlugInEvent(@UIEventTopic(EventConstants.PLUG_IN_SELECTED) String mainClassName){
+		System.out.println("EVENT "+mainClassName);
+		active.getCanvas().runPlugIn(mainClassName);
+	}
+	
 	public Shell getShell(){
 		return shell;
 	}
+	
+	public static Shell getPartShell(){
+		return staticShell;
+	}
+	
 	/** CLASSLOADER TEST CODE
 		Class klass = RawImageInputStream.class;
 

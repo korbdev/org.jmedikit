@@ -12,9 +12,9 @@ import org.jmedikit.plugin.gui.DicomCanvas;
 
 public class MultiplanarReconstruction {
 	
-	private ArrayList<AbstractImage> images;
+	private ArrayList<AImage> images;
 	
-	private AbstractImage sampleImage;
+	private AImage sampleImage;
 	
 	private Vector3D<Float> firstSlice;
 	private Vector3D<Float> nthSlice;
@@ -32,36 +32,36 @@ public class MultiplanarReconstruction {
 		nthSlice = canvas.loadImage(canvas.getItem().size()-1).getImagePosition();
 	}
 	
-	public AbstractImage calculateAxialView(int index){
-		AbstractImage img = canvas.getSampleImage();
-		if(img.mprType.equals(AbstractImage.SAGITTAL)){
+	public AImage calculateAxialView(int index){
+		AImage img = canvas.getSampleImage();
+		if(img.mprType.equals(AImage.SAGITTAL)){
 			return sagittalToAxial(index, img);
 		}
-		else if(img.mprType.equals(AbstractImage.CORONAL)){
+		else if(img.mprType.equals(AImage.CORONAL)){
 			return coronalToAxial(index, img);
 		}
 		else return img;
 	}
 	
-	public AbstractImage calculateCoronalView(int index){
-		AbstractImage img = canvas.getSampleImage();
+	public AImage calculateCoronalView(int index){
+		AImage img = canvas.getSampleImage();
 		System.out.println("IMG MPR "+img.mprType);
-		if(img.mprType.equals(AbstractImage.AXIAL)){
+		if(img.mprType.equals(AImage.AXIAL)){
 			return axialToCoronal(index, img);
 		}
-		else if(img.mprType.equals(AbstractImage.SAGITTAL)){
+		else if(img.mprType.equals(AImage.SAGITTAL)){
 			return sagittalToCoronal(index, img);
 		}
 		else return img;
 	}
 	
-	public AbstractImage calculateSagittalView(int index){
-		AbstractImage img = canvas.getSampleImage();
+	public AImage calculateSagittalView(int index){
+		AImage img = canvas.getSampleImage();
 		
-		if(img.mprType.equals(AbstractImage.AXIAL)){
+		if(img.mprType.equals(AImage.AXIAL)){
 			return axialToSagittal(index, img);
 		}
-		else if(img.mprType.equals(AbstractImage.CORONAL)){
+		else if(img.mprType.equals(AImage.CORONAL)){
 			return coronalToSagittal(index, img);
 		}
 		else return img;
@@ -84,7 +84,7 @@ public class MultiplanarReconstruction {
 		else return false;
 	}
 	
-	public AbstractImage axialToCoronal(int index, AbstractImage img){
+	public AImage axialToCoronal(int index, AImage img){
 		
 		Vector3D<Float> rotation = new Vector3D<Float>(90f, 0f, 0f, 1f);
 		
@@ -134,7 +134,7 @@ public class MultiplanarReconstruction {
 		int yLength = canvas.getItem().size();
 		int zLength = img.height;
 		System.out.println("YLEN "+yLength);
-		AbstractImage result = SimpleImageFactory.getAbstractImage(img.imageType, xLength, yLength);
+		AImage result = SimpleImageFactory.getAbstractImage(img.imageType, xLength, yLength);
 		
 		//for(int z = 0; z < zLength; z++){
 				for(int y = 0; y < yLength; y++){
@@ -153,7 +153,7 @@ public class MultiplanarReconstruction {
 			return result;
 	}
 	
-	public AbstractImage axialToSagittal(int index, AbstractImage img){
+	public AImage axialToSagittal(int index, AImage img){
 		
 		Vector3D<Float> rotation = new Vector3D<Float>(90f, 90f, 0f, 1f);
 		
@@ -199,7 +199,7 @@ public class MultiplanarReconstruction {
 		int yLength = canvas.getItem().size();
 		int zLength = img.width;
 		
-		AbstractImage result = SimpleImageFactory.getAbstractImage(img.imageType, xLength, yLength);
+		AImage result = SimpleImageFactory.getAbstractImage(img.imageType, xLength, yLength);
 		
 		//for(int z = 0; z < zLength; z++){
 				for(int y = 0; y < yLength; y++){
@@ -219,7 +219,7 @@ public class MultiplanarReconstruction {
 			return result;
 	}
 	
-	public AbstractImage coronalToAxial(int index, AbstractImage img){
+	public AImage coronalToAxial(int index, AImage img){
 		
 		Vector3D<Float> rotation = new Vector3D<Float>(90f, 0f, 0f, 1f);
 		
@@ -268,7 +268,7 @@ public class MultiplanarReconstruction {
 		int yLength = canvas.getItem().size();
 		int zLength = img.height;
 		
-		AbstractImage result = SimpleImageFactory.getAbstractImage(img.imageType, xLength, yLength);
+		AImage result = SimpleImageFactory.getAbstractImage(img.imageType, xLength, yLength);
 		
 		//for(int z = 0; z < zLength; z++){
 				for(int y = 0; y < yLength; y++){
@@ -288,7 +288,7 @@ public class MultiplanarReconstruction {
 			return result;
 	}
 	
-	public AbstractImage coronalToSagittal(int index, AbstractImage img){
+	public AImage coronalToSagittal(int index, AImage img){
 
 		Vector3D<Float> rotation = new Vector3D<Float>(0f, 0f,90f, 1f);
 		
@@ -334,7 +334,7 @@ public class MultiplanarReconstruction {
 		int yLength = img.height;
 		int zLength = img.width;
 		
-		AbstractImage result = SimpleImageFactory.getAbstractImage(img.imageType, xLength, yLength);
+		AImage result = SimpleImageFactory.getAbstractImage(img.imageType, xLength, yLength);
 		
 		//for(int z = 0; z < zLength; z++){
 				for(int y = 0; y < yLength; y++){
@@ -354,7 +354,7 @@ public class MultiplanarReconstruction {
 			return result;
 	}
 
-	public AbstractImage sagittalToAxial(int index, AbstractImage img){
+	public AImage sagittalToAxial(int index, AImage img){
 
 		Vector3D<Float> rotation = new Vector3D<Float>(90f, 0f, -90f, 1f);
 		
@@ -400,7 +400,7 @@ public class MultiplanarReconstruction {
 		int yLength = img.width;
 		int zLength = img.height;
 		
-		AbstractImage result = SimpleImageFactory.getAbstractImage(img.imageType, xLength, yLength);
+		AImage result = SimpleImageFactory.getAbstractImage(img.imageType, xLength, yLength);
 		
 		//for(int z = 0; z < zLength; z++){
 				for(int y = 0; y < yLength; y++){
@@ -420,7 +420,7 @@ public class MultiplanarReconstruction {
 			return result;
 	}
 	
-	public AbstractImage sagittalToCoronal(int index, AbstractImage img){
+	public AImage sagittalToCoronal(int index, AImage img){
 
 		Vector3D<Float> rotation = new Vector3D<Float>(0f, 0f,90f, 1f);
 		
@@ -466,7 +466,7 @@ public class MultiplanarReconstruction {
 		int yLength = img.height;
 		int zLength = img.width;
 		
-		AbstractImage result = SimpleImageFactory.getAbstractImage(img.imageType, xLength, yLength);
+		AImage result = SimpleImageFactory.getAbstractImage(img.imageType, xLength, yLength);
 		
 		//for(int z = 0; z < zLength; z++){
 				for(int y = 0; y < yLength; y++){

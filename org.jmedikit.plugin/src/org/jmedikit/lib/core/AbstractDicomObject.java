@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.jmedikit.lib.image.AbstractImage;
+import org.jmedikit.lib.image.AImage;
 import org.jmedikit.lib.io.BasicDicomData;
 import org.jmedikit.lib.io.BasicDicomImageData;
 import org.jmedikit.lib.io.DicomData;
@@ -68,12 +68,12 @@ public abstract class AbstractDicomObject extends DicomTreeItem implements Dicom
 	}
 	
 	@Override
-	public AbstractImage getImage(int index){
+	public AImage getImage(int index){
 		return imagedata.getImage(index);
 	}
 	
 	@Override
-	public ArrayList<AbstractImage> getImages(){
+	public ArrayList<AImage> getImages(){
 		return imagedata.getImages();
 	}
 	

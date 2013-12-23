@@ -3,13 +3,13 @@ package org.jmedikit.lib.image;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
 
-public class IntegerImage extends AbstractImage{
+public class IntegerImage extends AImage{
 
 	int[] pixels;
 	
 	public IntegerImage(int width, int height) {
 		super(width, height);
-		imageType = AbstractImage.TYPE_INT_SIGNED;
+		imageType = AImage.TYPE_INT_SIGNED;
 		samplesPerPixel = 3;
 		pixels = new int[width*height];
 	}

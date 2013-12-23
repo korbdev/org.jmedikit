@@ -2,6 +2,9 @@ package org.jmedikit.plugin.gui;
 
 import java.util.ArrayList;
 
+import javax.tools.JavaCompiler;
+import javax.tools.ToolProvider;
+
 import org.eclipse.e4.tools.services.IResourcePool;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -25,16 +28,19 @@ import org.jmedikit.lib.core.BilinearInterpolation;
 import org.jmedikit.lib.core.DicomObject;
 import org.jmedikit.lib.core.DicomTreeItem;
 import org.jmedikit.lib.core.ImageWindowInterpolation;
-import org.jmedikit.lib.image.AbstractImage;
+import org.jmedikit.lib.core.PlugIn;
+import org.jmedikit.lib.core.PlugInDialog;
+import org.jmedikit.lib.image.AImage;
 import org.jmedikit.lib.image.ImageCube;
 import org.jmedikit.lib.image.IntegerImage;
 import org.jmedikit.lib.image.MultiplanarReconstruction;
 import org.jmedikit.lib.image.ROI;
 import org.jmedikit.lib.util.Dimension2D;
-import org.jmedikit.lib.util.ImageProvider;
 import org.jmedikit.lib.util.Point2D;
 import org.jmedikit.lib.util.Vector3D;
 import org.jmedikit.plugin.gui.tools.ATool;
+import org.jmedikit.plugin.io.PlugInClassLoader;
+import org.jmedikit.plugin.util.ImageProvider;
 
 import com.sun.org.apache.xpath.internal.axes.AxesWalker;
 
@@ -52,13 +58,13 @@ public class DicomCanvas extends Canvas{
 	
 	private ATool tool;
 	
-	private ArrayList<AbstractImage> images;
+	private ArrayList<AImage> images;
 	
 	private ImageCube cube;
 	//private MultiplanarReconstruction cube;
 	
-	public AbstractImage sourceImage;
-	public AbstractImage sampleImage;
+	public AImage sourceImage;
+	public AImage sampleImage;
 	public Dimension2D<Integer> sourceDimension;
 	public String initialImageOrientationType;
 	public String imageOrientationType;
@@ -117,9 +123,10 @@ public class DicomCanvas extends Canvas{
 	
 	private Image axialImage, coronalImage, sagittalImage;
 	
-	public DicomCanvas(Composite parent, int style, DicomTreeItem selection, ArrayList<AbstractImage> images, IResourcePool pool) {
+	public DicomCanvas(Composite parent, int style, DicomTreeItem selection, ArrayList<AImage> images, IResourcePool pool) {
 		super(parent, style);
-
+		
+		
 		item = selection;
 		this.images = images;
 		
@@ -127,7 +134,7 @@ public class DicomCanvas extends Canvas{
 		//cube = new MultiplanarReconstruction(this);
 		initializeColors();
 		
-		IntegerImage colorImg = new IntegerImage(images.get(0).getWidth(), images.get(0).getHeight());
+		/*IntegerImage colorImg = new IntegerImage(images.get(0).getWidth(), images.get(0).getHeight());
 		
 		for( int y = 0; y < colorImg.getHeight(); y++){
 			for( int x = 0; x < colorImg.getWidth(); x++){
@@ -138,7 +145,7 @@ public class DicomCanvas extends Canvas{
 			}
 		}
 		
-		images.add(1, colorImg);
+		images.add(1, colorImg);*/
 		
 		axialImage = pool.getImageUnchecked(ImageProvider.AXIAL_W_ICON);
 		coronalImage = pool.getImageUnchecked(ImageProvider.CORONAL_W_ICON);
@@ -150,7 +157,6 @@ public class DicomCanvas extends Canvas{
 		canvasDimension = new Dimension2D<Integer>(0, 0);
 		
 		sourceImage = images.get(0);
-		//sourceImage = loadImage(0);
 		sampleImage = sourceImage;
 		sourceDimension.width = sourceImage.getWidth();
 		sourceDimension.height = sourceImage.getHeight();
@@ -209,8 +215,8 @@ public class DicomCanvas extends Canvas{
 			//}
 			//else recalculateImages(imageOrientationType);
 			
-			/*org.itk.simple.Image img = new org.itk.simple.Image(sourceImage.getWidth(), sourceImage.getHeight(),PixelIDValueEnum.sitkUInt16);
-			for(int y = 0; y < img.getHeight(); y++){
+			//org.itk.simple.Image img = new org.itk.simple.Image(sourceImage.getWidth(), sourceImage.getHeight(),PixelIDValueEnum.sitkUInt16);
+			/*for(int y = 0; y < img.getHeight(); y++){
 				for(int x = 0; x < img.getWidth(); x++){
 					VectorUInt32 v = new VectorUInt32(2);
 					v.set(0, x);
@@ -240,14 +246,10 @@ public class DicomCanvas extends Canvas{
 			actualWidth = sourceImage.getWidth();
 			actualHeight = sourceImage.getHeight();
 			
-			/*cube.setRotationsAngles(alpha, beta, gamma);
-			if(alpha != 0 || beta != 0 || gamma != 0){
-				sourceImage = cube.calc3D(index);
-			}*/
 			if(actualWidth != startWidth || actualHeight != startHeight){
 				//resample
 				BilinearInterpolation resampleImg = new BilinearInterpolation(sourceImage);
-				AbstractImage res = resampleImg.resample(actualWidth, actualHeight, startWidth, startHeight);
+				AImage res = resampleImg.resample(actualWidth, actualHeight, startWidth, startHeight);
 				res.setImagePosition(sourceImage.getImagePosition());
 				res.setTitle(sourceImage.getTitle());
 				res.setPoints(sourceImage.getPoints());
@@ -359,7 +361,7 @@ public class DicomCanvas extends Canvas{
 		
 		//Roi ermittelt
 		BilinearInterpolation bilinearInterpolation = new BilinearInterpolation(sourceImage);
-		AbstractImage resampled = bilinearInterpolation.resampleROI(roi, sourceDimension.width, sourceDimension.height, imageDimension.width, imageDimension.height);
+		AImage resampled = bilinearInterpolation.resampleROI(roi, sourceDimension.width, sourceDimension.height, imageDimension.width, imageDimension.height);
 		resampled.setMinMaxValues(min, max);
 
 		
@@ -371,7 +373,7 @@ public class DicomCanvas extends Canvas{
 		buffer.fillRectangle(0, 0, canvasDimension.width, canvasDimension.height);
 		
 		if(drawSelection){
-			System.out.println(sourceImage.getTitle());
+			//System.out.println(sourceImage.getTitle());
 			GC selection = new GC(iimg);
 			selection.setLineWidth(2);
 			selection.setForeground(selectedPointsColor);
@@ -474,6 +476,7 @@ public class DicomCanvas extends Canvas{
 		buffer.setBackground(black);
 		buffer.setForeground(white);
 		
+		
 		if(drawAnnotations){
 			String sliceNumber = (index+1)+"/ "+maxCurrentIndex;
 			Point textDim = buffer.textExtent(sliceNumber);
@@ -575,9 +578,9 @@ public class DicomCanvas extends Canvas{
 		
 	};
 	
-	public AbstractImage loadImage(int i){
+	public AImage loadImage(int i){
 		//Test, ob Bilddaten bereits geladen sind
-		AbstractImage img;
+		AImage img;
 		try {
 			img = images.get(i);
 		} catch (Exception e) {
@@ -622,11 +625,15 @@ public class DicomCanvas extends Canvas{
 		this.item = item;
 	}*/
 
-	public ArrayList<AbstractImage> getImages() {
+	public ArrayList<AImage> getImages() {
 		return images;
 	}
 
-	public AbstractImage getSampleImage() {
+	public AImage getImage(){
+		return images.get(index);
+	}
+	
+	public AImage getSampleImage() {
 		return sampleImage;
 	}
 
@@ -639,7 +646,11 @@ public class DicomCanvas extends Canvas{
 		this.redraw();
 	}
 	
-	public void setImages(ArrayList<AbstractImage> images){
+	public int getIndex(){
+		return index;
+	}
+	
+	public void setImages(ArrayList<AImage> images){
 		this.images = images;
 		this.redraw();
 	}
@@ -647,13 +658,13 @@ public class DicomCanvas extends Canvas{
 	public void recalculateImages(String newOrientation){
 		isInitialized = false;
 		index = 0;
-		if(newOrientation.equals(AbstractImage.AXIAL)){
+		if(newOrientation.equals(AImage.AXIAL)){
 			images = cube.calculateAxialView();
 		}
-		else if(newOrientation.equals(AbstractImage.CORONAL)){
+		else if(newOrientation.equals(AImage.CORONAL)){
 			images = cube.calculateCoronalView();
 		}
-		else if(newOrientation.equals(AbstractImage.SAGITTAL)){
+		else if(newOrientation.equals(AImage.SAGITTAL)){
 			images = cube.calculateSagittalView();
 		}
 		this.redraw();
@@ -696,13 +707,13 @@ public class DicomCanvas extends Canvas{
 	}
 
 	private GC setMprIcon(GC buffer, String mprType){
-		if(mprType.equals(AbstractImage.AXIAL)){
+		if(mprType.equals(AImage.AXIAL)){
 			buffer.drawImage(axialImage, canvasDimension.width-axialImage.getBounds().width-20, canvasDimension.height-axialImage.getBounds().height-20);
 		}
-		else if(mprType.equals(AbstractImage.CORONAL)){
+		else if(mprType.equals(AImage.CORONAL)){
 			buffer.drawImage(coronalImage, canvasDimension.width-coronalImage.getBounds().width-20, canvasDimension.height-coronalImage.getBounds().height-20);
 		}
-		else if(mprType.equals(AbstractImage.SAGITTAL)){
+		else if(mprType.equals(AImage.SAGITTAL)){
 			buffer.drawImage(sagittalImage, canvasDimension.width-sagittalImage.getBounds().width-20, canvasDimension.height-sagittalImage.getBounds().height-20);
 		}
 		return buffer;
@@ -754,17 +765,17 @@ public class DicomCanvas extends Canvas{
 	}
 
 	private void determineMaxIndizes(){
-		if(imageOrientationType.equals(AbstractImage.AXIAL)){
+		if(imageOrientationType.equals(AImage.AXIAL)){
 			maxAxialIndex = item.size();
 			maxCoronalIndex = startHeight;
 			maxSagittalIndex = startWidth;
 		}
-		if(imageOrientationType.equals(AbstractImage.CORONAL)){
+		if(imageOrientationType.equals(AImage.CORONAL)){
 			maxAxialIndex = startHeight;
 			maxCoronalIndex = item.size();
 			maxSagittalIndex = startWidth;
 		}
-		if(imageOrientationType.equals(AbstractImage.SAGITTAL)){
+		if(imageOrientationType.equals(AImage.SAGITTAL)){
 			maxAxialIndex = startHeight;
 			maxCoronalIndex = startWidth;
 			maxSagittalIndex = item.size();
@@ -834,5 +845,14 @@ public class DicomCanvas extends Canvas{
 
 	public void setDrawScoutingLines(boolean drawScoutingLines) {
 		this.drawScoutingLines = drawScoutingLines;
+	}
+
+	public void runPlugIn(String mainClassName) {
+		PlugInClassLoader loader = PlugInClassLoader.getInstance();
+		PlugIn plugin = (PlugIn) loader.instantiate(mainClassName);
+		System.out.println("PluginRunning");
+		AImage result = plugin.run(images.get(index));
+		images.remove(index);
+		images.add(index, result);
 	}
 }

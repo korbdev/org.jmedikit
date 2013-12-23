@@ -1,0 +1,22 @@
+package org.jmedikit.plugin.gui.handlers;
+
+import javax.inject.Named;
+
+import org.eclipse.e4.core.di.annotations.Execute;
+import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
+import org.eclipse.e4.ui.model.application.ui.menu.MMenu;
+import org.eclipse.e4.ui.model.application.ui.menu.MMenuFactory;
+import org.eclipse.e4.ui.workbench.IWorkbench;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.jmedikit.plugin.gui.events.EventConstants;
+
+public class PlugInMenuHandler {
+	
+	@Execute
+	public void execute(MWindow window) {
+		System.out.println("WUT");
+		MMenu main = window.getMainMenu();
+		System.out.println(main.getContributorURI());
+	}
+}

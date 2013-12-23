@@ -1,0 +1,16 @@
+package org.jmedikit.plugin.gui.handlers;
+
+import javax.inject.Named;
+
+import org.eclipse.e4.core.di.annotations.Execute;
+import org.eclipse.e4.ui.model.application.ui.menu.MMenuFactory;
+import org.eclipse.jface.action.IMenuListener;
+import org.jmedikit.plugin.gui.events.EventConstants;
+
+public class PlugInMenuHandler {
+	
+	@Execute
+	public void execute(@Named("test") String s) {
+		System.out.println("WUT");
+	}
+}

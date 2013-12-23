@@ -11,7 +11,7 @@ import javax.imageio.stream.ImageInputStream;
 
 import org.dcm4che2.imageio.plugins.dcm.DicomImageReadParam;
 import org.dcm4che2.imageioimpl.plugins.dcm.DicomImageReader;
-import org.jmedikit.lib.image.AbstractImage;
+import org.jmedikit.lib.image.AImage;
 import org.jmedikit.lib.image.IntegerImage;
 import org.jmedikit.lib.image.ShortImage;
 import org.jmedikit.lib.image.UnsignedByteImage;
@@ -61,8 +61,8 @@ public class BasicDicomImageData implements DicomImageData{
 	}
 	
 	@Override
-	public AbstractImage getImage(int index){
-		AbstractImage img = null;
+	public AImage getImage(int index){
+		AImage img = null;
 		
 		int width = 0;
 		int height = 0;
@@ -140,7 +140,7 @@ public class BasicDicomImageData implements DicomImageData{
 			//System.out.println("IS "+bufferType);
 			switch(bufferType){
 			case DataBuffer.TYPE_BYTE:
-				if(signed == AbstractImage.TYPE_SIGNED){
+				if(signed == AImage.TYPE_SIGNED){
 					System.out.println("TODO: SIGNED BYTE IMAGE");
 				}
 				else if(samplesPerPixel > 0){
@@ -158,7 +158,7 @@ public class BasicDicomImageData implements DicomImageData{
 					return img;
 				}
 			case DataBuffer.TYPE_USHORT:
-				if(signed == AbstractImage.TYPE_SIGNED){
+				if(signed == AImage.TYPE_SIGNED){
 					img = new ShortImage(width, height, buffer, m, b, wc, ww);
 					img.setImageOrientation(iO);
 					img.setImagePosition(iP);
@@ -184,13 +184,13 @@ public class BasicDicomImageData implements DicomImageData{
 	}
 
 	@Override
-	public ArrayList<AbstractImage> getImages() {
-		ArrayList<AbstractImage> images;
+	public ArrayList<AImage> getImages() {
+		ArrayList<AImage> images;
 		try {
 			int frames = dir.getNumImages(false);
-			images = new ArrayList<AbstractImage>(frames);
+			images = new ArrayList<AImage>(frames);
 			for(int i = 0; i < frames; i++){
-				AbstractImage img = this.getImage(i);
+				AImage img = this.getImage(i);
 				images.add(img);
 			}
 			return images;

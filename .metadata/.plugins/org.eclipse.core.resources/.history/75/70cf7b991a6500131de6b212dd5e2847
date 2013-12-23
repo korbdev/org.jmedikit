@@ -1,6 +1,0 @@
-package org.jmedikit.lib.util;
-
-public interface IObserver {
-	public void update(int index);
-	public void updateScoutingLine(int index, String mprType);
-}

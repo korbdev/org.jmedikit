@@ -20,11 +20,12 @@ import org.eclipse.swt.widgets.Slider;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.jmedikit.lib.core.DicomTreeItem;
-import org.jmedikit.lib.image.AbstractImage;
-import org.jmedikit.lib.util.IObserver;
-import org.jmedikit.lib.util.ISubject;
-import org.jmedikit.lib.util.ImageProvider;
+import org.jmedikit.lib.image.AImage;
 import org.jmedikit.plugin.gui.tools.AToolFactory;
+import org.jmedikit.plugin.util.IObserver;
+import org.jmedikit.plugin.util.ISubject;
+import org.jmedikit.plugin.util.ImageProvider;
+import org.jmedikit.plugin.util.PreferencesConstants;
 import org.osgi.service.prefs.Preferences;
 
 
@@ -34,7 +35,7 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 	
 	private DicomTreeItem item;
 	
-	private ArrayList<AbstractImage> images;
+	private ArrayList<AImage> images;
 	
 	private DicomCanvas canvas;
 	
@@ -63,7 +64,7 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 	 * @param parent
 	 * @param style
 	 */
-	public ImageViewComposite(Composite parent, int style, String title, DicomTreeItem selection, ArrayList<AbstractImage> images, IResourcePool pool, ImageViewPart rootPart) {
+	public ImageViewComposite(Composite parent, int style, String title, DicomTreeItem selection, ArrayList<AImage> images, IResourcePool pool, ImageViewPart rootPart) {
 		super(parent, style);
 		
 		observers = new ArrayList<IObserver>();
@@ -147,7 +148,7 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		scoutingLines.setImage(scoutingLinesImg);
 		
 		Preferences prefs = ConfigurationScope.INSTANCE.getNode("org.jmedikit.plugin");
-		System.out.println(prefs.get(PlugInPreferences.PLUGIN_DIRECTORY, "notset"));
+		System.out.println(prefs.get(PreferencesConstants.PLUGIN_DIRECTORY, "notset"));
 		init();
 	}
 
@@ -312,12 +313,29 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				setFocus();
 				canvas.setIndex(slider.getSelection());
 				notifyObservers(canvas.getActualImageWidth(), canvas.getActualImageHeight(), slider.getSelection());
 			}
 			
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+		
+		slider.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				System.out.println("Focus lost");
+				close.setImage(closeImg);
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				System.out.println("Focus gained");
+				rootPart.setActive(ImageViewComposite.this);
+				close.setImage(currentImg);
 			}
 		});
 	}
@@ -413,41 +431,56 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		//System.out.println("Update "+title);
 	}
 
-	@Override
+	//@Override
 	public void updateScoutingLine(int xIndex, int yIndex, String mprType){
 		String IOT = this.getCanvas().imageOrientationType;
 		System.out.println("OWN "+IOT+", sender "+mprType+" index "+xIndex+", "+yIndex);
 
-		if(mprType.equals(AbstractImage.AXIAL) && IOT.equals(AbstractImage.CORONAL)){
+		if(mprType.equals(AImage.AXIAL) && IOT.equals(AImage.CORONAL)){
 			canvas.setDoYLineUpdate(true);
 			canvas.setyLineIndex(yIndex);
 		}
-		if(mprType.equals(AbstractImage.AXIAL) && IOT.equals(AbstractImage.SAGITTAL)){
+		if(mprType.equals(AImage.AXIAL) && IOT.equals(AImage.SAGITTAL)){
 			canvas.setDoYLineUpdate(true);
 			canvas.setyLineIndex(yIndex);
 		}
-		if(mprType.equals(AbstractImage.CORONAL) && IOT.equals(AbstractImage.AXIAL)){
+		if(mprType.equals(AImage.CORONAL) && IOT.equals(AImage.AXIAL)){
 			canvas.setDoYLineUpdate(true);
 			canvas.setyLineIndex(yIndex);
 		}
-		if(mprType.equals(AbstractImage.CORONAL) && IOT.equals(AbstractImage.SAGITTAL)){
+		if(mprType.equals(AImage.CORONAL) && IOT.equals(AImage.SAGITTAL)){
 			System.out.println("WUT "+canvas.getxLineIndex()+", "+canvas.getyLineIndex());
 			canvas.setDoXLineUpdate(true);
 			canvas.setxLineIndex(xIndex);
 		}
-		if(mprType.equals(AbstractImage.SAGITTAL) && IOT.equals(AbstractImage.AXIAL)){
+		if(mprType.equals(AImage.SAGITTAL) && IOT.equals(AImage.AXIAL)){
 			canvas.setDoXLineUpdate(true);
 			canvas.setxLineIndex(xIndex);
 		}
-		if(mprType.equals(AbstractImage.SAGITTAL) && IOT.equals(AbstractImage.CORONAL)){
+		if(mprType.equals(AImage.SAGITTAL) && IOT.equals(AImage.CORONAL)){
 			canvas.setDoXLineUpdate(true);
 			canvas.setxLineIndex(xIndex);
 		}
 		canvas.redraw();
 	}
 	
-	public void recalulateImages() {
+	public void removeSelection(){
+		ArrayList<AImage> images = canvas.getImages();
+		for(AImage ai : images){
+			ai.deletePoints();
+		}
+		canvas.redraw();
+	}
+	
+	public void removeSingleSelection(){
+		int index = slider.getSelection();
+		AImage ai = canvas.getImages().get(index);
+		ai.deletePoints();
+		canvas.redraw();
+	}
+	
+	/*public void recalulateImages() {
 		// TODO Auto-generated method stub
 		
-	}
+	}*/
 }

@@ -9,13 +9,14 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.jmedikit.plugin.util.PreferencesConstants;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 
 
 public class PlugInPreferences extends FieldEditorPreferencePage{
 	
-	public static final String PLUGIN_DIRECTORY = "PLUGIN_DIRECTORY";
+	//public static final String PLUGIN_DIRECTORY = "PLUGIN_DIRECTORY";
 	
 	DirectoryFieldEditor dir;
 	Preferences prefs;
@@ -28,7 +29,7 @@ public class PlugInPreferences extends FieldEditorPreferencePage{
 		setDescription("Bitte waehlen Sie hier das Verzeichnis, in dem Plug-In Klassen gespeichert werden.");
 		
 		prefs = ConfigurationScope.INSTANCE.getNode("org.jmedikit.plugin");
-		pluginDirectory = prefs.get(PLUGIN_DIRECTORY, "");
+		pluginDirectory = prefs.get(PreferencesConstants.PLUGIN_DIRECTORY, "");
 	}
 
 
@@ -56,7 +57,7 @@ public class PlugInPreferences extends FieldEditorPreferencePage{
 		super.performApply();
 		System.out.println("hallo apply");
 		Preferences preferences = ConfigurationScope.INSTANCE.getNode("org.jmedikit.plugin");
-		preferences.put(PLUGIN_DIRECTORY, dir.getStringValue());
+		preferences.put(PreferencesConstants.PLUGIN_DIRECTORY, dir.getStringValue());
 		
 		try {
 			preferences.flush();

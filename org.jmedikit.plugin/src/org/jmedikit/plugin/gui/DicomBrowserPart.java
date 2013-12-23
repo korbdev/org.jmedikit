@@ -29,8 +29,8 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.jmedikit.lib.core.DicomTreeItem;
 import org.jmedikit.lib.core.DicomTreeRepository;
 import org.jmedikit.lib.io.DicomImporter;
-import org.jmedikit.lib.util.ImageProvider;
 import org.jmedikit.plugin.gui.events.EventConstants;
+import org.jmedikit.plugin.util.ImageProvider;
 
 
 public class DicomBrowserPart {

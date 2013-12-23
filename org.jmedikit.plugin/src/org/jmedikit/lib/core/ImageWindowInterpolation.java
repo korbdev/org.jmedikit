@@ -3,7 +3,7 @@ package org.jmedikit.lib.core;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.RGB;
-import org.jmedikit.lib.image.AbstractImage;
+import org.jmedikit.lib.image.AImage;
 
 public class ImageWindowInterpolation {
 
@@ -24,7 +24,7 @@ public class ImageWindowInterpolation {
 		return returnValue;
 	}
 	
-	public static ImageData interpolateImage(AbstractImage img, float wc, float ww, int min, int max){
+	public static ImageData interpolateImage(AImage img, float wc, float ww, int min, int max){
 		
 		int width = img.getWidth();
 		int height = img.getHeight();
@@ -40,7 +40,7 @@ public class ImageWindowInterpolation {
 			windowCenter = minValue+range/2;
 			windowWidth = range/2;
 		}
-		System.out.println("MinMax "+minValue + " " + maxValue+", WC/WW "+windowCenter+" / "+windowWidth);
+		//System.out.println("MinMax "+minValue + " " + maxValue+", WC/WW "+windowCenter+" / "+windowWidth);
 		//System.out.println("Old Center "+ wc + ", Old Width " + ww + " ImageType = "+img.getImageType());
 		//System.out.println("New Center "+ windowCenter + ", New Width " + windowWidth + " ImageType = "+img.getImageType());
 		//System.out.println("AspectRatio "+img.getAspectRatio());

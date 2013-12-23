@@ -1,0 +1,20 @@
+package org.jmedikit.lib.core;
+
+import org.jmedikit.lib.image.AImage;
+
+public abstract class PlugIn {
+
+	private AImage processingImage;
+	
+	public PlugIn(AImage img){
+		processingImage = img;
+	}
+	
+	public abstract AImage process(final AImage img);
+	
+	public AImage run(){
+		AImage result = process(processingImage);
+		result.copySignificantAttributes(processingImage);
+		return result;
+	}
+}

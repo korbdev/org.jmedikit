@@ -3,7 +3,7 @@ package org.jmedikit.lib.image;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
 
-public class UnsignedByteImage extends AbstractImage{
+public class UnsignedByteImage extends AImage{
 	
 	//private short[] storedValues;
 	
@@ -11,7 +11,7 @@ public class UnsignedByteImage extends AbstractImage{
 	
 	public UnsignedByteImage(int width, int height){
 		super(width, height);
-		imageType = AbstractImage.TYPE_BYTE_UNSIGNED;
+		imageType = AImage.TYPE_BYTE_UNSIGNED;
 		pixels = new short[width*height];
 		//storedValues = new short[width*height];
 	}

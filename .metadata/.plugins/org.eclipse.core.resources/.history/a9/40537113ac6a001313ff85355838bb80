@@ -1,0 +1,55 @@
+ 
+package org.jmedikit.plugin.gui;
+
+import java.lang.reflect.Method;
+import java.net.URLClassLoader;
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.e4.ui.di.AboutToShow;
+import org.eclipse.e4.ui.model.application.ui.MElementContainer;
+import org.eclipse.e4.ui.model.application.ui.MExpression;
+import org.eclipse.e4.ui.model.application.ui.MUIElement;
+import org.eclipse.e4.ui.model.application.ui.advanced.MPlaceholder;
+import org.eclipse.e4.ui.model.application.ui.menu.MDirectMenuItem;
+import org.eclipse.e4.ui.model.application.ui.menu.MMenuElement;
+import org.eclipse.e4.ui.model.application.ui.menu.MMenuFactory;
+
+public class PlugInMenu {
+	@AboutToShow
+	public void aboutToShow(List<MMenuElement> items) {
+		System.out.println("HALLo DYN");
+		
+		MDirectMenuItem item = MMenuFactory.INSTANCE.createDirectMenuItem();
+		
+		URLClassLoader loader = new URLClassLoader(urls, this.getClass().getClassLoader());
+	    Class<?> c;
+	    Object paramsObj[] = {};
+		try {
+			c = loader.loadClass("JmkPlgn");
+			try {
+				Object o = c.newInstance();
+				System.out.println(o.getClass().getName());
+				Method m = o.getClass().getMethod("print");
+				m.invoke(o);
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		loader.close();
+		
+		/*item.setLabel("HALLO");
+		item.setContributorURI("platform://plugin/org.jmedikit.plugin");
+		item.setContributionURI("bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.ToolPointHandler");
+		
+		items.add(item);*/
+	}
+		
+}

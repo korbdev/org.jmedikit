@@ -19,7 +19,7 @@ public class OpenLocationHandler {
 	 * @param parent
 	 */
 	@Execute
-	public void openLocatione(Shell parent){
+	public void openLocation(Shell parent){
 		DirectoryDialog dialog = new DirectoryDialog(parent);
 		String location = dialog.open();
 		eventBroker.post(EventConstants.FILE_OPEN_LOCATION, location);
