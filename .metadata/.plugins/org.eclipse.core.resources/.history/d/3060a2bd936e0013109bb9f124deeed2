@@ -1,0 +1,64 @@
+package org.jmedikit.plugin.gui;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+
+public class PlugInRadioGroup implements IPlugInDialogItem{
+
+	String value;
+
+	String[] labels;
+	
+	public PlugInRadioGroup(String name, String[] labels, int selectedIndex) {
+		value = labels[selectedIndex];
+		this.labels = labels;
+	}
+	
+	@Override
+	public Object getValue() {
+		return value;
+	}
+
+	@Override
+	public void setValue(Object o) {
+		value = (String)o;
+	}
+
+	@Override
+	public void getSWTObject(Composite parent) {
+		Composite c = new Composite(parent, SWT.BORDER);
+		GridLayout grid = new GridLayout(6, true);
+		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true, 0, 0);
+		c.setLayout(grid);
+		c.setLayoutData(data);
+		
+		for(int i = 0; i < labels.length; i++){
+			Label l = new Label(c, SWT.NONE);
+			l.setText(labels[i]);
+			Button b = new Button(c, SWT.RADIO);
+			RadioListener listener = new RadioListener(labels[i]);
+			b.addListener(SWT.Selection, listener);
+			
+		}
+	}
+	private class RadioListener implements Listener{
+
+		protected String val;
+		
+		RadioListener(String val){
+			this.val = val;
+		}
+		
+		@Override
+		public void handleEvent(Event event) {
+			PlugInRadioGroup.this.value = val;
+		}
+		
+	}
+}

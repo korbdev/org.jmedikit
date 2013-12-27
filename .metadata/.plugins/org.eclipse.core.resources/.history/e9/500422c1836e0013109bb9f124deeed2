@@ -1,0 +1,78 @@
+package org.jmedikit.plugin.gui;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Scale;
+import org.eclipse.swt.widgets.Slider;
+
+public class PlugInSlider implements IPlugInDialogItem{
+
+	String name;
+	
+	int value;
+	
+	int min;
+	
+	int max;
+	
+	int increment;
+	
+	int digits;
+	
+	public PlugInSlider(String name, int startValue, int min, int max, int increment, int digits){
+		this.name = name;
+		value = startValue;
+		this.min = min;
+		this.max = max;
+		this.increment = increment;
+		this.digits = digits;
+	}
+	
+	@Override
+	public Object getValue() {
+		float div = (float) Math.pow(10, digits);
+		return value/div;
+	}
+
+	@Override
+	public void setValue(Object o) {
+		float fac = (float) Math.pow(10, digits);
+		value = (int)((float)o*fac+0.5);
+	}
+
+	@Override
+	public void getSWTObject(Composite parent) {
+		Composite c = new Composite(parent, SWT.NONE);
+		GridLayout grid = new GridLayout(1, true);
+		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true, 0, 0);
+		c.setLayout(grid);
+		c.setLayoutData(data);
+		
+		Label label = new Label(c, SWT.NONE);
+		label.setText(name);
+		
+		final Scale slider = new Scale(c, SWT.HORIZONTAL);
+		slider.setMinimum(min);
+		slider.setMaximum(max);
+		slider.setPageIncrement(increment);
+		slider.setSelection(value);
+		
+		final Label sliderValue = new Label(c, SWT.NONE);
+		sliderValue.setText((float)getValue()+"");
+		
+		slider.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				value = slider.getSelection();
+				sliderValue.setText((float)getValue()+"");
+				sliderValue.pack();
+			}
+		});
+	}
+
+}

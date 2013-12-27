@@ -1,0 +1,12 @@
+package org.jmedikit.plugin.gui;
+
+import org.eclipse.jface.dialogs.TitleAreaDialog;
+
+public class PlugInDialog extends TitleAreaDialog{
+
+	public PlugInDialog() {
+		super(ImageViewPart.getPartShell());
+		// TODO Auto-generated constructor stub
+	}
+
+}

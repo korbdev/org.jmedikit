@@ -1,0 +1,52 @@
+package org.jmedikit.plugin.gui;
+
+import java.util.ArrayList;
+
+import org.eclipse.jface.dialogs.TitleAreaDialog;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
+
+public class PlugInDialog extends TitleAreaDialog{
+
+	public static final int OK_STATUS = TitleAreaDialog.OK;
+	public static final int CANCEL_STATUS = TitleAreaDialog.CANCEL;
+	
+	String title;
+	
+	String message;
+	
+	public ArrayList<IPlugInDialogItem> items;
+	
+	public PlugInDialog(String title, String message) {
+		super(ImageViewPart.getPartShell());
+		this.title = title;
+		this.message = message;
+		items = new ArrayList<IPlugInDialogItem>();
+	}
+
+	@Override
+	public void create(){
+		super.create();
+		setTitle(title);
+		setMessage(message);
+	}
+	
+	@Override
+	protected Control createDialogArea(Composite parent){
+		Composite area = (Composite) super.createDialogArea(parent);
+		Composite container = new Composite(area, SWT.NONE);
+		container.setLayoutData(new GridData(GridData.FILL_BOTH));
+		for(IPlugInDialogItem item : items){
+			Composite dialogItem = item.getSWTObject(container);
+			//dialogItem.setParent(container);
+		}
+		return area;
+	}
+	
+	public void addStringItem(String name, String defaultValue){
+		items.add(new PlugInStringValue(name, defaultValue));
+	}
+}

@@ -1,0 +1,58 @@
+package org.jmedikit.plugin.gui;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Text;
+
+public class PlugInStringValue implements IPlugInDialogItem{
+	
+	private String stringValue;
+	
+	private String name;
+	
+	public PlugInStringValue(String name, String defaultValue) {
+		this.name = name;
+		this.stringValue = defaultValue;
+	}
+	
+	@Override
+	public Object getValue() {
+		return stringValue;
+	}
+
+	@Override
+	public void setValue(Object o) {
+		String s = (String)o;
+		stringValue = s;
+	}
+
+	@Override
+	public Composite getSWTObject(Composite parent) {
+		//Label label = new Label(parent, SWT.NONE);
+		//label.setText(name);
+		Composite c = new Composite(parent, SWT.NONE);
+		GridLayout grid = new GridLayout(2, false);
+		c.setLayout(grid);
+		
+		Label label = new Label(parent, SWT.NONE);
+		label.setText("testWUT");
+		
+		final Text text = new Text(parent, SWT.NONE);
+		text.setText("lol");
+		
+		
+		text.addListener(SWT.Modify, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				String newString = text.getText();
+				stringValue = newString;
+				System.out.println(name+": "+stringValue);
+			}
+		});
+		return parent;
+	}
+}

@@ -1,0 +1,33 @@
+package org.jmedikit.lib.core;
+
+import org.jmedikit.plugin.gui.PlugInDialog;
+
+public class GenericPlugInDialog{
+
+	PlugInDialog dialog;
+	
+	public GenericPlugInDialog(String title, String message) {
+		dialog = new PlugInDialog(title, message);
+	}
+	
+	public int open(){
+		return dialog.open();
+	}
+	
+	public Object getItemValue(String name){
+		dialog.getItemValue(name);
+	}
+	
+	public void addStringValue(String name, String defaultValue){
+		dialog.addStringItem(name, defaultValue);
+	}
+	
+	public void addSlider(String name, int defaultValue, int min, int max, int increment, int digits){
+		dialog.addSlider(name, defaultValue, min, max, increment, digits);
+	}
+	
+	public void addRadioGroup(String name, String[] labels, int selectedIndex){
+		dialog.addRadioGroup(name, labels, selectedIndex);
+	}
+
+}

@@ -1,0 +1,31 @@
+package org.jmedikit.plugin.gui;
+
+import org.eclipse.swt.widgets.Composite;
+
+public class PlugInRadioGroup implements IPlugInDialogItem{
+
+	String value;
+
+	String[] labels;
+	
+	public PlugInRadioGroup(String name, String[] labels, int selectedIndex) {
+		value = labels[selectedIndex];
+		this.labels = labels;
+	}
+	
+	@Override
+	public Object getValue() {
+		return value;
+	}
+
+	@Override
+	public void setValue(Object o) {
+		value = (String)o;
+	}
+
+	@Override
+	public void getSWTObject(Composite parent) {
+		
+	}
+
+}

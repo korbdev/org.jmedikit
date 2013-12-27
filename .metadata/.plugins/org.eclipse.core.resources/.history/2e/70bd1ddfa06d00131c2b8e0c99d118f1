@@ -1,0 +1,46 @@
+package org.jmedikit.plugin.gui;
+
+import org.eclipse.swt.widgets.Composite;
+
+public class PlugInSlider implements IPlugInDialogItem{
+
+	String name;
+	
+	int value;
+	
+	int min;
+	
+	int max;
+	
+	int thumb;
+	
+	int digits;
+	
+	public PlugInSlider(String name, int startValue, int min, int max, int thumb, int digits){
+		this.name = name;
+		value = startValue;
+		this.min = min;
+		this.max = max;
+		this.thumb = thumb;
+		this.digits = digits;
+	}
+	
+	@Override
+	public Object getValue() {
+		float div = (float) Math.pow(10, digits);
+		return value/div;
+	}
+
+	@Override
+	public void setValue(Object o) {
+		float fac = (float) Math.pow(10, digits);
+		value = (int)((float)o*fac+0.5);
+	}
+
+	@Override
+	public Composite getSWTObject(Composite parent) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

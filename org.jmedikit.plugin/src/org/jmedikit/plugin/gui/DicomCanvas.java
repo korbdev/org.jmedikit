@@ -29,7 +29,6 @@ import org.jmedikit.lib.core.DicomObject;
 import org.jmedikit.lib.core.DicomTreeItem;
 import org.jmedikit.lib.core.ImageWindowInterpolation;
 import org.jmedikit.lib.core.PlugIn;
-import org.jmedikit.lib.core.PlugInDialog;
 import org.jmedikit.lib.image.AImage;
 import org.jmedikit.lib.image.ImageCube;
 import org.jmedikit.lib.image.IntegerImage;

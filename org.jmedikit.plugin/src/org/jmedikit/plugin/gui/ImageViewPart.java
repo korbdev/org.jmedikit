@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.jmedikit.lib.core.DicomTreeItem;
+import org.jmedikit.lib.core.GenericPlugInDialog;
 import org.jmedikit.lib.image.AImage;
 import org.jmedikit.plugin.gui.events.AToolEvent;
 import org.jmedikit.plugin.gui.events.EventConstants;
@@ -58,10 +59,19 @@ public class ImageViewPart {
 	
 	private DicomTreeItem selection;
 	
-	@SuppressWarnings("restriction")
 	public ImageViewPart(){
+		/*GenericPlugInDialog dialog = new GenericPlugInDialog("test", "hallo");
+		String[] labels = new String[]{"ich", "bins", "Rudi"};
+		dialog.addRadioGroup("Radio", labels, 0);
+		dialog.addStringValue("Vorname", "Rudi");
+		dialog.addStringValue("Ich", "test");
+		dialog.addSlider("Slider", 0, -37, -3, 2, 1);
+		dialog.addSlider("TEST", 0, -100, 100, 50, 2);
+		dialog.open();
+		System.out.println("Option = "+dialog.getItemValue("Radio"));
+		System.out.println("Option = "+((float)dialog.getItemValue("Slider")));*/
+		
 		children = new ArrayList<ImageViewComposite>();
-		System.out.println("CONSTRUCT IVP");
 		toolevent = new TransformationToolEvent(new TransformationToolFactory(), TransformationToolFactory.MOVE_TOOL);
 	}
 	

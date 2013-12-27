@@ -72,8 +72,7 @@ org.eclipse.swt.win32.win32.x86,3.102.1.v20130827-2048,file:/C:/eclipse_kepler/e
 org.eclipse.team.core,3.7.0.v20130514-1224,file:/C:/eclipse_kepler/eclipse/plugins/org.eclipse.team.core_3.7.0.v20130514-1224.jar,4,false
 org.eclipse.ui,3.105.0.v20130522-1122,file:/C:/eclipse_kepler/eclipse/plugins/org.eclipse.ui_3.105.0.v20130522-1122.jar,4,false
 org.eclipse.ui.workbench,3.105.1.v20130821-1411,file:/C:/eclipse_kepler/eclipse/plugins/org.eclipse.ui.workbench_3.105.1.v20130821-1411.jar,4,false
-org.jmedikit.plugin,1.0.0.qualifier,file:/C:/Users/rkorb/master_thesis/source/org.jmedikit.plugin/,4,false
+org.jmedikit.plugin,1.0.0.qualifier,file:/C:/Dokumente%20und%20Einstellungen/Rudi/jmedikit/org.jmedikit.plugin/,4,false
 org.w3c.css.sac,1.3.1.v200903091627,file:/C:/eclipse_kepler/eclipse/plugins/org.w3c.css.sac_1.3.1.v200903091627.jar,4,false
 org.w3c.dom.smil,1.0.0.v200806040011,file:/C:/eclipse_kepler/eclipse/plugins/org.w3c.dom.smil_1.0.0.v200806040011.jar,4,false
 org.w3c.dom.svg,1.1.0.v201011041433,file:/C:/eclipse_kepler/eclipse/plugins/org.w3c.dom.svg_1.1.0.v201011041433.jar,4,false
-test,1.0.0.qualifier,file:/C:/Users/rkorb/master_thesis/source/test/,4,false
