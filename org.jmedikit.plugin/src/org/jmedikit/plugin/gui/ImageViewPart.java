@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.itk.simple.PixelIDValueEnum;
 import org.jmedikit.lib.core.DicomTreeItem;
 import org.jmedikit.lib.core.GenericPlugInDialog;
 import org.jmedikit.lib.image.AImage;
@@ -63,13 +64,15 @@ public class ImageViewPart {
 		/*GenericPlugInDialog dialog = new GenericPlugInDialog("test", "hallo");
 		String[] labels = new String[]{"ich", "bins", "Rudi"};
 		dialog.addRadioGroup("Radio", labels, 0);
+		dialog.addFileDialog("DicomDatei", "");
 		dialog.addStringValue("Vorname", "Rudi");
+		dialog.addFloatValue("Floats", 0f);
 		dialog.addStringValue("Ich", "test");
 		dialog.addSlider("Slider", 0, -37, -3, 2, 1);
 		dialog.addSlider("TEST", 0, -100, 100, 50, 2);
-		dialog.open();
-		System.out.println("Option = "+dialog.getItemValue("Radio"));
-		System.out.println("Option = "+((float)dialog.getItemValue("Slider")));*/
+		dialog.addCheckButton("CheckA", false);
+		dialog.addCheckButton("CheckA", true);
+		dialog.open();*/
 		
 		children = new ArrayList<ImageViewComposite>();
 		toolevent = new TransformationToolEvent(new TransformationToolFactory(), TransformationToolFactory.MOVE_TOOL);

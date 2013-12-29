@@ -1,0 +1,22 @@
+package org.jmedikit.lib.util;
+
+import org.itk.simple.Image;
+import org.itk.simple.PixelIDValueEnum;
+import org.jmedikit.lib.image.AImage;
+
+public class SimpleITKFactory {
+	public static Image getITKImage(int imageType, AImage img){
+		switch (imageType) {
+		case AImage.TYPE_BYTE_SIGNED:
+			return null;
+		case AImage.TYPE_BYTE_UNSIGNED:
+			return produceITKImage(PixelIDValueEnum.sitkUInt8, img);
+		default:
+			return null;
+		}
+	}
+	
+	private static Image produceITKImage(PixelIDValueEnum itkImageType, AImage img){
+		
+	}
+}

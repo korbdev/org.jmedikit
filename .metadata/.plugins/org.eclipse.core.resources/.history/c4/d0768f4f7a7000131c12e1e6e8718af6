@@ -1,0 +1,37 @@
+package org.jmedikit.plugin.gui;
+
+import org.eclipse.swt.widgets.Composite;
+
+public class PlugInIntegerValue implements IPlugInDialogItem{
+
+	String name;
+	
+	int value;
+	
+	public PlugInIntegerValue(String name, int defaultValue) {
+		this.name = name;
+		int value = defaultValue;
+	}
+	
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public Object getValue() {
+		return value;
+	}
+
+	@Override
+	public void setValue(Object o) {
+		value = (int)o;
+	}
+
+	@Override
+	public void getSWTObject(Composite parent) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

@@ -73,6 +73,13 @@ public class PlugInSlider implements IPlugInDialogItem{
 		sliderComposite.setLayout(new GridLayout(2, false));
 		sliderComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 0, 0));
 		
+		final Label sliderValue = new Label(sliderComposite, SWT.CENTER);
+		GridData sliderValueData = new GridData();
+		sliderValueData.widthHint = 100;
+		sliderValueData.verticalAlignment = SWT.CENTER;
+		sliderValue.setLayoutData(sliderValueData);
+		sliderValue.setText((float)getValue()+"");
+		
 		final Slider slider = new Slider(sliderComposite, SWT.HORIZONTAL);
 		GridData sliderData = new GridData(SWT.FILL, SWT.CENTER, true, true, 0, 0);
 		slider.setLayoutData(sliderData);
@@ -80,13 +87,6 @@ public class PlugInSlider implements IPlugInDialogItem{
 		slider.setMaximum(max+slider.getThumb());
 		slider.setIncrement(increment);
 		slider.setSelection(value-start);
-		
-		final Label sliderValue = new Label(sliderComposite, SWT.CENTER);
-		GridData sliderValueData = new GridData();
-		sliderValueData.widthHint = 75;
-		sliderValueData.verticalAlignment = SWT.CENTER;
-		sliderValue.setLayoutData(sliderValueData);
-		sliderValue.setText((float)getValue()+"");
 		
 		slider.addListener(SWT.Selection, new Listener() {
 			@Override

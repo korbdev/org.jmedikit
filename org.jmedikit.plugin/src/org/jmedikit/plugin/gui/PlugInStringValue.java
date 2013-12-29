@@ -41,7 +41,7 @@ public class PlugInStringValue implements IPlugInDialogItem{
 		//label.setText("LABELTEST");
 		Composite c = new Composite(parent, SWT.BORDER);
 		GridLayout grid = new GridLayout(2, false);
-		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true, 0, 0);
+		GridData data = new GridData(SWT.FILL, SWT.CENTER, true, true, 0, 0);
 		c.setLayout(grid);
 		c.setLayoutData(data); 
 		

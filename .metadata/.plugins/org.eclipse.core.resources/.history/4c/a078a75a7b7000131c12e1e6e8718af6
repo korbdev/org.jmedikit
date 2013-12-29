@@ -1,0 +1,32 @@
+package org.jmedikit.plugin.gui;
+
+import org.eclipse.swt.widgets.Composite;
+
+public class PlugInCheckButton implements IPlugInDialogItem{
+
+	
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object getValue() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setValue(Object o) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void getSWTObject(Composite parent) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

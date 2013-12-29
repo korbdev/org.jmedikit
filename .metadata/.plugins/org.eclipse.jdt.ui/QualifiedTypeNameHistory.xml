@@ -1,21 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="org.jmedikit.plugin.gui.ImageViewPart"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Text"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Control"/>
 <fullyQualifiedTypeName name="org.jmedikit.plugin.gui.PlugInStringValue"/>
-<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.PlugInDialog"/>
 <fullyQualifiedTypeName name="org.jmedikit.plugin.gui.PlugInDialogItem"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.SWT"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Scale"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Composite"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.layout.GridLayout"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.graphics.Point"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.layout.GridData"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Button"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Label"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Listener"/>
 <fullyQualifiedTypeName name="org.jmedikit.plugin.gui.PlugInRadioGroup"/>
+<fullyQualifiedTypeName name="org.itk.simple.Image"/>
+<fullyQualifiedTypeName name="org.itk.simple.PixelIDValueEnum"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.image.AImage"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.util.SimpleImageFactory"/>
+<fullyQualifiedTypeName name="org.itk.simple.VectorUInt32"/>
+<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.PlugInFloatValue"/>
+<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.PlugInIntegerValue"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Button"/>
+<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.PlugInCheckButton"/>
 <fullyQualifiedTypeName name="org.jmedikit.plugin.gui.IPlugInDialogItem"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.FileDialog"/>
+<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.PlugInFileDialog"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.layout.GridLayout"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.layout.GridData"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Text"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Listener"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.custom.ScrolledComposite"/>
+<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.PlugInDialog"/>
 </qualifiedTypeNameHistroy>
