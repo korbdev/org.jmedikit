@@ -1,24 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
-	<section name="ProductExportWizard">
-		<item value="false" key="exportSource"/>
-		<item value="true" key="syncProduct"/>
-		<item value="/org.jmedikit.product/jmedikit.product" key="productConfig1"/>
-		<item value="Generate source bundles" key="exportSourceFormat"/>
-		<item value="true" key="p2metadata"/>
-		<item value="C:\Users\rkorb\Desktop\jmedikit_new" key="destination5"/>
-		<item value="C:\Users\rkorb\Desktop\jmedikit_branding" key="destination4"/>
-		<item value="true" key="exportDirectory"/>
-		<item value="C:\Users\rkorb\Desktop\jmedikit" key="destination3"/>
-		<item value="C:\Users\rkorb\Desktop\jMedikit" key="destination2"/>
-		<item value="/org.jmedikit.product/jmedikit.product" key="productConfig0"/>
-		<item value="C:\Users\rkorb\Desktop\jMedikit_0.1" key="destination1"/>
-		<item value="C:\Users\rkorb\Desktop\jMedikit_0.1" key="destination0"/>
-		<item value="true" key="allowBinaryCycles"/>
-		<item value="jMedikit" key="productRoot"/>
-	</section>
-	<section name="quick_assist_proposal_size">
-	</section>
 	<section name="PDEFormActionManager">
 	</section>
 </section>

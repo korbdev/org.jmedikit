@@ -17,7 +17,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-
 import org.jmedikit.lib.core.BilinearInterpolation;
 import org.jmedikit.lib.core.DicomObject;
 import org.jmedikit.lib.core.ADicomTreeItem;
@@ -28,14 +27,18 @@ import org.jmedikit.lib.image.ImageCube;
 import org.jmedikit.lib.image.ROI;
 import org.jmedikit.lib.util.Dimension2D;
 import org.jmedikit.lib.util.Point2D;
-
+import org.jmedikit.lib.util.Vector3D;
 import org.jmedikit.plugin.gui.tools.ATool;
 import org.jmedikit.plugin.io.PlugInClassLoader;
 import org.jmedikit.plugin.util.ImageProvider;
 
+import com.sun.xml.internal.bind.CycleRecoverable.Context;
+
 
 public class DicomCanvas extends Canvas{
  
+	private ImageViewComposite context;
+	
 	private ADicomTreeItem item;
 	
 	private int index;
@@ -113,9 +116,10 @@ public class DicomCanvas extends Canvas{
 	
 	private Image axialImage, coronalImage, sagittalImage;
 	
-	public DicomCanvas(Composite parent, int style, ADicomTreeItem selection, ArrayList<AImage> images, IResourcePool pool) {
+	public DicomCanvas(Composite parent, int style, ADicomTreeItem selection, ArrayList<AImage> images, IResourcePool pool, ImageViewComposite context) {
 		super(parent, style);
 		
+		this.context = context;
 		
 		item = selection;
 		this.images = images;
@@ -502,6 +506,26 @@ public class DicomCanvas extends Canvas{
 	private Listener mouseUpListener = new Listener() {
 		@Override
 		public void handleEvent(Event event) {
+			int x = imageCenter.x-imageDimension.width/2;
+			int y = imageCenter.y-imageDimension.height/2;
+			int width = x+imageDimension.width;
+			int height = y+imageDimension.height;
+
+			Vector3D<Integer> coordinates = new Vector3D<Integer>(0, 0, 0, 1);
+			
+			if( (event.x >= x && event.x < width) && (event.y >= y && event.y < height)){
+				//coordinates.x = (int)((((float)(event.x-x)/(float)imageDimension.width)*(float)sourceImage.getWidth())+0.5);
+				//coordinates.y = (int)((((float)(event.y-y)/(float)imageDimension.height)*(float)sourceImage.getHeight())+0.5);
+				coordinates.x = (int)((((float)(event.x-x)/(float)imageDimension.width)*(float)actualWidth)+0.5);
+				coordinates.y = (int)((((float)(event.y-y)/(float)imageDimension.height)*(float)actualHeight)+0.5);
+				//System.out.println(sourceImage.getWidth()+" x "+sourceImage.getHeight()+"/ "+actualWidth+" x "+actualHeight);
+			}
+			
+			coordinates.z = index;
+			System.out.println(coordinates.x+" x "+coordinates.y+" x "+coordinates.z);
+			
+			context.notifyObservers(coordinates.x, coordinates.y, coordinates.z);
+			
 			tool.handleMouseUp(event);
 			DicomCanvas.this.redraw();
 		}

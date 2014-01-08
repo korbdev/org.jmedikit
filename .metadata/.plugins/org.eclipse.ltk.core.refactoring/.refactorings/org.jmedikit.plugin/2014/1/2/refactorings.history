@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;sourceHeiht&apos; in &apos;org.jmedikit.plugin.gui.ImageViewComposite.updateScoutingLine(...)&apos; to &apos;sourceHeight&apos;&#x0D;&#x0A;- Original project: &apos;org.jmedikit.plugin&apos;&#x0D;&#x0A;- Original element: &apos;org.jmedikit.plugin.gui.ImageViewComposite.updateScoutingLine(int, int, int, String).sourceHeiht&apos;&#x0D;&#x0A;- Renamed element: &apos;sourceHeiht&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;sourceHeiht&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;org.jmedikit.plugin.gui{ImageViewComposite.java[ImageViewComposite~updateScoutingLine~I~I~I~QString;@sourceHeiht!14201!14247!14205!14215!I!0!false" name="sourceHeight" references="true" stamp="1389179203470" version="1.0"/>
+</session>

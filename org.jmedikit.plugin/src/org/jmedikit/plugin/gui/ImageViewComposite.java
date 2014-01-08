@@ -105,7 +105,7 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		canvasContainerLayout.horizontalSpacing = 0;
 		canvasContainer.setLayout(canvasContainerLayout);
 		
-		canvas = new DicomCanvas(canvasContainer, SWT.NO_BACKGROUND, selection, images, pool);
+		canvas = new DicomCanvas(canvasContainer, SWT.NO_BACKGROUND, selection, images, pool, this); 
 		canvas.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 0, 0));
 		
 		int controlsSizeWidth = 20;
@@ -315,7 +315,8 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 			public void widgetSelected(SelectionEvent e) {
 				setFocus();
 				canvas.setIndex(slider.getSelection());
-				notifyObservers(canvas.getActualImageWidth(), canvas.getActualImageHeight(), slider.getSelection());
+				//notifyObservers(canvas.getActualImageWidth(), canvas.getActualImageHeight(), slider.getSelection());
+				notifyObservers(slider.getSelection());
 			}
 			
 			@Override
@@ -402,7 +403,7 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 	}
 
 	@Override
-	public void notifyObservers(int x, int y, int z) {
+	public void notifyObservers(int z) {
 		for(IObserver o : observers){
 			if(o instanceof ImageViewComposite){
 				String actualIOT = this.getCanvas().imageOrientationType;
@@ -411,7 +412,30 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 					o.update(z);
 				}
 				else{
-					o.updateScoutingLine(z, z, actualIOT);
+					o.updateScoutingLine(z, actualIOT);
+				}
+			}
+		}
+	}
+	
+	@Override
+	public void notifyObservers(int x, int y, int z) {
+		for(IObserver o : observers){
+			if(o instanceof ImageViewComposite){
+				String actualIOT = this.getCanvas().imageOrientationType;
+				this.getCanvas().setDoXLineUpdate(true);
+				this.getCanvas().setDoYLineUpdate(true);
+				this.getCanvas().setxLineIndex(x);
+				this.getCanvas().setyLineIndex(y);
+				String observerIOT = ((ImageViewComposite) o).getCanvas().imageOrientationType;
+				if(actualIOT.equals(observerIOT)){
+					o.update(z);
+				}
+				else{
+					System.out.println(x + " x "+y+" x "+z);
+					//o.updateScoutingLine(z, z, actualIOT);
+					o.updateScoutingLine(x, y, z, actualIOT);
+					//((ImageViewComposite) o).getCanvas().setIndex(y);
 				}
 			}
 		}
@@ -432,34 +456,109 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 	}
 
 	//@Override
-	public void updateScoutingLine(int xIndex, int yIndex, String mprType){
+	//public void updateScoutingLine(int xIndex, int yIndex, String mprType){
+	public void updateScoutingLine(int x, int y, int z, String mprType){
 		String IOT = this.getCanvas().imageOrientationType;
-		System.out.println("OWN "+IOT+", sender "+mprType+" index "+xIndex+", "+yIndex);
+		//System.out.println("OWN "+IOT+", sender "+mprType+" index "+xIndex+", "+yIndex);
 
+		int sourceWidth = canvas.imageDimension.width;
+		int sourceHeight = canvas.imageDimension.height;
+		
+		int width = canvas.getActualImageWidth();
+		int height = canvas.getActualImageHeight();
+		
+		System.out.println("Normal "+ x + " x "+ y +" x "+ z+" // "+width+" x "+height);
+		
+		int x_n = (int) (((float)x/(float)width)*(float)sourceWidth);
+		int y_n = (int) (((float)y/(float)height)*(float)sourceHeight);
+		
+		int y_z = (int) (((float)z/(float)height)*(float)canvas.sourceDimension.height);
+		int x_z = (int) (((float)z/(float)width)*(float)canvas.sourceDimension.width);
+		
+		System.out.println("Normalized "+ x_z + " x "+ y_z +" x "+ z);
+		
 		if(mprType.equals(AImage.AXIAL) && IOT.equals(AImage.CORONAL)){
 			canvas.setDoYLineUpdate(true);
-			canvas.setyLineIndex(yIndex);
+			//canvas.setyLineIndex(yIndex);
+			canvas.setIndex(y);
+			slider.setSelection(y);
+			canvas.setxLineIndex(x); //neu
+			canvas.setyLineIndex(z);
 		}
 		if(mprType.equals(AImage.AXIAL) && IOT.equals(AImage.SAGITTAL)){
 			canvas.setDoYLineUpdate(true);
-			canvas.setyLineIndex(yIndex);
+			canvas.setIndex(x);
+			slider.setSelection(x);
+			//canvas.setyLineIndex(yIndex);
+			canvas.setxLineIndex(y); //neu
+			canvas.setyLineIndex(z);
 		}
 		if(mprType.equals(AImage.CORONAL) && IOT.equals(AImage.AXIAL)){
 			canvas.setDoYLineUpdate(true);
-			canvas.setyLineIndex(yIndex);
+			//canvas.setyLineIndex(yIndex);
+			canvas.setIndex(y);
+			slider.setSelection(y);
+			canvas.setxLineIndex(x); //neu
+			canvas.setyLineIndex(z);
 		}
 		if(mprType.equals(AImage.CORONAL) && IOT.equals(AImage.SAGITTAL)){
 			System.out.println("WUT "+canvas.getxLineIndex()+", "+canvas.getyLineIndex());
 			canvas.setDoXLineUpdate(true);
-			canvas.setxLineIndex(xIndex);
+			//canvas.setxLineIndex(xIndex);
+			slider.setSelection(x);
+			canvas.setIndex(x);
+			System.out.println("C->S "+y+" normalized "+y_n);
+			canvas.setyLineIndex(y_n); //neu
+			canvas.setxLineIndex(z);
 		}
 		if(mprType.equals(AImage.SAGITTAL) && IOT.equals(AImage.AXIAL)){
 			canvas.setDoXLineUpdate(true);
-			canvas.setxLineIndex(xIndex);
+			//canvas.setxLineIndex(xIndex);
+			slider.setSelection(y);
+			canvas.setIndex(y);
+			canvas.setyLineIndex(x); //neu
+			canvas.setxLineIndex(z);
 		}
 		if(mprType.equals(AImage.SAGITTAL) && IOT.equals(AImage.CORONAL)){
 			canvas.setDoXLineUpdate(true);
-			canvas.setxLineIndex(xIndex);
+			//canvas.setxLineIndex(xIndex);
+			slider.setSelection(x);
+			canvas.setIndex(x);
+			System.out.println("S->C "+y+" normalized "+y_n);
+			canvas.setyLineIndex(y_n); //neu
+			canvas.setxLineIndex(z);
+		}
+		canvas.redraw();
+	}
+	
+	@Override
+	public void updateScoutingLine(int z, String mprType){
+		String IOT = this.getCanvas().imageOrientationType;
+
+		if(mprType.equals(AImage.AXIAL) && IOT.equals(AImage.CORONAL)){
+			canvas.setDoYLineUpdate(true);
+			canvas.setyLineIndex(z);
+		}
+		if(mprType.equals(AImage.AXIAL) && IOT.equals(AImage.SAGITTAL)){
+			canvas.setDoYLineUpdate(true);
+			canvas.setyLineIndex(z);
+		}
+		if(mprType.equals(AImage.CORONAL) && IOT.equals(AImage.AXIAL)){
+			canvas.setDoYLineUpdate(true);
+			canvas.setyLineIndex(z);
+		}
+		if(mprType.equals(AImage.CORONAL) && IOT.equals(AImage.SAGITTAL)){
+			System.out.println("WUT "+canvas.getxLineIndex()+", "+canvas.getyLineIndex());
+			canvas.setDoXLineUpdate(true);
+			canvas.setxLineIndex(z);
+		}
+		if(mprType.equals(AImage.SAGITTAL) && IOT.equals(AImage.AXIAL)){
+			canvas.setDoXLineUpdate(true);
+			canvas.setxLineIndex(z);
+		}
+		if(mprType.equals(AImage.SAGITTAL) && IOT.equals(AImage.CORONAL)){
+			canvas.setDoXLineUpdate(true);
+			canvas.setxLineIndex(z);
 		}
 		canvas.redraw();
 	}

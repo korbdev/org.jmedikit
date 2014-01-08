@@ -1,29 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.lang.Math"/>
-<fullyQualifiedTypeName name="org.eclipse.jface.window.Window"/>
-<fullyQualifiedTypeName name="org.jmedikit.lib.core.APlugIn"/>
-<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.ImageViewComposite"/>
-<fullyQualifiedTypeName name="org.jmedikit.lib.io.DicomImporter"/>
-<fullyQualifiedTypeName name="org.jmedikit.lib.core.DicomObject"/>
-<fullyQualifiedTypeName name="org.jmedikit.lib.core.DicomTreeItem"/>
-<fullyQualifiedTypeName name="org.jmedikit.lib.core.DicomTreeRepository"/>
-<fullyQualifiedTypeName name="org.jmedikit.lib.core.ADicomTreeItem"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Shell"/>
-<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.ImageViewPart"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Composite"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.SWT"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Canvas"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Slider"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Button"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.layout.GridLayout"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.graphics.Color"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.graphics.RGB"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.events.PaintListener"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.graphics.GC"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.graphics.Rectangle"/>
-<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Listener"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="org.jmedikit.lib.image.AImage"/>
-<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.SimpleDicomCanvas"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.util.Point2D"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.util.Vector3D"/>
+<fullyQualifiedTypeName name="com.sun.xml.internal.bind.CycleRecoverable.Context"/>
 </qualifiedTypeNameHistroy>
