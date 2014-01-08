@@ -1,6 +1,0 @@
-package org.jmedikit.plugin.gui;
-
-public interface PlugInDialogItem {
-	public Object getValue();
-	public Composite getSWTObject(Composite parent);
-}

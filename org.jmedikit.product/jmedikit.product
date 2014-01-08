@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="JMediKit" id="org.jmedikit.plugin.jmedikit" application="org.eclipse.e4.ui.workbench.swt.E4Application" useFeatures="true" includeLaunchers="true">
+<product name="JMediKit" uid="org.jmedikit" id="org.jmedikit.plugin.jmedikit" application="org.eclipse.e4.ui.workbench.swt.E4Application" version="0.1" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <text>
+         Master-Thesis
+&amp;copy; Rudolf Korb
+JMedikit
+      </text>
+   </aboutInfo>
 
    <configIni use="default">
    </configIni>
@@ -12,7 +20,7 @@
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
-   <windowImages i32="/org.jmedikit.plugin/icons/sagittal_32x32.png"/>
+   <windowImages i16="/org.jmedikit.plugin/icons/branding_16x16.png" i32="/org.jmedikit.plugin/icons/branding_32x32.png" i48="/org.jmedikit.plugin/icons/branding_48x48.png" i64="/org.jmedikit.plugin/icons/branding_64x64.png" i128="/org.jmedikit.plugin/icons/branding_128x128.png"/>
 
    <splash
       location="org.jmedikit.plugin"
@@ -20,13 +28,22 @@
    <launcher name="JMediKit">
       <solaris/>
       <win useIco="false">
-         <bmp/>
+         <bmp
+            winSmallHigh="/org.jmedikit.plugin/icons/program_launcher_16x16_32.bmp"
+            winSmallLow="/org.jmedikit.plugin/icons/program_launcher_16x16_8.bmp"
+            winMediumHigh="/org.jmedikit.plugin/icons/program_launcher_32x32_32.bmp"
+            winMediumLow="/org.jmedikit.plugin/icons/program_launcher_32x32_8.bmp"
+            winLargeHigh="/org.jmedikit.plugin/icons/program_launcher_48x48_32.bmp"
+            winLargeLow="/org.jmedikit.plugin/icons/program_launcher_48x48_8.bmp"
+            winExtraLargeHigh="/org.jmedikit.plugin/icons/program_launcher_256x256_32.bmp"/>
       </win>
    </launcher>
+
 
    <vm>
       <windows include="true">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/OSGi%Minimum-1.2</windows>
    </vm>
+
 
    <plugins>
    </plugins>

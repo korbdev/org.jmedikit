@@ -6,7 +6,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.jmedikit.lib.core.DicomObject;
-import org.jmedikit.lib.core.DicomTreeItem;
+import org.jmedikit.lib.core.ADicomTreeItem;
 import org.jmedikit.lib.image.AImage;
 import org.jmedikit.plugin.gui.events.EventConstants;
 
@@ -14,13 +14,13 @@ public class ImageLoader implements IRunnableWithProgress{
 	
 	ArrayList<AImage> images;
 	
-	DicomTreeItem selection;
+	ADicomTreeItem selection;
 	
 	IEventBroker broker;
 	
 	IProgressMonitor monitor;
 	
-	public ImageLoader(String name, DicomTreeItem selection, IEventBroker broker) {
+	public ImageLoader(String name, ADicomTreeItem selection, IEventBroker broker) {
 		//super(name);
 		images = new ArrayList<AImage>();
 		this.selection = selection;
@@ -31,7 +31,7 @@ public class ImageLoader implements IRunnableWithProgress{
 		AImage img;
 		System.out.println("Load Image");
 		DicomObject toDraw;
-		if(selection.getLevel() == DicomTreeItem.TREE_OBJECT_LEVEL){
+		if(selection.getLevel() == ADicomTreeItem.TREE_OBJECT_LEVEL){
 			toDraw = (DicomObject)selection;
 			img = toDraw.getImage(0);
 			img.setTitle(toDraw.getUid());

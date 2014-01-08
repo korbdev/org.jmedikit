@@ -5,6 +5,10 @@ import java.awt.image.DataBufferByte;
 
 public class IntegerImage extends AImage{
 
+	public static final int MIN_VALUE = Integer.MIN_VALUE;
+	
+	public static final int MAX_VALUE = Integer.MAX_VALUE;
+	
 	int[] pixels;
 	
 	public IntegerImage(int width, int height) {
@@ -110,6 +114,16 @@ public class IntegerImage extends AImage{
 	@Override
 	public Object getPixels() {
 		return pixels;
+	}
+
+	@Override
+	public int getMinValue() {
+		return MIN_VALUE;
+	}
+
+	@Override
+	public int getMaxValue() {
+		return MAX_VALUE;
 	}
 
 }

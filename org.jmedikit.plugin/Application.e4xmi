@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ASCII"?>
 <application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_O7jMYDdoEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.application">
-  <children xsi:type="basic:TrimmedWindow" xmi:id="_QrWWEDdoEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.main">
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_QrWWEDdoEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.main" label="JMediKit - Java Medical Imaging Toolkit" iconURI="platform:/plugin/org.jmedikit.plugin/icons/branding_128x128.png">
     <children xsi:type="advanced:PerspectiveStack" xmi:id="_QHQ0wDdsEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.defaultPerspectiveStack">
       <children xsi:type="advanced:Perspective" xmi:id="_UtTLwDdsEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.default">
         <children xsi:type="basic:PartSashContainer" xmi:id="_cOdQEDdsEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.container" horizontal="true">

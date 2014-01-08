@@ -2,6 +2,8 @@ package org.jmedikit;
 
 import java.io.File;
 import java.net.URL;
+
+import org.eclipse.jface.window.Window;
 import org.jmedikit.plugin.io.PlugInClassLoader;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -20,9 +22,16 @@ public class Activator implements BundleActivator{
 	 */
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
-		File f = new File("C:\\Users\\rkorb\\Desktop\\plugins\\Testplugin\\bin\\");
-	    URL url = f.toURI().toURL();       // file:/c:/myclasses/
-	    URL[] urls = new URL[]{url};
+		
+		int a = 1+2+4+16;
+		int b = 0;
+		
+		System.out.println("Test "+(a & b));
+		//Window.
+		
+		//File f = new File("C:\\Users\\rkorb\\Desktop\\plugins\\Testplugin\\bin\\");
+	    //URL url = f.toURI().toURL();       // file:/c:/myclasses/
+	    //URL[] urls = new URL[]{url};
 		
 		/*URLClassLoader loader = new URLClassLoader(urls, this.getClass().getClassLoader());
 	    Class<?> c;

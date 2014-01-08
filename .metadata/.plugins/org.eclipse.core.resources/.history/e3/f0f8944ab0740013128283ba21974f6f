@@ -1,0 +1,52 @@
+package org.jmedikit.plugin.gui;
+
+import java.util.ArrayList;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Slider;
+import org.jmedikit.lib.image.AImage;
+
+public class SimpleDicomCanvas {
+
+	public SimpleDicomCanvas(String title) {
+		Shell shell = new Shell(ImageViewPart.getPartShell());
+		shell.setLayout(new GridLayout(1, true));
+		shell.setText(title);
+		
+		//int x = images.get(0).getWidth();
+		//int y = images.get(0).getHeight();
+		
+		drawComposite(shell);
+		shell.pack();
+		shell.open();
+	}
+	
+	private void drawComposite(Composite parent){
+		Composite container = new Composite(parent, SWT.NONE);
+		container.setLayout(new GridLayout(2, false));
+		container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		
+		Canvas canvas = new Canvas(container, SWT.NONE);
+		GridData canvasData = new GridData(SWT.FILL, SWT.FILL, true, true);
+		canvasData.widthHint = 512;
+		canvasData.heightHint = 512;
+		canvas.setBackground(new Color(parent.getDisplay(), new RGB(255, 255, 0)));
+		canvas.setLayoutData(canvasData);
+		
+		Slider slider = new Slider(container, SWT.VERTICAL);
+		slider.setMaximum(100);
+		slider.setBackground(new Color(parent.getDisplay(), new RGB(255, 0, 0)));
+		GridData sliderData = new GridData(SWT.FILL, SWT.FILL, false, false);
+		sliderData.widthHint = 20;
+		slider.setLayoutData(sliderData);
+	}
+
+}

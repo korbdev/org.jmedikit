@@ -52,6 +52,46 @@ public class DicomImporter extends Job{
 		}
 	}
 	
+	public static DicomTreeRepository recursiveImport(File root){
+		DicomTreeRepository repository = new DicomTreeRepository();
+		silentImportFiles(root, repository);
+		return repository;
+	}
+	
+	private static void silentImportFiles(File root, DicomTreeRepository repository){
+		//System.out.println(root.getPath());
+		if(root.isDirectory()){
+			File[] files = root.listFiles();
+			for(File f : files){
+				if(f.isDirectory()){
+					//root = f;
+					silentImportFiles(f, repository);
+				}
+				else{
+					silentImportDicomObject(f, repository);
+				}
+			}
+		}
+		else {
+			silentImportDicomObject(root, repository);
+		}
+	}
+	
+	private static void silentImportDicomObject(File f, DicomTreeRepository repository){
+		System.out.println("INSERT "+f.getPath());
+		DicomObject obj = null;
+
+		try {
+			obj = new DicomObject(f);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		if(obj != null){
+			repository.insert(obj);
+		}
+	}
+	
 	private void importDicomFiles(){
 		if(importLocation.isDirectory()){
 			File[] files = importLocation.listFiles();
@@ -87,7 +127,6 @@ public class DicomImporter extends Job{
 		}
 		
 	}
-
 	
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {

@@ -4,10 +4,10 @@ import java.io.File;
 import java.io.IOException;
 
 
-public class DicomObject extends AbstractDicomObject{
+public class DicomObject extends ADicomObject{
 
 	public DicomObject(File path) throws IOException{
 		super(path);
-		level = DicomTreeItem.TREE_OBJECT_LEVEL;
+		level = ADicomTreeItem.TREE_OBJECT_LEVEL;
 	}
 }

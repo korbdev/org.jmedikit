@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Slider;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
-import org.jmedikit.lib.core.DicomTreeItem;
+import org.jmedikit.lib.core.ADicomTreeItem;
 import org.jmedikit.lib.image.AImage;
 import org.jmedikit.plugin.gui.tools.AToolFactory;
 import org.jmedikit.plugin.util.IObserver;
@@ -33,7 +33,7 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 	
 	private String title;
 	
-	private DicomTreeItem item;
+	private ADicomTreeItem item;
 	
 	private ArrayList<AImage> images;
 	
@@ -64,7 +64,7 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 	 * @param parent
 	 * @param style
 	 */
-	public ImageViewComposite(Composite parent, int style, String title, DicomTreeItem selection, ArrayList<AImage> images, IResourcePool pool, ImageViewPart rootPart) {
+	public ImageViewComposite(Composite parent, int style, String title, ADicomTreeItem selection, ArrayList<AImage> images, IResourcePool pool, ImageViewPart rootPart) {
 		super(parent, style);
 		
 		observers = new ArrayList<IObserver>();
@@ -109,7 +109,7 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		canvas.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 0, 0));
 		
 		int controlsSizeWidth = 20;
-		int controlsSiteHeight = 20;
+		//int controlsSiteHeight = 20;
 		
 		controls = new Composite(this, SWT.NONE);
 		GridLayout controlsLayout = new GridLayout(1, false);

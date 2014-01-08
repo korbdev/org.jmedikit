@@ -1,0 +1,15 @@
+package org.jmedikit.plugin.gui;
+
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
+
+public class SimpleDicomCanvas {
+
+	public SimpleDicomCanvas() {
+		Shell shell = new Shell(ImageViewPart.getPartShell());
+		shell.setSize(400, 500);
+		
+		shell.open();
+	}
+
+}

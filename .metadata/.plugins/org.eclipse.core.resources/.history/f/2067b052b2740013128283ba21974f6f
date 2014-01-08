@@ -1,0 +1,96 @@
+package org.jmedikit.plugin.gui;
+
+import java.util.ArrayList;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Slider;
+import org.jmedikit.lib.image.AImage;
+
+public class SimpleDicomCanvas {
+
+	private Canvas canvas;
+	
+	private Slider slider;
+	
+	private Shell shell;
+	//private ArrayList<AImage> images;
+	
+	public SimpleDicomCanvas(String title) {
+		shell = new Shell(ImageViewPart.getPartShell());
+		shell.setLayout(new GridLayout(1, true));
+		shell.setText(title);
+		
+		//int x = images.get(0).getWidth();
+		//int y = images.get(0).getHeight();
+		
+		drawComposite(shell);
+	}
+	
+	private void drawComposite(Composite parent){
+		Composite container = new Composite(parent, SWT.NONE);
+		container.setLayout(new GridLayout(2, false));
+		container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		
+		canvas = new Canvas(container, SWT.NONE);
+		GridData canvasData = new GridData(SWT.FILL, SWT.FILL, true, true);
+		canvas.setLayoutData(canvasData);
+		
+		slider = new Slider(container, SWT.VERTICAL);
+		slider.setMaximum(100);
+		slider.setBackground(new Color(parent.getDisplay(), new RGB(255, 0, 0)));
+		GridData sliderData = new GridData(SWT.FILL, SWT.FILL, false, false);
+		sliderData.widthHint = 20;
+		slider.setLayoutData(sliderData);
+	}
+
+	public void show(AImage img){
+		ArrayList<AImage> images = new ArrayList<AImage>();
+		images.add(img);
+		show(images);
+	}
+	
+	public void show(ArrayList<AImage> images){
+		GridData canvasData = (GridData) canvas.getLayoutData();
+		canvasData.widthHint = images.get(0).getWidth();
+		canvasData.heightHint = images.get(0).getHeight();
+		
+		slider.setMaximum(images.size()+slider.getThumb());
+		shell.pack();
+		
+		canvas.addPaintListener(new PaintListener() {
+			
+			@Override
+			public void paintControl(PaintEvent e) {
+				Rectangle canvasRect = canvas.getClientArea();
+				System.out.println(canvasRect.toString());
+				Image bufferImage = new  Image(canvas.getDisplay(), canvasRect.width, canvasRect.height);
+				GC buffer = new GC(bufferImage);
+				
+				buffer = draw(buffer);
+				
+				bufferImage.dispose();
+				buffer.dispose();
+			}
+		});
+		
+		
+		shell.open();
+	}
+	
+	private GC draw(GC buffer){
+		
+		return buffer;
+	}
+}

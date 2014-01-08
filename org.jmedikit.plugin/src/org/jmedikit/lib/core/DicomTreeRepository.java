@@ -4,34 +4,38 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import org.jmedikit.lib.image.AImage;
 import org.jmedikit.lib.io.DicomData;
 
 public class DicomTreeRepository {
 	
-	DicomTreeItem root;
+	private ADicomTreeItem root;
+	
+	private int countObjects;
 	
 	public DicomTreeRepository(){
-		root = new DicomTreeItem("/") {
+		countObjects = 0;
+		root = new ADicomTreeItem("/") {
 		};
 	}
 	
-	public DicomTreeItem getRoot(){
+	public ADicomTreeItem getRoot(){
 		return root;
 	}
 	
-	public DicomTreeItem lookUpDicomTreeItem(DicomTreeItem item){
-		Queue<DicomTreeItem> queue = new LinkedList<>();
-		ArrayList<DicomTreeItem> visited = new ArrayList<>();
+	public ADicomTreeItem lookUpDicomTreeItem(ADicomTreeItem item){
+		Queue<ADicomTreeItem> queue = new LinkedList<>();
+		ArrayList<ADicomTreeItem> visited = new ArrayList<>();
 		
 		queue.offer(root);
 		visited.add(root);
 		
 		while(queue.size() > 0){
-			DicomTreeItem actual = queue.poll();
+			ADicomTreeItem actual = queue.poll();
 			if(actual.getUid().equals(item.getUid())){
 				return actual;
 			}
-			for(DicomTreeItem child : actual.getChildren()){
+			for(ADicomTreeItem child : actual.getChildren()){
 				if(!visited.contains(child)){
 					queue.offer(child);
 					visited.add(child);
@@ -41,19 +45,20 @@ public class DicomTreeRepository {
 		return null;
 	}
 	
-	public DicomTreeItem lookUpDicomTreeItem(String uid){
-		Queue<DicomTreeItem> queue = new LinkedList<>();
-		ArrayList<DicomTreeItem> visited = new ArrayList<>();
+	public ADicomTreeItem lookUpDicomTreeItem(String uid){
+		Queue<ADicomTreeItem> queue = new LinkedList<>();
+		ArrayList<ADicomTreeItem> visited = new ArrayList<>();
 		
 		queue.offer(root);
 		visited.add(root);
 		
 		while(queue.size() > 0){
-			DicomTreeItem actual = queue.poll();
+			ADicomTreeItem actual = queue.poll();
+			System.out.println(actual.getUid());
 			if(actual.getUid().equals(uid)){
 				return actual;
 			}
-			for(DicomTreeItem child : actual.getChildren()){
+			for(ADicomTreeItem child : actual.getChildren()){
 				if(!visited.contains(child)){
 					queue.offer(child);
 					visited.add(child);
@@ -64,25 +69,27 @@ public class DicomTreeRepository {
 	}
 	
 	public void walkDicomTreeRepository(){
-		Queue<DicomTreeItem> queue = new LinkedList<>();
-		ArrayList<DicomTreeItem> visited = new ArrayList<>();
+		Queue<ADicomTreeItem> queue = new LinkedList<>();
+		ArrayList<ADicomTreeItem> visited = new ArrayList<>();
 		
 		queue.offer(root);
 		visited.add(root);
 		
 		while(queue.size() > 0){
-			DicomTreeItem actual = queue.poll();
+			ADicomTreeItem actual = queue.poll();
 			//System.out.println(actual.getUid());
-			for(DicomTreeItem child : actual.getChildren()){
+			for(ADicomTreeItem child : actual.getChildren()){
 				if(!visited.contains(child)){
 					queue.offer(child);
 					visited.add(child);
+					System.out.println("Visited "+child.getUid());
 				}
 			}
 		}
 	}
 	
 	public void insert(DicomObject item){
+		//System.out.println("INSERT "+item.getUid());
 		String nameId = (String) item.getTagData("PatientName", DicomData.RETURN_STRING);
 		String studyId = (String) item.getTagData("StudyInstanceUID", DicomData.RETURN_STRING);
 		String seriesId = (String) item.getTagData("SeriesInstanceUID", DicomData.RETURN_STRING);
@@ -99,8 +106,10 @@ public class DicomTreeRepository {
 		DicomStudyItem sStudy = new DicomStudyItem(studyId);
 		DicomSeriesItem sSeries = new DicomSeriesItem(seriesId);
 		
-		DicomTreeItem lookUp = lookUpDicomTreeItem(sPatient);
-		DicomTreeItem parent = root;
+		ADicomTreeItem lookUp = lookUpDicomTreeItem(sPatient);
+		ADicomTreeItem parent = root;
+		
+		countObjects++;
 		
 		if(lookUp == null){
 			parent.addChild(sPatient);
@@ -133,6 +142,25 @@ public class DicomTreeRepository {
 			}
 		}
 	}
+	
+	public int getNumberOfItems(){
+		return countObjects;
+	}
+	
+	public ArrayList<AImage> extractImages(String seriesUid){
+		ArrayList<AImage> images = new ArrayList<AImage>();
+		ADicomTreeItem item = null;
+		
+		//item muss eine Serie sein, damit Alle Bilder der Serie extrahiert werden können
+		if((item = lookUpDicomTreeItem(seriesUid)) != null && item.getLevel() == ADicomTreeItem.TREE_SERIES_LEVEL){
+			for(ADicomTreeItem child : item.getChildren()){
+				DicomObject obj = (DicomObject) child;
+				images.add(obj.getImage(0));
+			}
+		}
+		return images;
+	}
+
 	/*public void insertDicomObject(DicomObject obj){
 		String name = (String) obj.getTagData("PatientName", DicomData.RETURN_STRING);
 		String studyId = (String) obj.getTagData("StudyInstanceUID", DicomData.RETURN_STRING);

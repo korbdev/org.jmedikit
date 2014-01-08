@@ -1,10 +1,10 @@
 package org.jmedikit.lib.core;
 
-public class DicomPatientItem extends DicomTreeItem{
+public class DicomPatientItem extends ADicomTreeItem{
 	
 	public DicomPatientItem(String uid) {
 		super(uid);
-		level = DicomTreeItem.TREE_PATIENT_LEVEL;
+		level = ADicomTreeItem.TREE_PATIENT_LEVEL;
 	}
 
 }

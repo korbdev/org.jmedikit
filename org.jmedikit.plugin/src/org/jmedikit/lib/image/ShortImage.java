@@ -5,7 +5,9 @@ import java.awt.image.DataBufferUShort;
 
 public class ShortImage extends AImage{
 
-	//private short[] storedValues;
+	public static final int MIN_VALUE = Short.MIN_VALUE;
+	
+	public static final int MAX_VALUE = Short.MAX_VALUE;
 	
 	private short[] pixels;
 	
@@ -66,6 +68,16 @@ public class ShortImage extends AImage{
 	public void setPixel(int x, int y, int value) {
 		short newValue = (short)value;
 		pixels[y * width + x] = newValue;
+	}
+	
+	@Override
+	public int getMinValue() {
+		return MIN_VALUE;
+	}
+
+	@Override
+	public int getMaxValue() {
+		return MAX_VALUE;
 	}
 
 }

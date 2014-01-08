@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
-import org.jmedikit.lib.core.PlugIn;
+import org.jmedikit.lib.core.APlugIn;
 import org.jmedikit.lib.image.AImage;
 import org.jmedikit.lib.image.IntegerImage;
 import org.jmedikit.plugin.util.PreferencesConstants;
@@ -151,7 +151,7 @@ public class PlugInClassLoader {
 			Class<?> c = classloader.loadClass(pluginName);
 			Class<?> superC = c.getSuperclass();
 			System.out.println(superC.getName());
-			if(superC.getName().equals(PlugIn.class.getName())){
+			if(superC.getName().equals(APlugIn.class.getName())){
 				System.out.println("Erzeuge obj");
 				
 				//Class<?>[] args = new Class<?>[]{AImage.class};

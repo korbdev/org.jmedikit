@@ -59,7 +59,25 @@ public class SimpleITKFactory {
 			for(int x = 0; x < width; x++){
 				v.set(0, x);
 				v.set(1, y);
-				itkImage.setPixelAsUInt16(v, img.getPixel(x, y));
+				//itkImage.setPixelAsUInt16(v, img.getPixel(x, y));
+				if(itkImageType.swigValue() == PixelIDValueEnum.sitkInt8.swigValue()){
+					itkImage.setPixelAsInt8(v, (byte) img.getPixel(x, y));
+				}
+				else if(itkImageType.swigValue() == PixelIDValueEnum.sitkUInt8.swigValue()){
+					itkImage.setPixelAsUInt8(v, (short) img.getPixel(x, y));
+				}
+				else if(itkImageType.swigValue() == PixelIDValueEnum.sitkInt16.swigValue()){
+					itkImage.setPixelAsInt16(v, (short) img.getPixel(x, y));
+				}
+				else if(itkImageType.swigValue() == PixelIDValueEnum.sitkUInt16.swigValue()){
+					itkImage.setPixelAsUInt16(v, img.getPixel(x, y));
+				}
+				else if(itkImageType.swigValue() == PixelIDValueEnum.sitkInt32.swigValue()){
+					itkImage.setPixelAsInt32(v, img.getPixel(x, y));
+				}
+				else if(itkImageType.swigValue() == PixelIDValueEnum.sitkUInt32.swigValue()){
+					//return itkImage.getPixelAsUInt32(v);
+				}
 			}
 		}
 		return itkImage;

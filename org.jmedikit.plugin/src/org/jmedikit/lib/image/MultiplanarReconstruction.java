@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.jmedikit.lib.core.BilinearInterpolation;
 import org.jmedikit.lib.core.DicomObject;
-import org.jmedikit.lib.core.DicomTreeItem;
+import org.jmedikit.lib.core.ADicomTreeItem;
 import org.jmedikit.lib.util.Point2D;
 import org.jmedikit.lib.util.SimpleImageFactory;
 import org.jmedikit.lib.util.Vector3D;

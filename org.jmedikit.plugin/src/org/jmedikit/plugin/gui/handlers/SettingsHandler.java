@@ -39,8 +39,8 @@ public class SettingsHandler {
 		IPreferenceNode plugInNode = new PreferenceNode("Plug-Ins", new PlugInPreferences());
 		pm.addToRoot(plugInNode);
 
-		IPreferenceNode colorNode = new PreferenceNode("Colors", new PlugInPreferences());
-		pm.addToRoot(colorNode);
+		//IPreferenceNode colorNode = new PreferenceNode("Colors", new PlugInPreferences());
+		//pm.addToRoot(colorNode);
 		
 		PreferenceDialog dialog = new PreferenceDialog(shell, pm);
 		

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import org.jmedikit.lib.util.Point2D;
 import org.jmedikit.lib.util.Vector3D;
 
-public abstract class AImage {
+public abstract class AImage{
 	
 	public static final int TYPE_BYTE_SIGNED = 0;
 	public static final int TYPE_BYTE_UNSIGNED = 1;
@@ -38,6 +38,7 @@ public abstract class AImage {
 	 * PixelData is stored as Two Complement
 	 */
 	public static final int TYPE_SIGNED = 1;
+	
 	
 	protected String title;
 	
@@ -206,6 +207,7 @@ public abstract class AImage {
 		if(vectors.length == 6){
 			rowVector.setVector(vectors[0], vectors[1], vectors[2]);
 			columnVector.setVector(vectors[3], vectors[4], vectors[5]);
+			initializedOrientation = true;
 		}
 		else throw new IllegalArgumentException("Vectors must have 6 values: got "+vectors.length);
 	}
@@ -213,6 +215,7 @@ public abstract class AImage {
 	public void setImagePosition(float[] vector){
 		if(vector.length == 3){
 			imagePosition.setVector(vector[0], vector[1], vector[2]);
+			initializedOrientation = true;
 		}
 		else throw new IllegalArgumentException("Vector must have 3 values: got "+vector.length);
 	}
@@ -254,6 +257,10 @@ public abstract class AImage {
 	public Point2D<Float> getPixelSpacing(){
 		return pixelSpacing;
 	}
+	
+	public abstract int getMinValue();
+	
+	public abstract int getMaxValue();
 	
 	public int getMin() {
 		return min;
@@ -684,6 +691,10 @@ public abstract class AImage {
 	}
 	
 	public void copySignificantAttributes(AImage img){
+		//imagePosition = img.getImagePosition();
+		//rowVector = img.getRowImageOrientation();
+		//columnVector = img.getColumnImageOrientation();
+		pixelSpacing = img.getPixelSpacing();
 		windowCenter = img.windowCenter;
 		windowWidth = img.windowWidth;
 		min = img.min;
@@ -692,4 +703,5 @@ public abstract class AImage {
 		rescaleIntercept = img.rescaleIntercept;
 		rescaleSlope = img.rescaleSlope;
 	}
+	
 }

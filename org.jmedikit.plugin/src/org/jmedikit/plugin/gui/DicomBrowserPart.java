@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
-import org.jmedikit.lib.core.DicomTreeItem;
+import org.jmedikit.lib.core.ADicomTreeItem;
 import org.jmedikit.lib.core.DicomTreeRepository;
 import org.jmedikit.lib.io.DicomImporter;
 import org.jmedikit.plugin.gui.events.EventConstants;
@@ -67,7 +67,7 @@ public class DicomBrowserPart {
 		seriesIcon = imageProvider.getImageUnchecked(ImageProvider.DICOM_TREE_SERIES);
 		objectIcon = imageProvider.getImageUnchecked(ImageProvider.DICOM_TREE_OBJECT);
 		
-		tree = new Tree(parent, SWT.BORDER);
+		tree = new Tree(parent, SWT.NONE);
 		
 		tree.addListener(SWT.MouseDoubleClick, new Listener() {
 			@Override
@@ -76,7 +76,7 @@ public class DicomBrowserPart {
 				if(selectedItems.length == 1){
 					String uid = selectedItems[0].getText();
 					
-					DicomTreeItem clickedTreeItem = treeRepository.lookUpDicomTreeItem(uid);
+					ADicomTreeItem clickedTreeItem = treeRepository.lookUpDicomTreeItem(uid);
 					//System.out.println(clickedTreeItem);
 					broker.send(EventConstants.DICOMBROWSER_ITEM_SELECTION, clickedTreeItem);
 				}
@@ -98,7 +98,7 @@ public class DicomBrowserPart {
 				if(selectedItems.length == 1){
 					String uid = selectedItems[0].getText();
 					
-					DicomTreeItem clickedTreeItem = treeRepository.lookUpDicomTreeItem(uid);
+					ADicomTreeItem clickedTreeItem = treeRepository.lookUpDicomTreeItem(uid);
 					//System.out.println(clickedTreeItem);
 					broker.send(EventConstants.DICOMBROWSER_ITEM_SELECTION, clickedTreeItem);
 				}
@@ -138,21 +138,22 @@ public class DicomBrowserPart {
 	@Inject
 	@Optional
 	public void getNotifiedImportFinished(@UIEventTopic(EventConstants.FILE_IMPORT_FINISHED) boolean done){
+		tree.removeAll();
 		buildTree(tree, treeRepository);
 	}
 	
 	private void buildTree(Tree guiTree, DicomTreeRepository dicomTree){
-		DicomTreeItem root = dicomTree.getRoot();
+		ADicomTreeItem root = dicomTree.getRoot();
 		TreeItem guiRoot = new TreeItem(guiTree, SWT.DEFAULT);
 		guiRoot.setText("/");
 		guiRoot.setImage(rootIcon);
 		buildTreeItems(guiRoot, root);
 	}
 	
-	private void buildTreeItems(TreeItem parent, DicomTreeItem item){
+	private void buildTreeItems(TreeItem parent, ADicomTreeItem item){
 		if(!item.isLeaf()){
-			ArrayList<DicomTreeItem> children = item.getChildren();
-			for(DicomTreeItem child : children){
+			ArrayList<ADicomTreeItem> children = item.getChildren();
+			for(ADicomTreeItem child : children){
 				if(!child.isLeaf()){
 					TreeItem childParent = new TreeItem(parent, SWT.DEFAULT);
 					childParent.setText(child.getUid());
@@ -180,19 +181,19 @@ public class DicomBrowserPart {
 	
 	private void setTreeIcon(TreeItem item, int level){
 		switch (level) {
-		case DicomTreeItem.TREE_ROOT_LEVEL:
+		case ADicomTreeItem.TREE_ROOT_LEVEL:
 			item.setImage(rootIcon);
 			break;
-		case DicomTreeItem.TREE_PATIENT_LEVEL:
+		case ADicomTreeItem.TREE_PATIENT_LEVEL:
 			item.setImage(patientIcon);
 			break;
-		case DicomTreeItem.TREE_STUDY_LEVEL:
+		case ADicomTreeItem.TREE_STUDY_LEVEL:
 			item.setImage(studyIcon);
 			break;
-		case DicomTreeItem.TREE_SERIES_LEVEL:
+		case ADicomTreeItem.TREE_SERIES_LEVEL:
 			item.setImage(seriesIcon);
 			break;
-		case DicomTreeItem.TREE_OBJECT_LEVEL:
+		case ADicomTreeItem.TREE_OBJECT_LEVEL:
 			item.setImage(objectIcon);
 			break;
 		default:
