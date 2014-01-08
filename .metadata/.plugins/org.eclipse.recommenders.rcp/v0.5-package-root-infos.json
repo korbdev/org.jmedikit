@@ -182,19 +182,6 @@
     "javaRuntime": false
   },
   {
-    "symbolicName": "log4j",
-    "version": {
-      "major": 1,
-      "minor": 2,
-      "micro": 16,
-      "qualifier": ""
-    },
-    "jarFileFingerprint": "7999a63bfccbc7c247a9aea10d83d4272bd492c6",
-    "jarFileModificationDate": "2014-01-08T09:26:54.984+01:00",
-    "location": "C:\\Users\\Administrator\\master_thesis\\org.jmedikit.plugin\\lib\\dcm4che2\\lib\\log4j-1.2.16.jar",
-    "javaRuntime": false
-  },
-  {
     "symbolicName": "org.dcm4che2.dcm4che-imageio",
     "version": {
       "major": 2,
@@ -205,6 +192,19 @@
     "jarFileFingerprint": "494d9ee4567bdca412d83b6f655b9e37228b8dbc",
     "jarFileModificationDate": "2014-01-08T09:26:54.954+01:00",
     "location": "C:\\Users\\Administrator\\master_thesis\\org.jmedikit.plugin\\lib\\dcm4che2\\lib\\dcm4che-imageio-2.0.28.jar",
+    "javaRuntime": false
+  },
+  {
+    "symbolicName": "log4j",
+    "version": {
+      "major": 1,
+      "minor": 2,
+      "micro": 16,
+      "qualifier": ""
+    },
+    "jarFileFingerprint": "7999a63bfccbc7c247a9aea10d83d4272bd492c6",
+    "jarFileModificationDate": "2014-01-08T09:26:54.984+01:00",
+    "location": "C:\\Users\\Administrator\\master_thesis\\org.jmedikit.plugin\\lib\\dcm4che2\\lib\\log4j-1.2.16.jar",
     "javaRuntime": false
   },
   {
@@ -299,19 +299,6 @@
     "javaRuntime": false
   },
   {
-    "symbolicName": "org.dcm4che2.dcm4che-tool-fixjpegls",
-    "version": {
-      "major": 2,
-      "minor": 0,
-      "micro": 28,
-      "qualifier": ""
-    },
-    "jarFileFingerprint": "0e4d70965ed70cbc4883850d8849abe6fa453a06",
-    "jarFileModificationDate": "2014-01-08T09:26:54.974+01:00",
-    "location": "C:\\Users\\Administrator\\master_thesis\\org.jmedikit.plugin\\lib\\dcm4che2\\lib\\dcm4che-tool-fixjpegls-2.0.28.jar",
-    "javaRuntime": false
-  },
-  {
     "symbolicName": "jre",
     "version": {
       "major": 1,
@@ -323,6 +310,19 @@
     "jarFileModificationDate": "2011-10-03T02:47:33+02:00",
     "location": "C:\\Program Files (x86)\\Java\\jre7\\lib\\rt.jar",
     "javaRuntime": true
+  },
+  {
+    "symbolicName": "org.dcm4che2.dcm4che-tool-fixjpegls",
+    "version": {
+      "major": 2,
+      "minor": 0,
+      "micro": 28,
+      "qualifier": ""
+    },
+    "jarFileFingerprint": "0e4d70965ed70cbc4883850d8849abe6fa453a06",
+    "jarFileModificationDate": "2014-01-08T09:26:54.974+01:00",
+    "location": "C:\\Users\\Administrator\\master_thesis\\org.jmedikit.plugin\\lib\\dcm4che2\\lib\\dcm4che-tool-fixjpegls-2.0.28.jar",
+    "javaRuntime": false
   },
   {
     "symbolicName": "jre",
@@ -637,19 +637,6 @@
     "javaRuntime": false
   },
   {
-    "symbolicName": "org.eclipse.core.jobs",
-    "version": {
-      "major": 3,
-      "minor": 5,
-      "micro": 300,
-      "qualifier": "v20130429-1813"
-    },
-    "jarFileFingerprint": "69a54a3766004fc09222e2be6da544dde50ba50f",
-    "jarFileModificationDate": "2013-09-19T05:05:46+02:00",
-    "location": "C:\\eclipse\\plugins\\org.eclipse.core.jobs_3.5.300.v20130429-1813.jar",
-    "javaRuntime": false
-  },
-  {
     "symbolicName": "simpleitk-0.6.1",
     "version": {
       "major": -1,
@@ -660,6 +647,19 @@
     "jarFileFingerprint": "5dca77aca1375c9339a4203ebc3c196e55715fdb",
     "jarFileModificationDate": "2014-01-08T09:26:54.874+01:00",
     "location": "C:\\Users\\Administrator\\master_thesis\\org.jmedikit.plugin\\lib\\SimpleITK\\simpleitk-0.6.1.jar",
+    "javaRuntime": false
+  },
+  {
+    "symbolicName": "org.eclipse.core.jobs",
+    "version": {
+      "major": 3,
+      "minor": 5,
+      "micro": 300,
+      "qualifier": "v20130429-1813"
+    },
+    "jarFileFingerprint": "69a54a3766004fc09222e2be6da544dde50ba50f",
+    "jarFileModificationDate": "2013-09-19T05:05:46+02:00",
+    "location": "C:\\eclipse\\plugins\\org.eclipse.core.jobs_3.5.300.v20130429-1813.jar",
     "javaRuntime": false
   },
   {
@@ -676,19 +676,6 @@
     "javaRuntime": true
   },
   {
-    "symbolicName": "org.eclipse.e4.ui.workbench3",
-    "version": {
-      "major": 0,
-      "minor": 12,
-      "micro": 0,
-      "qualifier": "v20130515-1857"
-    },
-    "jarFileFingerprint": "86f3ec29981200ea5043d306fccc79872bad5eac",
-    "jarFileModificationDate": "2013-09-19T05:05:46+02:00",
-    "location": "C:\\eclipse\\plugins\\org.eclipse.e4.ui.workbench3_0.12.0.v20130515-1857.jar",
-    "javaRuntime": false
-  },
-  {
     "symbolicName": "org.apache.commons.cli",
     "version": {
       "major": 1,
@@ -699,6 +686,19 @@
     "jarFileFingerprint": "2bf96b7aa8b611c177d329452af1dc933e14501c",
     "jarFileModificationDate": "2014-01-08T09:26:54.944+01:00",
     "location": "C:\\Users\\Administrator\\master_thesis\\org.jmedikit.plugin\\lib\\dcm4che2\\lib\\commons-cli-1.2.jar",
+    "javaRuntime": false
+  },
+  {
+    "symbolicName": "org.eclipse.e4.ui.workbench3",
+    "version": {
+      "major": 0,
+      "minor": 12,
+      "micro": 0,
+      "qualifier": "v20130515-1857"
+    },
+    "jarFileFingerprint": "86f3ec29981200ea5043d306fccc79872bad5eac",
+    "jarFileModificationDate": "2013-09-19T05:05:46+02:00",
+    "location": "C:\\eclipse\\plugins\\org.eclipse.e4.ui.workbench3_0.12.0.v20130515-1857.jar",
     "javaRuntime": false
   },
   {
@@ -715,16 +715,16 @@
     "javaRuntime": true
   },
   {
-    "symbolicName": "org.dcm4che2.dcm4che-tool-pdf2dcm",
+    "symbolicName": "org.eclipse.equinox.registry",
     "version": {
-      "major": 2,
-      "minor": 0,
-      "micro": 28,
-      "qualifier": ""
+      "major": 3,
+      "minor": 5,
+      "micro": 301,
+      "qualifier": "v20130717-1549"
     },
-    "jarFileFingerprint": "71b6f1b79e1293d8e483888957583078fbc18eba",
-    "jarFileModificationDate": "2014-01-08T09:26:54.974+01:00",
-    "location": "C:\\Users\\Administrator\\master_thesis\\org.jmedikit.plugin\\lib\\dcm4che2\\lib\\dcm4che-tool-pdf2dcm-2.0.28.jar",
+    "jarFileFingerprint": "decd3075fd6623dad1a708dafe8899643dde46c5",
+    "jarFileModificationDate": "2013-09-19T05:05:50+02:00",
+    "location": "C:\\eclipse\\plugins\\org.eclipse.equinox.registry_3.5.301.v20130717-1549.jar",
     "javaRuntime": false
   },
   {
@@ -741,42 +741,16 @@
     "javaRuntime": false
   },
   {
-    "symbolicName": "org.eclipse.equinox.registry",
-    "version": {
-      "major": 3,
-      "minor": 5,
-      "micro": 301,
-      "qualifier": "v20130717-1549"
-    },
-    "jarFileFingerprint": "decd3075fd6623dad1a708dafe8899643dde46c5",
-    "jarFileModificationDate": "2013-09-19T05:05:50+02:00",
-    "location": "C:\\eclipse\\plugins\\org.eclipse.equinox.registry_3.5.301.v20130717-1549.jar",
-    "javaRuntime": false
-  },
-  {
-    "symbolicName": "org.dcm4che2.dcm4che-tool-dcmwado",
+    "symbolicName": "org.dcm4che2.dcm4che-tool-pdf2dcm",
     "version": {
       "major": 2,
       "minor": 0,
       "micro": 28,
       "qualifier": ""
     },
-    "jarFileFingerprint": "fc74e828f2c06c233d9e6b38dce3cf55b920eda9",
+    "jarFileFingerprint": "71b6f1b79e1293d8e483888957583078fbc18eba",
     "jarFileModificationDate": "2014-01-08T09:26:54.974+01:00",
-    "location": "C:\\Users\\Administrator\\master_thesis\\org.jmedikit.plugin\\lib\\dcm4che2\\lib\\dcm4che-tool-dcmwado-2.0.28.jar",
-    "javaRuntime": false
-  },
-  {
-    "symbolicName": "org.dcm4che2.dcm4che-tool-dcm2xml",
-    "version": {
-      "major": 2,
-      "minor": 0,
-      "micro": 28,
-      "qualifier": ""
-    },
-    "jarFileFingerprint": "50221739957e2337956b8620d09800cd2d46534f",
-    "jarFileModificationDate": "2014-01-08T09:26:54.964+01:00",
-    "location": "C:\\Users\\Administrator\\master_thesis\\org.jmedikit.plugin\\lib\\dcm4che2\\lib\\dcm4che-tool-dcm2xml-2.0.28.jar",
+    "location": "C:\\Users\\Administrator\\master_thesis\\org.jmedikit.plugin\\lib\\dcm4che2\\lib\\dcm4che-tool-pdf2dcm-2.0.28.jar",
     "javaRuntime": false
   },
   {
@@ -793,6 +767,32 @@
     "javaRuntime": true
   },
   {
+    "symbolicName": "org.dcm4che2.dcm4che-tool-dcm2xml",
+    "version": {
+      "major": 2,
+      "minor": 0,
+      "micro": 28,
+      "qualifier": ""
+    },
+    "jarFileFingerprint": "50221739957e2337956b8620d09800cd2d46534f",
+    "jarFileModificationDate": "2014-01-08T09:26:54.964+01:00",
+    "location": "C:\\Users\\Administrator\\master_thesis\\org.jmedikit.plugin\\lib\\dcm4che2\\lib\\dcm4che-tool-dcm2xml-2.0.28.jar",
+    "javaRuntime": false
+  },
+  {
+    "symbolicName": "org.dcm4che2.dcm4che-tool-dcmwado",
+    "version": {
+      "major": 2,
+      "minor": 0,
+      "micro": 28,
+      "qualifier": ""
+    },
+    "jarFileFingerprint": "fc74e828f2c06c233d9e6b38dce3cf55b920eda9",
+    "jarFileModificationDate": "2014-01-08T09:26:54.974+01:00",
+    "location": "C:\\Users\\Administrator\\master_thesis\\org.jmedikit.plugin\\lib\\dcm4che2\\lib\\dcm4che-tool-dcmwado-2.0.28.jar",
+    "javaRuntime": false
+  },
+  {
     "symbolicName": "org.dcm4che2.dcm4che-tool-dcmof",
     "version": {
       "major": 2,
@@ -806,16 +806,16 @@
     "javaRuntime": false
   },
   {
-    "symbolicName": "org.dcm4che2.dcm4che-tool-dcmgpwl",
+    "symbolicName": "org.eclipse.e4.tools.services",
     "version": {
-      "major": 2,
-      "minor": 0,
-      "micro": 28,
-      "qualifier": ""
+      "major": 0,
+      "minor": 12,
+      "micro": 0,
+      "qualifier": "v20130617-1345"
     },
-    "jarFileFingerprint": "7f2c370377c32f3765b2edea446f979af136401a",
-    "jarFileModificationDate": "2014-01-08T09:26:54.964+01:00",
-    "location": "C:\\Users\\Administrator\\master_thesis\\org.jmedikit.plugin\\lib\\dcm4che2\\lib\\dcm4che-tool-dcmgpwl-2.0.28.jar",
+    "jarFileFingerprint": "47b77b7a5d6633d415e4c81460933e6c8ceb9e33",
+    "jarFileModificationDate": "2013-10-21T09:55:22.696+02:00",
+    "location": "C:\\eclipse\\plugins\\org.eclipse.e4.tools.services_0.12.0.v20130617-1345.jar",
     "javaRuntime": false
   },
   {
@@ -832,16 +832,16 @@
     "javaRuntime": false
   },
   {
-    "symbolicName": "org.eclipse.e4.tools.services",
+    "symbolicName": "org.dcm4che2.dcm4che-tool-dcmgpwl",
     "version": {
-      "major": 0,
-      "minor": 12,
-      "micro": 0,
-      "qualifier": "v20130617-1345"
+      "major": 2,
+      "minor": 0,
+      "micro": 28,
+      "qualifier": ""
     },
-    "jarFileFingerprint": "47b77b7a5d6633d415e4c81460933e6c8ceb9e33",
-    "jarFileModificationDate": "2013-10-21T09:55:22.696+02:00",
-    "location": "C:\\eclipse\\plugins\\org.eclipse.e4.tools.services_0.12.0.v20130617-1345.jar",
+    "jarFileFingerprint": "7f2c370377c32f3765b2edea446f979af136401a",
+    "jarFileModificationDate": "2014-01-08T09:26:54.964+01:00",
+    "location": "C:\\Users\\Administrator\\master_thesis\\org.jmedikit.plugin\\lib\\dcm4che2\\lib\\dcm4che-tool-dcmgpwl-2.0.28.jar",
     "javaRuntime": false
   },
   {
@@ -897,19 +897,6 @@
     "javaRuntime": false
   },
   {
-    "symbolicName": "org.eclipse.jface",
-    "version": {
-      "major": 3,
-      "minor": 9,
-      "micro": 1,
-      "qualifier": "v20130725-1141"
-    },
-    "jarFileFingerprint": "cb306b217835bc8a309f8c80264f357d9dcc33bb",
-    "jarFileModificationDate": "2013-09-19T05:05:54+02:00",
-    "location": "C:\\eclipse\\plugins\\org.eclipse.jface_3.9.1.v20130725-1141.jar",
-    "javaRuntime": false
-  },
-  {
     "symbolicName": "org.eclipse.e4.ui.services",
     "version": {
       "major": 1,
@@ -923,16 +910,16 @@
     "javaRuntime": false
   },
   {
-    "symbolicName": "org.eclipse.equinox.preferences",
+    "symbolicName": "org.eclipse.jface",
     "version": {
       "major": 3,
-      "minor": 5,
-      "micro": 100,
-      "qualifier": "v20130422-1538"
+      "minor": 9,
+      "micro": 1,
+      "qualifier": "v20130725-1141"
     },
-    "jarFileFingerprint": "75b77bdb8eb93ed5c6d36267c46bf4ff50476747",
-    "jarFileModificationDate": "2013-09-19T05:05:50+02:00",
-    "location": "C:\\eclipse\\plugins\\org.eclipse.equinox.preferences_3.5.100.v20130422-1538.jar",
+    "jarFileFingerprint": "cb306b217835bc8a309f8c80264f357d9dcc33bb",
+    "jarFileModificationDate": "2013-09-19T05:05:54+02:00",
+    "location": "C:\\eclipse\\plugins\\org.eclipse.jface_3.9.1.v20130725-1141.jar",
     "javaRuntime": false
   },
   {
@@ -946,6 +933,19 @@
     "jarFileFingerprint": "fe7961858296aa3335c94c4db369cd9152dbc797",
     "jarFileModificationDate": "2013-09-19T05:06:02+02:00",
     "location": "C:\\eclipse\\plugins\\org.eclipse.ui_3.105.0.v20130522-1122.jar",
+    "javaRuntime": false
+  },
+  {
+    "symbolicName": "org.eclipse.equinox.preferences",
+    "version": {
+      "major": 3,
+      "minor": 5,
+      "micro": 100,
+      "qualifier": "v20130422-1538"
+    },
+    "jarFileFingerprint": "75b77bdb8eb93ed5c6d36267c46bf4ff50476747",
+    "jarFileModificationDate": "2013-09-19T05:05:50+02:00",
+    "location": "C:\\eclipse\\plugins\\org.eclipse.equinox.preferences_3.5.100.v20130422-1538.jar",
     "javaRuntime": false
   },
   {
@@ -1039,16 +1039,16 @@
     "javaRuntime": false
   },
   {
-    "symbolicName": "org.dcm4che2.dcm4che-tool-dcmmwl",
+    "symbolicName": "org.eclipse.e4.core.di",
     "version": {
-      "major": 2,
-      "minor": 0,
-      "micro": 28,
-      "qualifier": ""
+      "major": 1,
+      "minor": 3,
+      "micro": 0,
+      "qualifier": "v20130514-1256"
     },
-    "jarFileFingerprint": "01a4cfef1fff8139eb4199526f91d3da1de8a4c8",
-    "jarFileModificationDate": "2014-01-08T09:26:54.964+01:00",
-    "location": "C:\\Users\\Administrator\\master_thesis\\org.jmedikit.plugin\\lib\\dcm4che2\\lib\\dcm4che-tool-dcmmwl-2.0.28.jar",
+    "jarFileFingerprint": "50b12e13ba4bac92e1c73677db9144987b336f7f",
+    "jarFileModificationDate": "2013-09-19T05:05:46+02:00",
+    "location": "C:\\eclipse\\plugins\\org.eclipse.e4.core.di_1.3.0.v20130514-1256.jar",
     "javaRuntime": false
   },
   {
@@ -1065,29 +1065,16 @@
     "javaRuntime": false
   },
   {
-    "symbolicName": "org.eclipse.e4.core.di",
-    "version": {
-      "major": 1,
-      "minor": 3,
-      "micro": 0,
-      "qualifier": "v20130514-1256"
-    },
-    "jarFileFingerprint": "50b12e13ba4bac92e1c73677db9144987b336f7f",
-    "jarFileModificationDate": "2013-09-19T05:05:46+02:00",
-    "location": "C:\\eclipse\\plugins\\org.eclipse.e4.core.di_1.3.0.v20130514-1256.jar",
-    "javaRuntime": false
-  },
-  {
-    "symbolicName": "org.dcm4che2.dcm4che-tool-dcmmv",
+    "symbolicName": "org.dcm4che2.dcm4che-tool-dcmmwl",
     "version": {
       "major": 2,
       "minor": 0,
       "micro": 28,
       "qualifier": ""
     },
-    "jarFileFingerprint": "d7d6be7ee6e0bd35401e82447c7d13fd68c69bdc",
+    "jarFileFingerprint": "01a4cfef1fff8139eb4199526f91d3da1de8a4c8",
     "jarFileModificationDate": "2014-01-08T09:26:54.964+01:00",
-    "location": "C:\\Users\\Administrator\\master_thesis\\org.jmedikit.plugin\\lib\\dcm4che2\\lib\\dcm4che-tool-dcmmv-2.0.28.jar",
+    "location": "C:\\Users\\Administrator\\master_thesis\\org.jmedikit.plugin\\lib\\dcm4che2\\lib\\dcm4che-tool-dcmmwl-2.0.28.jar",
     "javaRuntime": false
   },
   {
@@ -1101,6 +1088,19 @@
     "jarFileFingerprint": "b865abf89e9345855c81e444a89bcd343b1e3cb4",
     "jarFileModificationDate": "2014-01-08T09:26:54.964+01:00",
     "location": "C:\\Users\\Administrator\\master_thesis\\org.jmedikit.plugin\\lib\\dcm4che2\\lib\\dcm4che-tool-dcmdir-2.0.28.jar",
+    "javaRuntime": false
+  },
+  {
+    "symbolicName": "org.dcm4che2.dcm4che-tool-dcmmv",
+    "version": {
+      "major": 2,
+      "minor": 0,
+      "micro": 28,
+      "qualifier": ""
+    },
+    "jarFileFingerprint": "d7d6be7ee6e0bd35401e82447c7d13fd68c69bdc",
+    "jarFileModificationDate": "2014-01-08T09:26:54.964+01:00",
+    "location": "C:\\Users\\Administrator\\master_thesis\\org.jmedikit.plugin\\lib\\dcm4che2\\lib\\dcm4che-tool-dcmmv-2.0.28.jar",
     "javaRuntime": false
   }
 ]

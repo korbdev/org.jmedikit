@@ -419,20 +419,23 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 	}
 	
 	@Override
-	public void notifyObservers(int x, int y, int z) {
+	public void notifyObservers(float x, float y, float z) {
 		for(IObserver o : observers){
 			if(o instanceof ImageViewComposite){
+				int x_normal = (int) (x * this.canvas.getActualImageWidth()+0.5);
+				int y_normal = (int) (y * this.canvas.getActualImageHeight()+0.5);
+				int z_normal = (int) z;
 				String actualIOT = this.getCanvas().imageOrientationType;
 				this.getCanvas().setDoXLineUpdate(true);
 				this.getCanvas().setDoYLineUpdate(true);
-				this.getCanvas().setxLineIndex(x);
-				this.getCanvas().setyLineIndex(y);
+				this.getCanvas().setxLineIndex(x_normal);
+				this.getCanvas().setyLineIndex(y_normal);
 				String observerIOT = ((ImageViewComposite) o).getCanvas().imageOrientationType;
 				if(actualIOT.equals(observerIOT)){
-					o.update(z);
+					o.update(z_normal);
 				}
 				else{
-					System.out.println(x + " x "+y+" x "+z);
+					System.out.println("Notify " + x_normal + " x "+y_normal+" x "+z_normal);
 					//o.updateScoutingLine(z, z, actualIOT);
 					o.updateScoutingLine(x, y, z, actualIOT);
 					//((ImageViewComposite) o).getCanvas().setIndex(y);
@@ -457,27 +460,37 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 
 	//@Override
 	//public void updateScoutingLine(int xIndex, int yIndex, String mprType){
-	public void updateScoutingLine(int x, int y, int z, String mprType){
+	public void updateScoutingLine(float xn, float yn, float zn, String mprType){
 		String IOT = this.getCanvas().imageOrientationType;
 		//System.out.println("OWN "+IOT+", sender "+mprType+" index "+xIndex+", "+yIndex);
-
+		
 		int sourceWidth = canvas.imageDimension.width;
 		int sourceHeight = canvas.imageDimension.height;
 		
 		int width = canvas.getActualImageWidth();
 		int height = canvas.getActualImageHeight();
 		
-		System.out.println("Normal "+ x + " x "+ y +" x "+ z+" // "+width+" x "+height);
+		//int x = (int) (xn * width+0.5);
+		//int y = (int) (yn * height+0.5);
+		//int z = (int) (zn * canvas.getImageStackSize());
 		
-		int x_n = (int) (((float)x/(float)width)*(float)sourceWidth);
-		int y_n = (int) (((float)y/(float)height)*(float)sourceHeight);
+		//System.out.println("Normal "+ x + " x "+ y +" x "+ z+" // "+width+" x "+height);
 		
-		int y_z = (int) (((float)z/(float)height)*(float)canvas.sourceDimension.height);
-		int x_z = (int) (((float)z/(float)width)*(float)canvas.sourceDimension.width);
+		//int x_n = (int) (((float)x/(float)width)*(float)sourceWidth);
+		//int y_n = (int) (((float)y/(float)height)*(float)sourceHeight);
 		
-		System.out.println("Normalized "+ x_z + " x "+ y_z +" x "+ z);
+		//int y_z = (int) (((float)z/(float)height)*(float)canvas.sourceDimension.height);
+		//int x_z = (int) (((float)z/(float)width)*(float)canvas.sourceDimension.width);
+		
+		//System.out.println("Normalized "+ x_n + " x "+ y_n +" x "+ z);
 		
 		if(mprType.equals(AImage.AXIAL) && IOT.equals(AImage.CORONAL)){
+			
+			int x = (int) (xn * width+0.5);
+			int y = (int) (yn * canvas.getImages().size());
+			int z = (int) (zn * height+0.5);
+			System.out.println("A->C "+x+" / "+y+" / "+z+"//"+width+"/"+height+"/"+canvas.getImages().size());
+			
 			canvas.setDoYLineUpdate(true);
 			//canvas.setyLineIndex(yIndex);
 			canvas.setIndex(y);
@@ -486,15 +499,28 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 			canvas.setyLineIndex(z);
 		}
 		if(mprType.equals(AImage.AXIAL) && IOT.equals(AImage.SAGITTAL)){
+			int x = (int) (xn * width +0.5);
+			int y = (int) (yn * canvas.getImages().size());
+			int z = (int) (zn * height +0.5);
+			
+			
+			System.out.println("A->S "+x+" / "+y+" / "+z);
+			
 			canvas.setDoYLineUpdate(true);
+			canvas.setDoXLineUpdate(true);
 			canvas.setIndex(x);
 			slider.setSelection(x);
 			//canvas.setyLineIndex(yIndex);
+			//System.out.println("A->S "+x + " x "+ y +" x "+ z+" // "+x_n);
 			canvas.setxLineIndex(y); //neu
 			canvas.setyLineIndex(z);
 		}
 		if(mprType.equals(AImage.CORONAL) && IOT.equals(AImage.AXIAL)){
 			canvas.setDoYLineUpdate(true);
+			int x = (int) (xn * width+0.5);
+			int y = (int) (yn * canvas.getImages().size());
+			int z = (int) (zn * height+0.5);
+			System.out.println("C->A "+x+" / "+y+" / "+z);
 			//canvas.setyLineIndex(yIndex);
 			canvas.setIndex(y);
 			slider.setSelection(y);
@@ -502,16 +528,24 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 			canvas.setyLineIndex(z);
 		}
 		if(mprType.equals(AImage.CORONAL) && IOT.equals(AImage.SAGITTAL)){
+			int x = (int) (xn * width +0.5);
+			int y = (int) (yn * canvas.getImages().size());
+			int z = (int) (zn * height +0.5);
+			System.out.println("C->S "+x+" / "+y+" / "+z);
 			System.out.println("WUT "+canvas.getxLineIndex()+", "+canvas.getyLineIndex());
 			canvas.setDoXLineUpdate(true);
 			//canvas.setxLineIndex(xIndex);
-			slider.setSelection(x);
-			canvas.setIndex(x);
-			System.out.println("C->S "+y+" normalized "+y_n);
-			canvas.setyLineIndex(y_n); //neu
+			slider.setSelection(y);
+			canvas.setIndex(y);
+			System.out.println("C->S "+y+" normalized "+y);
+			canvas.setyLineIndex(x); //neu
 			canvas.setxLineIndex(z);
 		}
 		if(mprType.equals(AImage.SAGITTAL) && IOT.equals(AImage.AXIAL)){
+			int x = (int) (xn * width +0.5);
+			int y = (int) (yn * canvas.getImages().size());
+			int z = (int) (zn * height +0.5);
+			System.out.println("S->A "+x+" / "+y+" / "+z+"//"+width+"/"+height+"/"+canvas.getImages().size());
 			canvas.setDoXLineUpdate(true);
 			//canvas.setxLineIndex(xIndex);
 			slider.setSelection(y);
@@ -520,13 +554,17 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 			canvas.setxLineIndex(z);
 		}
 		if(mprType.equals(AImage.SAGITTAL) && IOT.equals(AImage.CORONAL)){
+			int x = (int) (xn * width+0.5);
+			int y = (int) (yn * height+0.5);
+			int z = (int) (zn * canvas.getImages().size());
+			System.out.println("S->C "+x+" / "+y+" / "+z+"//"+width+"/"+height+"/"+canvas.getImages().size());
 			canvas.setDoXLineUpdate(true);
 			//canvas.setxLineIndex(xIndex);
-			slider.setSelection(x);
-			canvas.setIndex(x);
-			System.out.println("S->C "+y+" normalized "+y_n);
-			canvas.setyLineIndex(y_n); //neu
-			canvas.setxLineIndex(z);
+			slider.setSelection(z);
+			canvas.setIndex(z);
+			//System.out.println("S->C "+y+" normalized "+y_n);
+			canvas.setyLineIndex(x); //neu
+			canvas.setxLineIndex(y);
 		}
 		canvas.redraw();
 	}

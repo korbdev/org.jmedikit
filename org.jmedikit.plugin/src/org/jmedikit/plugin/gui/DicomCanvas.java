@@ -511,18 +511,20 @@ public class DicomCanvas extends Canvas{
 			int width = x+imageDimension.width;
 			int height = y+imageDimension.height;
 
-			Vector3D<Integer> coordinates = new Vector3D<Integer>(0, 0, 0, 1);
+			Vector3D<Float> coordinates = new Vector3D<Float>(0f, 0f, 0f, 1f);
 			
 			if( (event.x >= x && event.x < width) && (event.y >= y && event.y < height)){
 				//coordinates.x = (int)((((float)(event.x-x)/(float)imageDimension.width)*(float)sourceImage.getWidth())+0.5);
 				//coordinates.y = (int)((((float)(event.y-y)/(float)imageDimension.height)*(float)sourceImage.getHeight())+0.5);
-				coordinates.x = (int)((((float)(event.x-x)/(float)imageDimension.width)*(float)actualWidth)+0.5);
-				coordinates.y = (int)((((float)(event.y-y)/(float)imageDimension.height)*(float)actualHeight)+0.5);
+				System.out.println("pressed "+(event.x-x)+ " x "+(event.y-y));
+				coordinates.x = (((float)(event.x-x)/(float)imageDimension.width));
+				coordinates.y = (((float)(event.y-y)/(float)imageDimension.height));
 				//System.out.println(sourceImage.getWidth()+" x "+sourceImage.getHeight()+"/ "+actualWidth+" x "+actualHeight);
 			}
+			System.out.println(x + "/"+y+"//"+width+"/"+height);
+			coordinates.z = (float) index/(float)images.size();
 			
-			coordinates.z = index;
-			System.out.println(coordinates.x+" x "+coordinates.y+" x "+coordinates.z);
+			System.out.println("Coords "+coordinates.x+" x "+coordinates.y+" x "+coordinates.z);
 			
 			context.notifyObservers(coordinates.x, coordinates.y, coordinates.z);
 			
