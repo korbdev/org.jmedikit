@@ -1,0 +1,68 @@
+package org.jmedikit.plugin.gui.tools;
+
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.widgets.Event;
+import org.jmedikit.plugin.gui.DicomCanvas;
+
+public class DefaultTool extends ATool{
+
+	ATool move;
+	ATool resize;
+	
+	public DefaultTool(DicomCanvas c) {
+		super(c);
+		move = new MoveTool(c);
+		resize = new ResizeTool(c);
+	}
+
+	@Override
+	public void actionMouseMove(Event e) {
+		move.handleMouseMove(e);
+	}
+
+	@Override
+	public void actionMouseDown(Event e) {
+		if(e.button == 1){
+			
+		}
+		else if(e.button == 3){
+			move.handleMouseDown(e);
+		}
+	}
+
+	@Override
+	public void actionMouseUp(Event e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionMouseEnter(Event e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionMouseExit(Event e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionMouseWheel(Event e) {
+		resize.handleMouseWheel(e);
+	}
+
+	@Override
+	public GC preCalculation(GC toDraw) {
+		// TODO Auto-generated method stub
+		return toDraw;
+	}
+
+	@Override
+	public GC postCalculation(GC toDraw) {
+		// TODO Auto-generated method stub
+		return toDraw;
+	}
+
+}

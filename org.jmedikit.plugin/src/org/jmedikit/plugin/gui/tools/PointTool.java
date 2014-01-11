@@ -5,7 +5,6 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
@@ -149,6 +148,12 @@ public class PointTool extends ATool{
 	public void actionMouseExit(Event e) {
 		mouseEntered = false;
 		mouseExited = true;
+	}
+
+	@Override
+	public void actionMouseWheel(Event e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

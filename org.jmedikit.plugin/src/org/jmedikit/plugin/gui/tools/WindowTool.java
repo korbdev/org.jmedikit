@@ -74,4 +74,10 @@ public class WindowTool extends ATool{
 		
 	}
 
+	@Override
+	public void actionMouseWheel(Event e) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

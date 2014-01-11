@@ -3,7 +3,7 @@ package org.jmedikit.plugin.gui;
 
 import java.util.ArrayList;
 
-import org.eclipse.core.runtime.preferences.ConfigurationScope;
+import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.tools.services.IResourcePool;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
@@ -15,27 +15,27 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Slider;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.jmedikit.lib.core.ADicomTreeItem;
 import org.jmedikit.lib.image.AImage;
+import org.jmedikit.plugin.gui.events.EventConstants;
 import org.jmedikit.plugin.gui.tools.AToolFactory;
 import org.jmedikit.plugin.util.IObserver;
 import org.jmedikit.plugin.util.ISubject;
 import org.jmedikit.plugin.util.ImageProvider;
-import org.jmedikit.plugin.util.PreferencesConstants;
-import org.osgi.service.prefs.Preferences;
 
 
 public class ImageViewComposite extends Composite implements ISubject, IObserver{
 	
 	private String title;
 	
-	private ADicomTreeItem item;
+	//private ADicomTreeItem item;
 	
-	private ArrayList<AImage> images;
+	//private ArrayList<AImage> images;
 	
 	private DicomCanvas canvas;
 	
@@ -73,8 +73,8 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		this.parent = parent;
 		this.imageResource = pool;
 		this.rootPart = rootPart;
-		this.item = selection;
-		this.images = images;
+		//this.item = selection;
+		//this.images = images;
 		
 		isFullscreen = false;
 		fullScreenShell = new Shell(SWT.NO_TRIM | SWT.ON_TOP);
@@ -147,8 +147,8 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		scoutingLines = new ToolItem(annotationTools, SWT.CHECK);
 		scoutingLines.setImage(scoutingLinesImg);
 		
-		Preferences prefs = ConfigurationScope.INSTANCE.getNode("org.jmedikit.plugin");
-		System.out.println(prefs.get(PreferencesConstants.PLUGIN_DIRECTORY, "notset"));
+		//Preferences prefs = ConfigurationScope.INSTANCE.getNode("org.jmedikit.plugin");
+		//System.out.println(prefs.get(PreferencesConstants.PLUGIN_DIRECTORY, "notset"));
 		init();
 	}
 
@@ -306,6 +306,23 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		});
 	}
 	
+	public void setSingleSliderSelection(int index){
+		slider.setSelection(index);
+		parent.layout(true);
+		slider.update();
+	}
+	
+	public void setSliderSelection(int index){
+		System.out.println(index + "Slider Event");
+		slider.setSelection(index);
+		slider.notifyListeners(SWT.Selection, new Event());
+		slider.redraw();
+	}
+	
+	public int getSliderSelection(){
+		return slider.getSelection();
+	}
+	
 	private void initSlider(){
 		//System.out.println("initSlider");
 		//System.out.println("Get max "+slider.getMaximum());
@@ -314,6 +331,7 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				setFocus();
+				System.out.println("Observer index "+slider.getSelection());
 				canvas.setIndex(slider.getSelection());
 				//notifyObservers(canvas.getActualImageWidth(), canvas.getActualImageHeight(), slider.getSelection());
 				notifyObservers(slider.getSelection());
@@ -321,6 +339,7 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 			
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
+				System.out.println("hallo");
 			}
 		});
 		
@@ -424,22 +443,16 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 			if(o instanceof ImageViewComposite){
 				int x_normal = (int) (x * this.canvas.getActualImageWidth()+0.5);
 				int y_normal = (int) (y * this.canvas.getActualImageHeight()+0.5);
-				int z_normal = (int) z;
+
 				String actualIOT = this.getCanvas().imageOrientationType;
+				
 				this.getCanvas().setDoXLineUpdate(true);
 				this.getCanvas().setDoYLineUpdate(true);
+				
 				this.getCanvas().setxLineIndex(x_normal);
 				this.getCanvas().setyLineIndex(y_normal);
-				String observerIOT = ((ImageViewComposite) o).getCanvas().imageOrientationType;
-				if(actualIOT.equals(observerIOT)){
-					o.update(z_normal);
-				}
-				else{
-					System.out.println("Notify " + x_normal + " x "+y_normal+" x "+z_normal);
-					//o.updateScoutingLine(z, z, actualIOT);
-					o.updateScoutingLine(x, y, z, actualIOT);
-					//((ImageViewComposite) o).getCanvas().setIndex(y);
-				}
+				
+				o.updateScoutingLine(x, y, z, actualIOT);
 			}
 		}
 	}
@@ -455,116 +468,120 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 	public void update(int index){
 		canvas.setIndex(index);
 		slider.setSelection(index);
-		//System.out.println("Update "+title);
 	}
 
 	//@Override
-	//public void updateScoutingLine(int xIndex, int yIndex, String mprType){
 	public void updateScoutingLine(float xn, float yn, float zn, String mprType){
 		String IOT = this.getCanvas().imageOrientationType;
-		//System.out.println("OWN "+IOT+", sender "+mprType+" index "+xIndex+", "+yIndex);
-		
-		int sourceWidth = canvas.imageDimension.width;
-		int sourceHeight = canvas.imageDimension.height;
 		
 		int width = canvas.getActualImageWidth();
 		int height = canvas.getActualImageHeight();
 		
-		//int x = (int) (xn * width+0.5);
-		//int y = (int) (yn * height+0.5);
-		//int z = (int) (zn * canvas.getImageStackSize());
-		
-		//System.out.println("Normal "+ x + " x "+ y +" x "+ z+" // "+width+" x "+height);
-		
-		//int x_n = (int) (((float)x/(float)width)*(float)sourceWidth);
-		//int y_n = (int) (((float)y/(float)height)*(float)sourceHeight);
-		
-		//int y_z = (int) (((float)z/(float)height)*(float)canvas.sourceDimension.height);
-		//int x_z = (int) (((float)z/(float)width)*(float)canvas.sourceDimension.width);
-		
-		//System.out.println("Normalized "+ x_n + " x "+ y_n +" x "+ z);
-		
+		if( (mprType.equals(AImage.AXIAL) && IOT.equals(AImage.AXIAL)) ||
+			(mprType.equals(AImage.CORONAL) && IOT.equals(AImage.CORONAL)) ||
+			(mprType.equals(AImage.SAGITTAL) && IOT.equals(AImage.SAGITTAL))
+			){
+			int x = (int) (xn * width + 0.5);
+			int y = (int) (yn * height+0.5);
+			int z = (int) (zn * canvas.getImages().size() + 0.5);
+			
+			canvas.setDoYLineUpdate(true);
+			canvas.setDoXLineUpdate(true);
+			canvas.setIndex(z);
+			slider.setSelection(z);
+			canvas.setxLineIndex(x); //neu
+			canvas.setyLineIndex(y);
+		}
 		if(mprType.equals(AImage.AXIAL) && IOT.equals(AImage.CORONAL)){
 			
-			int x = (int) (xn * width+0.5);
-			int y = (int) (yn * canvas.getImages().size());
-			int z = (int) (zn * height+0.5);
-			System.out.println("A->C "+x+" / "+y+" / "+z+"//"+width+"/"+height+"/"+canvas.getImages().size());
+			int x = (int) (xn * width + 0.5);
+			int y = (int) (zn * height+0.5);
+			int z = (int) (yn * canvas.getImages().size() + 0.5);
 			
 			canvas.setDoYLineUpdate(true);
-			//canvas.setyLineIndex(yIndex);
-			canvas.setIndex(y);
-			slider.setSelection(y);
-			canvas.setxLineIndex(x); //neu
-			canvas.setyLineIndex(z);
+			canvas.setDoXLineUpdate(true);
+			
+			canvas.setIndex(z);
+			slider.setSelection(z);
+			
+			canvas.setxLineIndex(x);
+			
+			canvas.setyLineIndex(y);
 		}
 		if(mprType.equals(AImage.AXIAL) && IOT.equals(AImage.SAGITTAL)){
-			int x = (int) (xn * width +0.5);
-			int y = (int) (yn * canvas.getImages().size());
-			int z = (int) (zn * height +0.5);
-			
-			
-			System.out.println("A->S "+x+" / "+y+" / "+z);
-			
+			int x = (int) (yn * width + 0.5);
+			int y = (int) (zn * height + 0.5);
+			int z = (int) (xn * canvas.getImages().size() + 0.5);
+
 			canvas.setDoYLineUpdate(true);
 			canvas.setDoXLineUpdate(true);
-			canvas.setIndex(x);
-			slider.setSelection(x);
-			//canvas.setyLineIndex(yIndex);
-			//System.out.println("A->S "+x + " x "+ y +" x "+ z+" // "+x_n);
-			canvas.setxLineIndex(y); //neu
-			canvas.setyLineIndex(z);
+			
+			canvas.setIndex(z);
+			slider.setSelection(z);
+
+			canvas.setxLineIndex(x);
+			
+			canvas.setyLineIndex(y);
 		}
 		if(mprType.equals(AImage.CORONAL) && IOT.equals(AImage.AXIAL)){
+			int x = (int) (xn * width + 0.5);
+			int y = (int) (zn * height + 0.5);
+			int z = (int) (yn * canvas.getImages().size() + 0.5);
+
 			canvas.setDoYLineUpdate(true);
-			int x = (int) (xn * width+0.5);
-			int y = (int) (yn * canvas.getImages().size());
-			int z = (int) (zn * height+0.5);
-			System.out.println("C->A "+x+" / "+y+" / "+z);
-			//canvas.setyLineIndex(yIndex);
-			canvas.setIndex(y);
-			slider.setSelection(y);
-			canvas.setxLineIndex(x); //neu
-			canvas.setyLineIndex(z);
+			canvas.setDoXLineUpdate(true);
+			
+			canvas.setIndex(z);
+			slider.setSelection(z);
+			
+			canvas.setxLineIndex(x);
+			
+			canvas.setyLineIndex(y);
 		}
 		if(mprType.equals(AImage.CORONAL) && IOT.equals(AImage.SAGITTAL)){
-			int x = (int) (xn * width +0.5);
-			int y = (int) (yn * canvas.getImages().size());
-			int z = (int) (zn * height +0.5);
-			System.out.println("C->S "+x+" / "+y+" / "+z);
-			System.out.println("WUT "+canvas.getxLineIndex()+", "+canvas.getyLineIndex());
+			int x = (int) (zn * width + 0.5);
+			int y = (int) (yn * height + 0.5);
+			int z = (int) (xn * canvas.getImages().size() + 0.5);
+
 			canvas.setDoXLineUpdate(true);
-			//canvas.setxLineIndex(xIndex);
-			slider.setSelection(y);
-			canvas.setIndex(y);
-			System.out.println("C->S "+y+" normalized "+y);
-			canvas.setyLineIndex(x); //neu
-			canvas.setxLineIndex(z);
-		}
-		if(mprType.equals(AImage.SAGITTAL) && IOT.equals(AImage.AXIAL)){
-			int x = (int) (xn * width +0.5);
-			int y = (int) (yn * canvas.getImages().size());
-			int z = (int) (zn * height +0.5);
-			System.out.println("S->A "+x+" / "+y+" / "+z+"//"+width+"/"+height+"/"+canvas.getImages().size());
-			canvas.setDoXLineUpdate(true);
-			//canvas.setxLineIndex(xIndex);
-			slider.setSelection(y);
-			canvas.setIndex(y);
-			canvas.setyLineIndex(x); //neu
-			canvas.setxLineIndex(z);
-		}
-		if(mprType.equals(AImage.SAGITTAL) && IOT.equals(AImage.CORONAL)){
-			int x = (int) (xn * width+0.5);
-			int y = (int) (yn * height+0.5);
-			int z = (int) (zn * canvas.getImages().size());
-			System.out.println("S->C "+x+" / "+y+" / "+z+"//"+width+"/"+height+"/"+canvas.getImages().size());
-			canvas.setDoXLineUpdate(true);
-			//canvas.setxLineIndex(xIndex);
+			canvas.setDoYLineUpdate(true);
+
 			slider.setSelection(z);
 			canvas.setIndex(z);
-			//System.out.println("S->C "+y+" normalized "+y_n);
-			canvas.setyLineIndex(x); //neu
-			canvas.setxLineIndex(y);
+			
+			canvas.setyLineIndex(y);
+			
+			canvas.setxLineIndex(x);
+		}
+		if(mprType.equals(AImage.SAGITTAL) && IOT.equals(AImage.AXIAL)){
+			int x = (int) (zn * width +0.5);
+			int y = (int) (xn * height + 0.5);
+			int z = (int) (yn * canvas.getImages().size() + 0.5);
+
+			canvas.setDoXLineUpdate(true);
+			canvas.setDoYLineUpdate(true);
+
+			slider.setSelection(z);
+			canvas.setIndex(z);
+			
+			canvas.setyLineIndex(y);
+			
+			canvas.setxLineIndex(x);
+		}
+		if(mprType.equals(AImage.SAGITTAL) && IOT.equals(AImage.CORONAL)){
+			int x = (int) (zn * width + 0.5);
+			int y = (int) (yn * height + 0.5);
+			int z = (int) (xn * canvas.getImages().size() + 0.5);
+
+			canvas.setDoXLineUpdate(true);
+			canvas.setDoYLineUpdate(true);
+
+			slider.setSelection(z);
+			canvas.setIndex(z);
+
+			canvas.setyLineIndex(y);
+			
+			canvas.setxLineIndex(x);
 		}
 		canvas.redraw();
 	}
@@ -616,6 +633,10 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		canvas.redraw();
 	}
 	
+	public void postErrorEvent(String error){
+		IEventBroker broker = rootPart.getEventBroker();
+		broker.post(EventConstants.PLUG_IN_ERROR, error);
+	}
 	/*public void recalulateImages() {
 		// TODO Auto-generated method stub
 		

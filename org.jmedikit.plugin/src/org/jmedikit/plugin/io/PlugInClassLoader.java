@@ -2,8 +2,6 @@ package org.jmedikit.plugin.io;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -14,8 +12,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.jmedikit.lib.core.APlugIn;
-import org.jmedikit.lib.image.AImage;
-import org.jmedikit.lib.image.IntegerImage;
+
 import org.jmedikit.plugin.util.PreferencesConstants;
 import org.osgi.service.prefs.Preferences;
 

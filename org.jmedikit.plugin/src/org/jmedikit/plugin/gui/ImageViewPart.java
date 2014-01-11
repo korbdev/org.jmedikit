@@ -73,7 +73,7 @@ public class ImageViewPart {
 		dialog.open();*/
 		
 		children = new ArrayList<ImageViewComposite>();
-		toolevent = new TransformationToolEvent(new TransformationToolFactory(), TransformationToolFactory.MOVE_TOOL);
+		toolevent = new TransformationToolEvent(new TransformationToolFactory(), TransformationToolFactory.DEFAULT_TOOL);
 	}
 	
 	@PostConstruct

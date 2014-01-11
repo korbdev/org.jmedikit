@@ -17,7 +17,7 @@ public class PlugInIntegerValue implements IPlugInDialogItem{
 	
 	public PlugInIntegerValue(String name, int defaultValue) {
 		this.name = name;
-		int value = defaultValue;
+		value = defaultValue;
 	}
 	
 	@Override

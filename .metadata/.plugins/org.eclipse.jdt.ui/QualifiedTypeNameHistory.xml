@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.jmedikit.lib.util.Point2D"/>
+<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.DicomCanvas"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Event"/>
+<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.ImageViewComposite"/>
+<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.tools.DefaultTool"/>
+<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.tools.MoveTool"/>
+<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.tools.ResizeTool"/>
 <fullyQualifiedTypeName name="org.jmedikit.lib.util.Vector3D"/>
-<fullyQualifiedTypeName name="com.sun.xml.internal.bind.CycleRecoverable.Context"/>
+<fullyQualifiedTypeName name="java.io.StringWriter"/>
+<fullyQualifiedTypeName name="java.io.PrintWriter"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Composite"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.SWT"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Text"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.layout.GridLayout"/>
+<fullyQualifiedTypeName name="org.eclipse.e4.core.services.events.IEventBroker"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.ToolBar"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.layout.GridData"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.ToolItem"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.graphics.Image"/>
+<fullyQualifiedTypeName name="org.jmedikit.plugin.util.ImageProvider"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Listener"/>
+<fullyQualifiedTypeName name="java.awt.Font"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.graphics.Font"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Display"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.graphics.Color"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.graphics.RGB"/>
 </qualifiedTypeNameHistroy>

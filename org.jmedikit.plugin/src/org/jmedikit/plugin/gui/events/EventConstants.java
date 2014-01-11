@@ -6,6 +6,7 @@ public class EventConstants {
 	public final static String DICOMBROWSER_ITEM_SELECTION = "DICOM_BROWSER_SELECTION";
 	
 	public final static String TOOL_CHANGED_ALL = "TOOL_CHANGED/*";
+	public final static String TOOL_CHANGED_DEFAULT = "TOOL_CHANGED/DEFAULT";
 	public final static String TOOL_CHANGED_MOVE = "TOOL_CHANGED/MOVE";
 	public final static String TOOL_CHANGED_RESIZE = "TOOL_CHANGED/RESIZE";
 	public final static String TOOL_CHANGED_WINDOW = "TOOL_CHANGED/WINDOW";
@@ -28,4 +29,5 @@ public class EventConstants {
 	public final static String IMAGES_LOADED = "IMAGES_LOADED";
 	
 	public final static String PLUG_IN_SELECTED = "PLUG_IN_SELECTED";
+	public final static String PLUG_IN_ERROR = "PLUG_IN_ERROR";
 }

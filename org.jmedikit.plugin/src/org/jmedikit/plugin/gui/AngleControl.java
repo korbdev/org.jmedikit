@@ -5,8 +5,6 @@ import javax.inject.Inject;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -17,8 +15,8 @@ import org.eclipse.swt.widgets.Spinner;
 import org.jmedikit.plugin.gui.events.EventConstants;
 
 public class AngleControl {
-	
-	@Inject
+	//MPR nicht im Einsatz
+	/*@Inject
 	IEventBroker broker;
 	
 	private Composite controlContainer;
@@ -73,5 +71,5 @@ public class AngleControl {
 		alpha.addListener(SWT.Selection, angleChangedListener);
 		beta.addListener(SWT.Selection, angleChangedListener);
 		gamma.addListener(SWT.Selection, angleChangedListener);
-	}
+	}*/
 }

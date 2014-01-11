@@ -12,6 +12,8 @@ public class MoveTool extends ATool{
 
 	private Point2D<Integer> translation;
 	
+	//private ATool resize;
+	
 	/*public MoveTool(){
 		super();
 		translation = new Point2D<Integer>(0, 0);
@@ -22,6 +24,8 @@ public class MoveTool extends ATool{
 		Cursor cursor = new Cursor(canvas.getDisplay(), SWT.CURSOR_SIZEALL);
 		canvas.setCursor(cursor);
 		translation = new Point2D<Integer>(0, 0);
+		
+		//resize = new ResizeTool(canvas);
 	}
 
 	@Override
@@ -35,17 +39,22 @@ public class MoveTool extends ATool{
 
 			canvas.imageCenter = new Point2D<Integer>(canvas.imageCenter.x+(translation.x - translationOld.x), canvas.imageCenter.y+(translation.y - translationOld.y));
 		}
+		//if(mouseDown){
+		//	resize.handleMouseMove(e);
+		//}
 	}
 
 	@Override
 	public void actionMouseDown(Event e) {
 		translation.x = 0;
 		translation.y = 0;
+		
+		//resize.handleMouseDown(e);
 	}
 
 	@Override
 	public void actionMouseUp(Event e) {
-
+		//resize.handleMouseUp(e);
 	}
 
 	@Override
@@ -75,6 +84,21 @@ public class MoveTool extends ATool{
 	@Override
 	public void actionMouseExit(Event e) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionMouseWheel(Event e) {
+		int index = canvas.getIndex();
+		if(e.count < 0){
+			index = index + 1;
+		}
+		else {
+			index = index - 1;
+		}
+		if(index >= 0 && index < canvas.getImages().size()){
+			canvas.getContext().setSliderSelection(index);
+		}
 		
 	}
 
