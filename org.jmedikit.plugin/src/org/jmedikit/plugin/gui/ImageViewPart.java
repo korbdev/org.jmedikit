@@ -57,18 +57,6 @@ public class ImageViewPart {
 	private ADicomTreeItem selection;
 	
 	public ImageViewPart(){
-		/*GenericPlugInDialog dialog = new GenericPlugInDialog("test", "hallo");
-		String[] labels = new String[]{"ich", "bins", "Rudi"};
-		dialog.addRadioGroup("Radio", labels, 0);
-		dialog.addFileDialog("DicomDatei", "");
-		dialog.addStringValue("Vorname", "Rudi");
-		dialog.addFloatValue("Floats", 0f);
-		dialog.addStringValue("Ich", "test");
-		dialog.addSlider("Slider", 0, -37, -3, 2, 1);
-		dialog.addSlider("TEST", 0, -100, 100, 50, 2);
-		dialog.addCheckButton("CheckA", false);
-		dialog.addCheckButton("CheckA", true);
-		dialog.open();*/
 		
 		children = new ArrayList<ImageViewComposite>();
 		toolevent = new TransformationToolEvent(new TransformationToolFactory(), TransformationToolFactory.DEFAULT_TOOL);

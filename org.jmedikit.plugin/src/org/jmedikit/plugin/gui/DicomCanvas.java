@@ -2,9 +2,11 @@ package org.jmedikit.plugin.gui;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import org.eclipse.e4.tools.services.IResourcePool;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
@@ -815,9 +817,25 @@ public class DicomCanvas extends Canvas{
 
 	public void runPlugIn(String mainClassName) {
 		PlugInClassLoader loader = PlugInClassLoader.getInstance();
-		APlugIn plugin = (APlugIn) loader.instantiate(mainClassName);
+		final APlugIn plugin = (APlugIn) loader.instantiate(mainClassName);
 		
-		String initializeError = "Error in options()\n";
+		Display.getCurrent().syncExec(new Runnable() {
+			
+			@Override
+			public void run(){
+				try {
+					new ProgressMonitorDialog(ImageViewPart.getPartShell()).run(false, false, new PlugInRunner(plugin.getClass().getName(), DicomCanvas.this, plugin, images));
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		});	
+		
+		
+		
+		/*String initializeError = "Error in options()\n";
 		
 		try {
 			plugin.initialize();
@@ -850,7 +868,7 @@ public class DicomCanvas extends Canvas{
 			images.remove(index);
 			images.add(index, result);
 		}
-		plugin.restoreSystemOut();
+		plugin.restoreSystemOut();*/
 		redraw();
 	}
 }

@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.DicomCanvas"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Event"/>
 <fullyQualifiedTypeName name="org.jmedikit.plugin.gui.ImageViewComposite"/>
 <fullyQualifiedTypeName name="org.jmedikit.plugin.gui.tools.DefaultTool"/>
 <fullyQualifiedTypeName name="org.jmedikit.plugin.gui.tools.MoveTool"/>
 <fullyQualifiedTypeName name="org.jmedikit.plugin.gui.tools.ResizeTool"/>
 <fullyQualifiedTypeName name="org.jmedikit.lib.util.Vector3D"/>
-<fullyQualifiedTypeName name="java.io.StringWriter"/>
-<fullyQualifiedTypeName name="java.io.PrintWriter"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Composite"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.SWT"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Text"/>
@@ -35,11 +32,18 @@
 <fullyQualifiedTypeName name="org.eclipse.e4.ui.model.application.ui.basic.MPart"/>
 <fullyQualifiedTypeName name="org.jmedikit.plugin.gui.ImageViewPart"/>
 <fullyQualifiedTypeName name="org.jmedikit.lib.core.DicomObject"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="org.eclipse.e4.core.services.events.IEventBroker"/>
 <fullyQualifiedTypeName name="org.jmedikit.plugin.gui.events.EventConstants"/>
 <fullyQualifiedTypeName name="java.io.OutputStream"/>
 <fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="java.io.FileOutputStream"/>
 <fullyQualifiedTypeName name="java.io.PrintStream"/>
+<fullyQualifiedTypeName name="org.eclipse.jface.operation.IRunnableWithProgress"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.core.APlugIn"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.image.AImage"/>
+<fullyQualifiedTypeName name="java.io.StringWriter"/>
+<fullyQualifiedTypeName name="java.io.PrintWriter"/>
+<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.DicomCanvas"/>
+<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.PlugInRunner"/>
 </qualifiedTypeNameHistroy>
