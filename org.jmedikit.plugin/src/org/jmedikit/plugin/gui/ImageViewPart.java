@@ -11,9 +11,7 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.tools.services.IResourcePool;
 import org.eclipse.e4.ui.di.UIEventTopic;
-
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridLayout;
@@ -21,8 +19,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-
 import org.jmedikit.lib.core.ADicomTreeItem;
+import org.jmedikit.lib.core.DicomObject;
 import org.jmedikit.lib.image.AImage;
 import org.jmedikit.plugin.gui.events.AToolEvent;
 import org.jmedikit.plugin.gui.events.EventConstants;
@@ -127,6 +125,7 @@ public class ImageViewPart {
 		active = new ImageViewComposite(parent, SWT.NO_SCROLL|SWT.BORDER, selection.getUid(), selection, new ArrayList<AImage>(images), resourcePool, ImageViewPart.this);
 		active.getCanvas().setFocus();
 		active.setTool(toolevent.getFactory(), toolevent.getTool());
+		
 		images.clear();
 		for(ImageViewComposite child : children){
 			if(child.getTitle().equals(active.getTitle())){

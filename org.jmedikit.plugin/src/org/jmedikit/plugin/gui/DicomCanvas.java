@@ -122,7 +122,6 @@ public class DicomCanvas extends Canvas{
 		
 		item = selection;
 		this.images = images;
-		
 		cube = new ImageCube(images);
 
 		initializeColors();
@@ -188,8 +187,6 @@ public class DicomCanvas extends Canvas{
 	private Listener paintListener = new Listener() {
 		@Override
 		public void handleEvent(Event event) {
-			
-			System.out.println("Startpaint "+index);
 			
 			sourceImage = images.get(index);
 			
@@ -832,7 +829,6 @@ public class DicomCanvas extends Canvas{
 		}
 		
 		Integer options = plugin.getOptions();
-		System.out.println("Optionen "+options);
 
 		if((options & APlugIn.OPTION_PROCESS_ALL) == APlugIn.OPTION_PROCESS_ALL){
 			for(int i = 0; i < getImageStackSize(); i++){
@@ -854,6 +850,7 @@ public class DicomCanvas extends Canvas{
 			images.remove(index);
 			images.add(index, result);
 		}
+		plugin.restoreSystemOut();
 		redraw();
 	}
 }

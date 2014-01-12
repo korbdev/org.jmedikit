@@ -1,6 +1,10 @@
  
 package org.jmedikit.plugin.gui;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+
 import javax.inject.Inject;
 import javax.annotation.PostConstruct;
 
@@ -41,7 +45,7 @@ public class ConsoleView {
 	
 	@Inject
 	public ConsoleView() {
-		
+
 	}
 	
 	@PostConstruct
@@ -78,7 +82,7 @@ public class ConsoleView {
 
 	@Inject
 	@Optional
-	public void getNotifiedDicomTreeSelection(@UIEventTopic(EventConstants.PLUG_IN_ERROR) String error){
+	public void getNotifiedPlugInError(@UIEventTopic(EventConstants.PLUG_IN_ERROR) String error){
 		if(errorMsg.getText().equals("")){
 			errorMsg.setText(error);
 		}

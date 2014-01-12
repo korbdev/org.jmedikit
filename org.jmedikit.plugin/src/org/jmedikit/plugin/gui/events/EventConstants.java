@@ -30,4 +30,6 @@ public class EventConstants {
 	
 	public final static String PLUG_IN_SELECTED = "PLUG_IN_SELECTED";
 	public final static String PLUG_IN_ERROR = "PLUG_IN_ERROR";
+	
+	public final static String DICOM_TAGS_CHANGED = "DICOM_TAGS_CHANGED";
 }

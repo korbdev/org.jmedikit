@@ -1,5 +1,7 @@
 package org.jmedikit.lib.io;
 
+import java.util.ArrayList;
+
 public interface DicomData {
 	
 	public static final int RETURN_BYTE = 0;
@@ -14,6 +16,8 @@ public interface DicomData {
 	public Object getTagData(String tag, int returnType);
 	public String getVR(String tag, int returnType);
 	public Object getTagArray(String tag, int returnType);
+	
+	public ArrayList<String> getTags();
 	
 	public void setTagData(String tag, String vr, Object value);
 	public void setTagDataArray(String tag, Object value);

@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Slider;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.jmedikit.lib.core.ADicomTreeItem;
+import org.jmedikit.lib.core.DicomObject;
 import org.jmedikit.lib.image.AImage;
 import org.jmedikit.plugin.gui.events.EventConstants;
 import org.jmedikit.plugin.gui.tools.AToolFactory;
@@ -33,7 +34,7 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 	
 	private String title;
 	
-	//private ADicomTreeItem item;
+	private ADicomTreeItem item;
 	
 	//private ArrayList<AImage> images;
 	
@@ -73,7 +74,7 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		this.parent = parent;
 		this.imageResource = pool;
 		this.rootPart = rootPart;
-		//this.item = selection;
+		this.item = selection;
 		//this.images = images;
 		
 		isFullscreen = false;
@@ -616,6 +617,17 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 			canvas.setxLineIndex(z);
 		}
 		canvas.redraw();
+	}
+	
+	public DicomObject getCurrentDicomObject(){
+		DicomObject current = null;
+		if(item.getLevel() == ADicomTreeItem.TREE_OBJECT_LEVEL){
+			current = (DicomObject)item;
+		}
+		else {
+			current = (DicomObject) item.getChild(canvas.getIndex());
+		}
+		return current;
 	}
 	
 	public void removeSelection(){

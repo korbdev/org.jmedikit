@@ -1,5 +1,7 @@
 package org.jmedikit.plugin.gui;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 
 import org.eclipse.e4.tools.services.IResourcePool;
@@ -27,12 +29,9 @@ import org.jmedikit.lib.image.ImageCube;
 import org.jmedikit.lib.image.ROI;
 import org.jmedikit.lib.util.Dimension2D;
 import org.jmedikit.lib.util.Point2D;
-import org.jmedikit.lib.util.Vector3D;
 import org.jmedikit.plugin.gui.tools.ATool;
 import org.jmedikit.plugin.io.PlugInClassLoader;
 import org.jmedikit.plugin.util.ImageProvider;
-
-import com.sun.xml.internal.bind.CycleRecoverable.Context;
 
 
 public class DicomCanvas extends Canvas{
@@ -125,21 +124,8 @@ public class DicomCanvas extends Canvas{
 		this.images = images;
 		
 		cube = new ImageCube(images);
-		//cube = new MultiplanarReconstruction(this);
+
 		initializeColors();
-		
-		/*IntegerImage colorImg = new IntegerImage(images.get(0).getWidth(), images.get(0).getHeight());
-		
-		for( int y = 0; y < colorImg.getHeight(); y++){
-			for( int x = 0; x < colorImg.getWidth(); x++){
-				if(y % 2 == 0){
-					colorImg.setPixel(x, y, 255, 0, 0);
-				}
-				else colorImg.setPixel(x, y, 0, 255, 0);
-			}
-		}
-		
-		images.add(1, colorImg);*/
 		
 		axialImage = pool.getImageUnchecked(ImageProvider.AXIAL_W_ICON);
 		coronalImage = pool.getImageUnchecked(ImageProvider.CORONAL_W_ICON);
@@ -190,6 +176,7 @@ public class DicomCanvas extends Canvas{
 		//Index kann nun festgelegt werden
 		determineMaxIndizes();
 		
+		addListener(SWT.MouseWheel, mouseWheelListener);
 		addListener(SWT.MouseDown, mouseDownListener);
 		addListener(SWT.MouseUp, mouseUpListener);
 		addListener(SWT.MouseMove, mouseMoveListener);
@@ -201,6 +188,8 @@ public class DicomCanvas extends Canvas{
 	private Listener paintListener = new Listener() {
 		@Override
 		public void handleEvent(Event event) {
+			
+			System.out.println("Startpaint "+index);
 			
 			sourceImage = images.get(index);
 			
@@ -494,6 +483,15 @@ public class DicomCanvas extends Canvas{
 		return buffer;
 	}
 	
+	private Listener mouseWheelListener = new Listener(){
+		
+		@Override
+		public void handleEvent(Event event) {
+			tool.handleMouseWheel(event);
+			DicomCanvas.this.redraw();
+		};
+	};
+	
 	private Listener mouseDownListener = new Listener() {
 		@Override
 		public void handleEvent(Event event) {
@@ -506,28 +504,6 @@ public class DicomCanvas extends Canvas{
 	private Listener mouseUpListener = new Listener() {
 		@Override
 		public void handleEvent(Event event) {
-			int x = imageCenter.x-imageDimension.width/2;
-			int y = imageCenter.y-imageDimension.height/2;
-			int width = x+imageDimension.width;
-			int height = y+imageDimension.height;
-
-			Vector3D<Float> coordinates = new Vector3D<Float>(0f, 0f, 0f, 1f);
-			
-			if( (event.x >= x && event.x < width) && (event.y >= y && event.y < height)){
-				//coordinates.x = (int)((((float)(event.x-x)/(float)imageDimension.width)*(float)sourceImage.getWidth())+0.5);
-				//coordinates.y = (int)((((float)(event.y-y)/(float)imageDimension.height)*(float)sourceImage.getHeight())+0.5);
-				System.out.println("pressed "+(event.x-x)+ " x "+(event.y-y));
-				coordinates.x = (((float)(event.x-x)/(float)imageDimension.width));
-				coordinates.y = (((float)(event.y-y)/(float)imageDimension.height));
-				//System.out.println(sourceImage.getWidth()+" x "+sourceImage.getHeight()+"/ "+actualWidth+" x "+actualHeight);
-			}
-			System.out.println(x + "/"+y+"//"+width+"/"+height);
-			coordinates.z = (float) index/(float)images.size();
-			
-			System.out.println("Coords "+coordinates.x+" x "+coordinates.y+" x "+coordinates.z);
-			
-			context.notifyObservers(coordinates.x, coordinates.y, coordinates.z);
-			
 			tool.handleMouseUp(event);
 			DicomCanvas.this.redraw();
 		}
@@ -625,8 +601,14 @@ public class DicomCanvas extends Canvas{
 	}
 	
 	public void setIndex(int index){
-		this.index = index;
-		this.redraw();
+		if(index >= 0 && index < images.size()){
+			this.index = index;
+			this.redraw();
+		}
+	}
+	
+	public ImageViewComposite getContext(){
+		return context;
 	}
 	
 	public int getIndex(){
@@ -641,6 +623,10 @@ public class DicomCanvas extends Canvas{
 	public void recalculateImages(String newOrientation){
 		isInitialized = false;
 		index = 0;
+
+		xLineIndex = 0;
+		yLineIndex = 0;
+		
 		if(newOrientation.equals(AImage.AXIAL)){
 			images = cube.calculateAxialView();
 		}
@@ -833,16 +819,34 @@ public class DicomCanvas extends Canvas{
 	public void runPlugIn(String mainClassName) {
 		PlugInClassLoader loader = PlugInClassLoader.getInstance();
 		APlugIn plugin = (APlugIn) loader.instantiate(mainClassName);
-		plugin.initialize();
+		
+		String initializeError = "Error in options()\n";
+		
+		try {
+			plugin.initialize();
+		} catch (Exception e) {
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			initializeError  += sw.toString();
+			context.postErrorEvent(initializeError+"\n");
+		}
 		
 		Integer options = plugin.getOptions();
 		System.out.println("Optionen "+options);
 
 		if((options & APlugIn.OPTION_PROCESS_ALL) == APlugIn.OPTION_PROCESS_ALL){
 			for(int i = 0; i < getImageStackSize(); i++){
-				AImage result = plugin.run(images.get(i));
-				images.remove(i);
-				images.add(i, result);
+				String processError= "Error in process() at image index " + i + " \n";
+				try {
+					AImage result = plugin.run(images.get(i));
+					images.remove(i);
+					images.add(i, result);
+				} catch (Exception e) {
+					StringWriter sw = new StringWriter();
+					e.printStackTrace(new PrintWriter(sw));
+					processError  += sw.toString();
+					context.postErrorEvent(processError+"\n");
+				}
 			}
 		}
 		else{

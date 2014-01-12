@@ -52,6 +52,11 @@ public abstract class ADicomObject extends ADicomTreeItem implements DicomData, 
 		return null;
 	}
 	
+	@Override 
+	public ArrayList<String> getTags(){
+		return data.getTags();
+	}
+	
 	@Override
 	public void setTagDataArray(String tag, Object value){
 		data.setTagDataArray(tag, value);

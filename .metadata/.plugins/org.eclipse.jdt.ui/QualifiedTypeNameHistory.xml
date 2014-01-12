@@ -13,7 +13,6 @@
 <fullyQualifiedTypeName name="org.eclipse.swt.SWT"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Text"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.layout.GridLayout"/>
-<fullyQualifiedTypeName name="org.eclipse.e4.core.services.events.IEventBroker"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.ToolBar"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.layout.GridData"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.ToolItem"/>
@@ -25,4 +24,22 @@
 <fullyQualifiedTypeName name="org.eclipse.swt.widgets.Display"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.graphics.Color"/>
 <fullyQualifiedTypeName name="org.eclipse.swt.graphics.RGB"/>
+<fullyQualifiedTypeName name="java.util.Iterator"/>
+<fullyQualifiedTypeName name="org.dcm4che2.data.DicomElement"/>
+<fullyQualifiedTypeName name="org.dcm4che2.util.TagUtils"/>
+<fullyQualifiedTypeName name="javax.annotation.PostConstruct"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.List"/>
+<fullyQualifiedTypeName name="javax.inject.Inject"/>
+<fullyQualifiedTypeName name="org.eclipse.e4.ui.model.application.MApplication"/>
+<fullyQualifiedTypeName name="org.eclipse.e4.ui.model.application.ui.basic.impl.PartImpl"/>
+<fullyQualifiedTypeName name="org.eclipse.e4.ui.model.application.ui.basic.MPart"/>
+<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.ImageViewPart"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.core.DicomObject"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="org.eclipse.e4.core.services.events.IEventBroker"/>
+<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.events.EventConstants"/>
+<fullyQualifiedTypeName name="java.io.OutputStream"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="java.io.FileOutputStream"/>
+<fullyQualifiedTypeName name="java.io.PrintStream"/>
 </qualifiedTypeNameHistroy>

@@ -14,6 +14,7 @@
               <children xsi:type="basic:Part" xmi:id="_5zkTwDdsEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.imageview" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.ImageViewPart" label="Image View" iconURI="platform:/plugin/org.jmedikit.plugin/icons/layers_16x14.png"/>
             </children>
             <children xsi:type="basic:PartStack" xmi:id="_C9GEEDdtEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.consoleStack" containerData="2000">
+              <children xsi:type="basic:Part" xmi:id="_aRjCQHsqEeOZb83DWYT-eQ" elementId="org.jmedikit.plugin.part.DicomTagView" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.DicomTagView" label="DicomTagView" iconURI="platform:/plugin/org.jmedikit.plugin/icons/book_alt2_16x14.png" tooltip="Zeigt die DicomTags des aktuell ausgew&#xe4;hlten ImageView"/>
               <children xsi:type="basic:Part" xmi:id="_EZM1sDdtEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.console" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.ConsoleView" label="Console" iconURI="platform:/plugin/org.jmedikit.plugin/icons/comment_alt2_stroke_14x16.png"/>
             </children>
           </children>
@@ -32,6 +33,7 @@
     <handlers xmi:id="_9eehEGp2EeO64bCVqCwj9A" elementId="org.jmedikit.plugin.rmSelectionHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.RemoveSelectionHandler" command="_6ASi8Gp2EeO64bCVqCwj9A"/>
     <handlers xmi:id="_qZD58Gp3EeO64bCVqCwj9A" elementId="org.jmedikit.plugin.rmSingleSelectionHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.RemoveSingleSelectionHandler" command="_GmlVEGp3EeO64bCVqCwj9A"/>
     <handlers xmi:id="_c6vWAHlREeOVeM1CIFo0tg" elementId="org.jmedikit.plugin.defaultToolHandler" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.ToolDefaultHandler" command="_VOsQUHlREeOVeM1CIFo0tg"/>
+    <handlers xmi:id="_kw2rAHswEeOZb83DWYT-eQ" elementId="org.jmedikit.plugin.toolDicomTags" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.handlers.ToolDicomTagsHandler" command="_g61bsHswEeOZb83DWYT-eQ"/>
     <mainMenu xmi:id="_YbxzMDdtEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.mainMenu">
       <children xsi:type="menu:Menu" xmi:id="_-F0WoDdtEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.mainMenu.file" label="Datei">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_Br4eYDduEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.mainMenu.file.open" label="&#xd6;ffne Ordner" command="_qOWngDduEeOZNbAKmr0f_w"/>
@@ -61,6 +63,8 @@
         <children xsi:type="menu:HandledToolItem" xmi:id="_7pEi4GTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.coronal" label="Coronal" iconURI="platform:/plugin/org.jmedikit.plugin/icons/coronal_32x32.png" tooltip="xz-Ansicht" command="_XXZgkGTJEeOQ-uwt3ZM7YA"/>
         <children xsi:type="menu:HandledToolItem" xmi:id="__QtX8GTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.sagittal" label="Sagittal" iconURI="platform:/plugin/org.jmedikit.plugin/icons/sagittal_32x32.png" tooltip="yz-Ansicht" command="_Zg3HcGTJEeOQ-uwt3ZM7YA"/>
         <children xsi:type="menu:ToolBarSeparator" xmi:id="_NO900Gc2EeOA-puiBwJr7Q" elementId="org.jmedikit.plugin.toolbarseparator.0"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_GZuUgHswEeOZb83DWYT-eQ" elementId="org.jmedikit.plugin.DicomTagTool" iconURI="platform:/plugin/org.jmedikit.plugin/icons/book_alt2_32x32.png" tooltip="Zeige DicomTags" command="_g61bsHswEeOZb83DWYT-eQ"/>
+        <children xsi:type="menu:ToolBarSeparator" xmi:id="_qWv1IHszEeOZb83DWYT-eQ" elementId="org.jmedikit.plugin.toolbarseparator.1"/>
         <children xsi:type="menu:ToolControl" xmi:id="_eGjGEF2rEeOOqfCGPLe33g" elementId="org.jmedikit.plugin.toolcontrol.angle" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.AngleControl"/>
       </children>
     </trimBars>
@@ -77,6 +81,7 @@
   <commands xmi:id="_Zg3HcGTJEeOQ-uwt3ZM7YA" elementId="org.jmedikit.plugin.sagittalCommand" commandName="sagittalCommand"/>
   <commands xmi:id="_6ASi8Gp2EeO64bCVqCwj9A" elementId="org.jmedikit.plugin.rmSelectionCommand" commandName="rmSelectionCommand"/>
   <commands xmi:id="_GmlVEGp3EeO64bCVqCwj9A" elementId="org.jmedikit.plugin.rmSingleSelectionCommand" commandName="rmSingleSelectionCommand"/>
+  <commands xmi:id="_g61bsHswEeOZb83DWYT-eQ" elementId="org.jmedikit.plugin.command.toolDicomTags" commandName="toolDicomTags"/>
   <addons xmi:id="_O7jMYTdoEeOZNbAKmr0f_w" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_O7jMYjdoEeOZNbAKmr0f_w" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_O7jMYzdoEeOZNbAKmr0f_w" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

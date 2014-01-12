@@ -2,11 +2,15 @@ package org.jmedikit.lib.io;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
+import org.dcm4che2.data.DicomElement;
 import org.dcm4che2.data.DicomObject;
 import org.dcm4che2.data.Tag;
 import org.dcm4che2.data.VR;
 import org.dcm4che2.io.DicomInputStream;
+import org.dcm4che2.util.TagUtils;
 
 public class BasicDicomData implements DicomData{
 	
@@ -58,6 +62,17 @@ public class BasicDicomData implements DicomData{
 
 	}*/
 
+	@Override
+	public ArrayList<String> getTags(){
+		ArrayList<String> tags = new ArrayList<String>();
+		Iterator<DicomElement> iter = dcmobj.iterator();
+		while(iter.hasNext()){
+			DicomElement element = iter.next();
+			tags.add(element.toString());
+		}
+		return tags;
+	}
+	
 	@Override
 	public Object getTagArray(String tag, int returnType) {
 		int dicomTag = Tag.toTag(tag);
