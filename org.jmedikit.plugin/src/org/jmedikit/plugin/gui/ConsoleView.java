@@ -1,9 +1,6 @@
  
 package org.jmedikit.plugin.gui;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
 
 import javax.inject.Inject;
 import javax.annotation.PostConstruct;
@@ -26,7 +23,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
-import org.jmedikit.lib.core.ADicomTreeItem;
 import org.jmedikit.plugin.gui.events.EventConstants;
 import org.jmedikit.plugin.util.ImageProvider;
 
@@ -89,7 +85,5 @@ public class ConsoleView {
 		else errorMsg.setText(errorMsg.getText() + "\n" + error);
 		
 	}
-	
-	
 	
 }

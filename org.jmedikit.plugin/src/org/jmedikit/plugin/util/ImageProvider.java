@@ -40,4 +40,11 @@ public class ImageProvider extends BasicResourceProvider{
 	public static final String SAGITTAL_W_ICON = "SAGITTAL_W_ICON";
 	
 	public static final String CONSOLE_CLEAR = "CONSOLE_CLEAR";
+	
+	public static final String TABLE_0 = "TABLE_0";
+	public static final String TABLE_1 = "TABLE_1";
+	public static final String TABLE_2 = "TABLE_2";
+	public static final String TABLE_3 = "TABLE_3";
+	public static final String TABLE_4 = "TABLE_4";
+	public static final String TABLE_5 = "TABLE_5";
 }

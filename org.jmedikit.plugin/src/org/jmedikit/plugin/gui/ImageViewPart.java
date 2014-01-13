@@ -151,22 +151,24 @@ public class ImageViewPart {
 	@Optional
 	public void getNotifiedOrientationChanged(@UIEventTopic(EventConstants.ORIENTATION_CHANGED_ALL) String type){
 		int newIndex = 1;
-		if(type.equals(EventConstants.ORIENTATION_CHANGED_AXIAL)){
-			newIndex = active.getCanvas().getMaxAxialIndex();
-			active.getCanvas().recalculateImages(AImage.AXIAL);
-			active.setSliderMaximum(newIndex-1);
-		}
-		else if(type.equals(EventConstants.ORIENTATION_CHANGED_CORONAL)){
-			newIndex = active.getCanvas().getMaxCoronalIndex();
-			active.getCanvas().recalculateImages(AImage.CORONAL);
-			active.setSliderMaximum(newIndex-1);
-		}
-		else if(type.equals(EventConstants.ORIENTATION_CHANGED_SAGITTAL)){
-			newIndex = active.getCanvas().getMaxSagittalIndex();
-			active.getCanvas().recalculateImages(AImage.SAGITTAL);
-			active.setSliderMaximum(newIndex-1);
-		}
-		active.getCanvas().setMaxCurrentIndex(newIndex);
+		if(active != null){
+			if(type.equals(EventConstants.ORIENTATION_CHANGED_AXIAL)){
+				newIndex = active.getCanvas().getMaxAxialIndex();
+				active.getCanvas().recalculateImages(AImage.AXIAL);
+				active.setSliderMaximum(newIndex-1);
+			}
+			else if(type.equals(EventConstants.ORIENTATION_CHANGED_CORONAL)){
+				newIndex = active.getCanvas().getMaxCoronalIndex();
+				active.getCanvas().recalculateImages(AImage.CORONAL);
+				active.setSliderMaximum(newIndex-1);
+			}
+			else if(type.equals(EventConstants.ORIENTATION_CHANGED_SAGITTAL)){
+				newIndex = active.getCanvas().getMaxSagittalIndex();
+				active.getCanvas().recalculateImages(AImage.SAGITTAL);
+				active.setSliderMaximum(newIndex-1);
+			}
+			active.getCanvas().setMaxCurrentIndex(newIndex);
+		}	
 	}
 	
 	@Inject
@@ -216,6 +218,9 @@ public class ImageViewPart {
 			if(child.getTitle().equals(active.getTitle()) && child != imageViewComposite){
 				child.removeObserver(imageViewComposite);
 			}
+		}
+		if(imageViewComposite.equals(active)){
+			active = null;
 		}
 		children.remove(imageViewComposite);
 	}

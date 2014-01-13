@@ -3,8 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: JMediKit
 Bundle-SymbolicName: org.jmedikit.plugin;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-ClassPath: .,
- lib/dcm4che2/lib/commons-cli-1.2.jar,
+Bundle-ClassPath: ., 
+ lib/dcm4che2/lib/commons-cli-1.2.jar, 
  lib/dcm4che2/lib/dcm4che-audit-2.0.28.jar,
  lib/dcm4che2/lib/dcm4che-base64-2.0.28.jar,
  lib/dcm4che2/lib/dcm4che-core-2.0.28.jar,

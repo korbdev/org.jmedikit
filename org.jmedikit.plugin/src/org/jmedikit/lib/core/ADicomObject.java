@@ -5,15 +5,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.jmedikit.lib.image.AImage;
-import org.jmedikit.lib.io.BasicDicomData;
-import org.jmedikit.lib.io.BasicDicomImageData;
 import org.jmedikit.lib.io.DicomData;
 import org.jmedikit.lib.io.DicomImageData;
+import org.jmedikit.lib.io.IDicomData;
+import org.jmedikit.lib.io.IDicomImageData;
 
-public abstract class ADicomObject extends ADicomTreeItem implements DicomData, DicomImageData{
+public abstract class ADicomObject extends ADicomTreeItem implements IDicomData, IDicomImageData{
 
-	private DicomData data;
-	private DicomImageData imagedata;
+	private IDicomData data;
+	private IDicomImageData imagedata;
 	private File f;
 	
 	public ADicomObject(File input) throws IOException{
@@ -23,8 +23,8 @@ public abstract class ADicomObject extends ADicomTreeItem implements DicomData, 
 			throw new IllegalArgumentException(f.getPath()+" filesize is zero");
 		}
 		
-		data = new BasicDicomData(f);
-		imagedata = new BasicDicomImageData(f, data);
+		data = new DicomData(f);
+		imagedata = new DicomImageData(f, data);
 		/*try {
 			data = new BasicDicomData(f);
 			imagedata = new BasicDicomImageData(f, data);
@@ -53,7 +53,7 @@ public abstract class ADicomObject extends ADicomTreeItem implements DicomData, 
 	}
 	
 	@Override 
-	public ArrayList<String> getTags(){
+	public ArrayList<String[]> getTags(){
 		return data.getTags();
 	}
 	

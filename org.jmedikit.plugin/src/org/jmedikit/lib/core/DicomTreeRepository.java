@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import org.jmedikit.lib.image.AImage;
-import org.jmedikit.lib.io.DicomData;
+import org.jmedikit.lib.io.IDicomData;
 
 public class DicomTreeRepository {
 	
@@ -90,9 +90,9 @@ public class DicomTreeRepository {
 	
 	public void insert(DicomObject item){
 		//System.out.println("INSERT "+item.getUid());
-		String nameId = (String) item.getTagData("PatientName", DicomData.RETURN_STRING);
-		String studyId = (String) item.getTagData("StudyInstanceUID", DicomData.RETURN_STRING);
-		String seriesId = (String) item.getTagData("SeriesInstanceUID", DicomData.RETURN_STRING);
+		String nameId = (String) item.getTagData("PatientName", IDicomData.RETURN_STRING);
+		String studyId = (String) item.getTagData("StudyInstanceUID", IDicomData.RETURN_STRING);
+		String seriesId = (String) item.getTagData("SeriesInstanceUID", IDicomData.RETURN_STRING);
 		
 		nameId = nameId.equals("default") ? "default_name" : nameId;
 		studyId = studyId.equals("default") ? "default_study" : studyId;
