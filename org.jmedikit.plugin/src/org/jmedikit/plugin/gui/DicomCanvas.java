@@ -1,7 +1,5 @@
 package org.jmedikit.plugin.gui;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
@@ -21,6 +19,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+
 import org.jmedikit.lib.core.BilinearInterpolation;
 import org.jmedikit.lib.core.DicomObject;
 import org.jmedikit.lib.core.ADicomTreeItem;
@@ -35,86 +34,261 @@ import org.jmedikit.plugin.gui.tools.ATool;
 import org.jmedikit.plugin.io.PlugInClassLoader;
 import org.jmedikit.plugin.util.ImageProvider;
 
-
+/**
+ * DicomCanvas ist verantwortlich für das Anzeigen der Bilddaten.
+ * 
+ * @author Rudolf Korb
+ *
+ */
 public class DicomCanvas extends Canvas{
  
+	/**
+	 * Bedienelement auf dem sich das aktuelle Canvas befindet.
+	 * Bedienelement ist eine geöffnete DICOM-Serie
+	 */
 	private ImageViewComposite context;
 	
+	/**
+	 * Referenz auf das ausgewählte Element im DicomBrowser
+	 */
 	private ADicomTreeItem item;
 	
+	/**
+	 * Index des aktuell ausgewählten DICOM-Elements.
+	 */
 	private int index;
 	
+	/**
+	 * maximaler Index, bzw z-Wert bei einer Konvetierung vom aktuellen MPR-Typ nach AXIAL
+	 */
 	private int maxAxialIndex;
+	
+	/**
+	 * maximaler Index, bzw z-Wert bei einer Konvetierung vom aktuellen MPR-Typ nach CORONAL
+	 */
 	private int maxCoronalIndex;
+	
+	/**
+	 * maximaler Index, bzw z-Wert bei einer Konvetierung vom aktuellen MPR-Typ nach SAGGITAL
+	 */
 	private int maxSagittalIndex;
 	
+	/**
+	 * maximaler Index, bzw z-Wert bei aktuellem MPR-Typ
+	 */
 	private int maxCurrentIndex;
 	
+	/**
+	 * Das aktuell gewählte Werkzeug aus der Werkzeugleiste
+	 */
 	private ATool tool;
 	
+	/**
+	 * DICOM-Bildstapel
+	 * Enthält initial die Bilder, die im DICOM-Browser gewählt wurden
+	 * Inhalt kann bei Bedienung geändert werden (zum Beispiel durch PlugIns oder Änderung des MPR-Typs)
+	 */
 	private ArrayList<AImage> images;
 	
+	/**
+	 * ImageCube behandelt Änderungen des MPR-Typs
+	 */
 	private ImageCube cube;
 	//private MultiplanarReconstruction cube;
 	
+	/**
+	 * Enthält das Originalbild des aktuell gewählten Index
+	 */
 	public AImage sourceImage;
+	
+	/**
+	 * Kopie des ersten Bildes im initialen DICOM-Stapel, darf nicht neu vergeben werden.
+	 */
 	public AImage sampleImage;
+	
+	/**
+	 * Enthält die tatsächlich Dimension des aktuell gewählten Bildes
+	 */
 	public Dimension2D<Integer> sourceDimension;
+	
+	/**
+	 * MPR-Typ bei initialisierung des DICOM-Bildstapels, darf nicht neu vergeben werden.
+	 */
 	public String initialImageOrientationType;
+	
+	/**
+	 * Aktueller MPR-Typ
+	 */
 	public String imageOrientationType;
 	
+	/**
+	 * enthält windowCenter des aktuell aktiven Bildes
+	 * @see org.jmedikit.lib.image.AImage#getWindowCenter()
+	 */
 	public float windowCenter;
+	
+	/**
+	 * enthält windowWidth des aktuell aktiven Bildes
+	 * @see org.jmedikit.lib.image.AImage#getWindowWidth()
+	 */
 	public float windowWidth;
 	
 	public int min;
+	
 	public int max;
 	
 	public String[] axes;
 	
+	/**
+	 * Mittelpunkt des interpolierten Bildes auf dem Canvas (z.B. nach Skalierung)
+	 */
 	public Point2D<Integer> imageCenter;
-	public Dimension2D<Integer> imageDimension;
-	public ROI roi;
-	public Dimension2D<Integer> canvasDimension;
-	public Rectangle visibleImageBounds;
 	
+	/**
+	 * Dimension des interpolierten Bildes auf dem Canvas (z.B. nach Skalierung)
+	 */
+	public Dimension2D<Integer> imageDimension;
+	
+	/**
+	 * Region Of Interest des aktuell sichtbaren Bildbereichs auf dem Canvas.
+	 * ROI ist normalisiert auf Werte zwischen 0 und 1; x = 0; y = 0; widht = 1; height = 1 == Bild ist vollständig sichtbar
+	 */
+	public ROI roi;
+	
+	/**
+	 * Dimension des Canvaselements nach erstmaligem Zeichnen
+	 */
+	public Dimension2D<Integer> canvasDimension;
+	
+	//public Rectangle visibleImageBounds;
+	
+	/**
+	 * Flag ob Canvas zum ersten mal aufgerufen wird
+	 */
 	private boolean isInitialized;
+	
+	/**
+	 * true wenn X-Richtung ScoutingLines neu gezeichnet werden müssen
+	 */
 	private boolean doXLineUpdate;
+	
+	/**
+	 * true wenn X-Richtung ScoutingLines neu gezeichnet werden müssen
+	 */
 	private boolean doYLineUpdate;
 	
+	/**
+	 * Hintergrundfarbe
+	 */
 	public Color black;
+	
+	/**
+	 * Fordergrundfarbe
+	 */
 	public Color white;
+	
+	/**
+	 * Koordinatensystemfarbe
+	 */
 	public Color yellow;
 	
+	/**
+	 * y Scouting Line Grundfarbe
+	 */
 	private Color hLineColor;
+	
+	/**
+	 * y Scouting Line Schatten
+	 */
 	private Color hLineShadow;
+	
+	/**
+	 * y Scouting Line Highlight
+	 */
 	private Color hLineHighlight;
 	
+	/**
+	 * x Scouting Line Grundfarbe
+	 */
 	private Color vLineColor;
+	
+	/**
+	 * x Scouting Line Schatten
+	 */
 	private Color vLineShadow;
+	
+	/**
+	 * x Scouting Line Highlight
+	 */
 	private Color vLineHighlight;
 	
+	/**
+	 * Farbe für Auswahl
+	 */
 	private Color selectedPointsColor;
 	
 	//private float alpha;
 	//private float beta;
 	//private float gamma;
 	
+	/**
+	 * Breite des initialen Bildes. Wird im Konstruktor gesetzt. Darf nicht geändert werden.
+	 */
 	private int startWidth;
+	
+	/**
+	 * Höhe des initialen Bildes. Wird im Konstruktor gesetzt. Darf nicht geändert werden.
+	 */
 	private int startHeight;
 	
+	/**
+	 * Tatsächliche Breite des aktuell ausgewählten Bildes.
+	 */
 	private int actualWidth;
+	
+	/**
+	 * Tatsächliche Höhe des aktuell ausgewählten Bildes.
+	 */
 	private int actualHeight;
 	
+	/**
+	 * RAW x-Index für Scouting Lines
+	 */
 	private int xLineIndex;
+	
+	/**
+	 * RAW y-Index für Scouting Lines
+	 */
 	private int yLineIndex;
 	
+	/**
+	 * Aus RAW index tatsächlich berechneter x-Index für Scouting Lines zum Zeichnen der Linie
+	 */
 	private int xIndex;
+	
+	/**
+	 * Aus RAW index tatsächlich berechneter y-Index für Scouting Lines zum Zeichnen der Linie
+	 */
 	private int yIndex;
 	
+	/**
+	 * Flag ob Auswahl gezeichnet wird
+	 */
 	private boolean drawSelection;
+	
+	/**
+	 * Flag ob Koordinatensystem etc. gezeichnet wird
+	 */
 	private boolean drawAnnotations;
+	
+	/**
+	 * Flag ob Scouting Lines gezeichnet werden
+	 */
 	private boolean drawScoutingLines;
 	
+	/**
+	 * Bilddatei zur Anzeige des MPR-Typs
+	 */
 	private Image axialImage, coronalImage, sagittalImage;
 	
 	public DicomCanvas(Composite parent, int style, ADicomTreeItem selection, ArrayList<AImage> images, IResourcePool pool, ImageViewComposite context) {
@@ -173,6 +347,7 @@ public class DicomCanvas extends Canvas{
 		axes = sourceImage.getImageOrientationAxis();
 		imageOrientationType = sourceImage.getMprType();
 		initialImageOrientationType = imageOrientationType;
+		
 		//mit imageOrientationType wurde der initiale MPR-Typ bestimmt
 		//Index kann nun festgelegt werden
 		determineMaxIndizes();
@@ -250,8 +425,12 @@ public class DicomCanvas extends Canvas{
 	};
 	
 	protected GC draw(GC buffer) {
-		//System.out.println("BufferDrawing");
-		//System.out.println(sourceImage.getHeight());
+		System.out.println("Startwidth/height" + startWidth + " x " + startHeight);
+		System.out.println("Actualwidth/height" + actualWidth + " x " + actualHeight);
+		
+		System.out.println("Sourcewidth/height" + sourceDimension.width + " x " + sourceDimension.height);
+		System.out.println("Imagewidth/height" + imageDimension.width + " x " + imageDimension.height);
+		
 		int x = imageCenter.x-imageDimension.width/2;
 		int y = imageCenter.y-imageDimension.height/2;
 		int width = imageDimension.width;
@@ -306,7 +485,7 @@ public class DicomCanvas extends Canvas{
 			roi.height = 1.0f;
 		}
 		
-		visibleImageBounds = newBounds;
+		//visibleImageBounds = newBounds;
 		
 		//Roi ermittelt
 		BilinearInterpolation bilinearInterpolation = new BilinearInterpolation(sourceImage);
@@ -732,6 +911,13 @@ public class DicomCanvas extends Canvas{
 		this.maxCurrentIndex = maxCurrentIndex;
 	}
 
+	/**
+	 * Bestimmt den maximal möglichen Index für eine Konvertierung der Ebenen
+	 * Beispiel für einen DICOM-Stapel der Größe 400 x 300 x 250 (x, y, z)
+	 * Wenn der aktuelle Typ AXIAL ist, ist der Index des DICOM-Bildstapels nach CORONAL 300
+	 * Wenn der aktuelle Typ AXIAL ist, ist der Index des DICOM-Bildstapels nach SAGITTAL 400
+	 * 
+	 */
 	private void determineMaxIndizes(){
 		if(imageOrientationType.equals(AImage.AXIAL)){
 			maxAxialIndex = item.size();
@@ -815,10 +1001,16 @@ public class DicomCanvas extends Canvas{
 		this.drawScoutingLines = drawScoutingLines;
 	}
 
+	/**
+	 * Diese Methode wird aufgerufen, wenn im Hauptmenü eine Erweiterung ausgewählt wird.
+	 * 
+	 * @param mainClassName Name der Klasse, die von APlugIn ableitet
+	 */
 	public void runPlugIn(String mainClassName) {
 		PlugInClassLoader loader = PlugInClassLoader.getInstance();
 		final APlugIn plugin = (APlugIn) loader.instantiate(mainClassName);
 		
+		//Neuer Thread, damit UI nicht blockiert wird
 		Display.getCurrent().syncExec(new Runnable() {
 			
 			@Override
@@ -832,43 +1024,7 @@ public class DicomCanvas extends Canvas{
 				}
 			}
 		});	
-		
-		
-		
-		/*String initializeError = "Error in options()\n";
-		
-		try {
-			plugin.initialize();
-		} catch (Exception e) {
-			StringWriter sw = new StringWriter();
-			e.printStackTrace(new PrintWriter(sw));
-			initializeError  += sw.toString();
-			context.postErrorEvent(initializeError+"\n");
-		}
-		
-		Integer options = plugin.getOptions();
 
-		if((options & APlugIn.OPTION_PROCESS_ALL) == APlugIn.OPTION_PROCESS_ALL){
-			for(int i = 0; i < getImageStackSize(); i++){
-				String processError= "Error in process() at image index " + i + " \n";
-				try {
-					AImage result = plugin.run(images.get(i));
-					images.remove(i);
-					images.add(i, result);
-				} catch (Exception e) {
-					StringWriter sw = new StringWriter();
-					e.printStackTrace(new PrintWriter(sw));
-					processError  += sw.toString();
-					context.postErrorEvent(processError+"\n");
-				}
-			}
-		}
-		else{
-			AImage result = plugin.run(images.get(index));
-			images.remove(index);
-			images.add(index, result);
-		}
-		plugin.restoreSystemOut();*/
 		redraw();
 	}
 }

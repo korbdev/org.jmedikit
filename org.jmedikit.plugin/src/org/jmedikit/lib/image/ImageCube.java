@@ -137,7 +137,7 @@ public class ImageCube {
 				C_rotated.y/Vector3D.length(C_rotated),  //y-Anteil
 				C_rotated.z/Vector3D.length(C_rotated)   //z-Anteil
 		);
-		System.out.println("DOWN   "+R_rotated.toString()+", "+C_rotated.toString());
+		//System.out.println("DOWN   "+R_rotated.toString()+", "+C_rotated.toString());
 		
 		//System.out.println("GROTH "+grothDirection.toString()+" Rota "+rotation.toString()+" RotaNorm "+rotated_normal.toString());
 		

@@ -39,13 +39,14 @@ public class ConsoleView {
 	
 	Image clearImage;
 	
-	@Inject
+	
 	public ConsoleView() {
 
 	}
 	
 	@PostConstruct
 	public void createGUI(Composite parent) {
+		
 		Composite container = new Composite(parent, SWT.NONE);
 		container.setLayout(new GridLayout(2, false));
 		container.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -58,7 +59,8 @@ public class ConsoleView {
 		Font f = new Font(Display.getCurrent(), "Courier New", 11, SWT.BOLD);
 		errorMsg.setFont(f);
 		errorMsg.setForeground(errorColor);
-
+		errorMsg.setText("");
+		
 		ToolBar tools = new ToolBar(container, SWT.VERTICAL);
 		tools.setLayoutData(new GridData(GridData.FILL_VERTICAL));
 		
@@ -83,7 +85,6 @@ public class ConsoleView {
 			errorMsg.setText(error);
 		}
 		else errorMsg.setText(errorMsg.getText() + "\n" + error);
-		
 	}
 	
 }
