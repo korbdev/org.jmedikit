@@ -5,18 +5,19 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.List;
 
 import org.jmedikit.lib.image.AImage;
 
 public abstract class APlugIn {
 
+	public static final int PLUGIN_2D = 0;
+	
+	public static final int PLUGIN_3D = 1;
+	
 	public static final int OPTION_PROCESS_ALL = 1;
 	
-	private AImage processingImage;
-	
 	private int options;
-	
-	protected abstract int options();
 	
 	protected boolean outputChanged = false;
 	
@@ -24,13 +25,17 @@ public abstract class APlugIn {
 	
 	private PrintStream output;
 	
+	protected abstract int options();
+	
+	public abstract int getPlugInType();
+	
+	public abstract List<AImage> run(List<AImage> images, int index) throws IllegalAccessException;
+	
 	public int initialize(){
 		stdout = System.out;
 		options = options();
 		return options;
 	}
-	
-	protected abstract AImage process(final AImage img);
 	
 	protected void setOutput(String filename){
 		outputChanged = true;
@@ -48,21 +53,6 @@ public abstract class APlugIn {
 		}
 	}
 	
-	public AImage run(AImage img){
-		processingImage = img;
-		AImage result = process(processingImage);
-		
-		//Pruefung ob vom Benutzer Bildorientierung gesetzt wurde
-		//wenn nicht, wird die Orientierung des Ursprungsbild auf das Ergebnisbild uebertragen
-		if(!result.getInitializedOrientation()){
-			result.copySignificantAttributes(img);
-			result.setColumnImageOrientation(img.getColumnImageOrientation());
-			result.setRowImageOrientation(img.getRowImageOrientation());
-			result.setImagePosition(img.getImagePosition());
-		}
-		return result;
-	}
-	
 	public int getOptions(){
 		return options;
 	}
@@ -77,5 +67,15 @@ public abstract class APlugIn {
 	
 	public void restoreSystemOut(){
 		System.setOut(stdout);
+	}
+	
+	protected AImage copyValues(AImage result, AImage original){
+		if(!result.getInitializedOrientation()){
+			result.copySignificantAttributes(original);
+			result.setColumnImageOrientation(original.getColumnImageOrientation());
+			result.setRowImageOrientation(original.getRowImageOrientation());
+			result.setImagePosition(original.getImagePosition());
+		}
+		return result;
 	}
 }

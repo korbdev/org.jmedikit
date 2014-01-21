@@ -14,8 +14,8 @@
               <children xsi:type="basic:Part" xmi:id="_5zkTwDdsEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.imageview" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.ImageViewPart" label="Image View" iconURI="platform:/plugin/org.jmedikit.plugin/icons/layers_16x14.png"/>
             </children>
             <children xsi:type="basic:PartStack" xmi:id="_C9GEEDdtEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.consoleStack" containerData="2000">
-              <children xsi:type="basic:Part" xmi:id="_aRjCQHsqEeOZb83DWYT-eQ" elementId="org.jmedikit.plugin.part.DicomTagView" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.DicomTagView" label="DicomTagView" iconURI="platform:/plugin/org.jmedikit.plugin/icons/book_alt2_16x14.png" tooltip="Zeigt die DicomTags des aktuell ausgew&#xe4;hlten ImageView"/>
               <children xsi:type="basic:Part" xmi:id="_EZM1sDdtEeOZNbAKmr0f_w" elementId="org.jmedikit.plugin.console" containerData="" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.ConsoleView" label="Console" iconURI="platform:/plugin/org.jmedikit.plugin/icons/comment_alt2_stroke_14x16.png"/>
+              <children xsi:type="basic:Part" xmi:id="_aRjCQHsqEeOZb83DWYT-eQ" elementId="org.jmedikit.plugin.part.DicomTagView" contributionURI="bundleclass://org.jmedikit.plugin/org.jmedikit.plugin.gui.DicomTagView" label="DicomTagView" iconURI="platform:/plugin/org.jmedikit.plugin/icons/book_alt2_16x14.png" tooltip="Zeigt die DicomTags des aktuell ausgew&#xe4;hlten ImageView"/>
             </children>
           </children>
         </children>

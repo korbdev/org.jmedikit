@@ -1,14 +1,15 @@
 package org.jmedikit.plugin.gui;
 
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
+import org.eclipse.e4.ui.workbench.IWorkbench;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.ui.PlatformUI;
 import org.jmedikit.plugin.util.PreferencesConstants;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
@@ -56,6 +57,13 @@ public class PlugInPreferences extends FieldEditorPreferencePage{
 	protected void performApply(){
 		super.performApply();
 		System.out.println("hallo apply");
+	}
+	
+	@Override
+	public boolean performOk(){
+		boolean returnVal = super.performOk();
+		System.out.println("OK");
+		
 		Preferences preferences = ConfigurationScope.INSTANCE.getNode("org.jmedikit.plugin");
 		preferences.put(PreferencesConstants.PLUGIN_DIRECTORY, dir.getStringValue());
 		
@@ -64,13 +72,7 @@ public class PlugInPreferences extends FieldEditorPreferencePage{
 		} catch (BackingStoreException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	@Override
-	public boolean performOk(){
-		boolean returnVal = super.performOk();
-		System.out.println("OK");
-		//performApply();
+		
 		return returnVal;
 	}
 }

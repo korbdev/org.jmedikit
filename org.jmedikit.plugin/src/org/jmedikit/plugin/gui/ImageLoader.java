@@ -28,22 +28,45 @@ public class ImageLoader implements IRunnableWithProgress{
 	}
 
 	private void load(){
-		AImage img;
+		//AImage img;
 		System.out.println("Load Image");
 		DicomObject toDraw;
 		if(selection.getLevel() == ADicomTreeItem.TREE_OBJECT_LEVEL){
 			toDraw = (DicomObject)selection;
-			img = toDraw.getImage(0);
-			img.setTitle(toDraw.getUid());
-			images.add(0, img);
+			System.out.println(toDraw.getDepth());
+			if(toDraw.getDepth() > 1){
+				for(int depth = 0; depth < toDraw.getDepth(); depth++){
+					AImage img = toDraw.getImage(depth);
+					img.setTitle(toDraw.getUid()+"."+depth);
+					images.add(depth, img);
+				}
+			}
+			else{
+				AImage img = toDraw.getImage(0);
+				img.setTitle(toDraw.getUid());
+				images.add(0, img);
+			}
 			monitor.worked(1);
 		}
 		else {
 			for(int i = 0; i < selection.size(); i++){
 				toDraw = (DicomObject) selection.getChild(i);
-				img = toDraw.getImage(0);
-				img.setTitle(toDraw.getUid());
-				images.add(i, img);
+				if(toDraw.getDepth() > 1){
+					for(int depth = 0; depth < toDraw.getDepth(); depth++){
+						AImage img = toDraw.getImage(depth);
+						img.setTitle(toDraw.getUid()+"."+depth);
+						images.add(depth, img);
+					}
+				}
+				else{
+					AImage img = toDraw.getImage(0);
+					img.setTitle(toDraw.getUid());
+					images.add(i, img);
+				}
+				//System.out.println(toDraw.getDepth());
+				//img = toDraw.getImage(0);
+				//img.setTitle(toDraw.getUid());
+				//images.add(i, img);
 				monitor.worked(1);
 				monitor.subTask((i+1)+" Bilder von "+selection.size()+" geladen");
 			}

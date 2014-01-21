@@ -28,7 +28,7 @@ public class PlugInClassLoader {
 	 * _Test = false
 	 * __test = false
 	 */
-	public static final String PATTERN = "^"+PREFIX+"[A-Z].*";
+	public static final String PATTERN = "^"+PREFIX+"[A-Z0-9].*";
 	
 	private static PlugInClassLoader loader = new PlugInClassLoader();
 	
@@ -148,7 +148,7 @@ public class PlugInClassLoader {
 			Class<?> c = classloader.loadClass(pluginName);
 			Class<?> superC = c.getSuperclass();
 			System.out.println(superC.getName());
-			if(superC.getName().equals(APlugIn.class.getName())){
+			if(superC.getSuperclass().getName().equals(APlugIn.class.getName())){
 				System.out.println("Erzeuge obj");
 				
 				//Class<?>[] args = new Class<?>[]{AImage.class};

@@ -136,7 +136,8 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		GridData gd_slider = new GridData(SWT.FILL, SWT.FILL, true, true, 0, 0);
 		gd_slider.widthHint = controlsSizeWidth;
 		slider.setLayoutData(gd_slider);
-		int sliderMaximum = selection.getChildren().size() > 0 ? selection.getChildren().size()-1 : 0;
+		//int sliderMaximum = selection.getChildren().size() > 0 ? selection.getChildren().size()-1 : 0;
+		int sliderMaximum = images.size() > 0 ? images.size()-1 : 0;
 		//System.out.println(sliderMaximum);
 		slider.setMaximum(sliderMaximum+slider.getThumb());
 

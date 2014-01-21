@@ -1,0 +1,20 @@
+package org.jmedikit.lib.core;
+
+import java.io.PrintStream;
+
+public class APlugIn {
+
+	private int options;
+	
+	protected boolean outputChanged = false;
+	
+	private PrintStream stdout;
+	
+	private PrintStream output;
+	
+	protected abstract int options();
+	
+	private int initialize(){
+		
+	}
+}

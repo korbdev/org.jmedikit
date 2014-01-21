@@ -132,7 +132,7 @@ public class DicomImageData implements IDicomImageData{
 
 		    }else System.out.println("LOADED");*/
 			
-			Raster r = dir.readRaster(0, param);
+			Raster r = dir.readRaster(index, param);
 			DataBuffer buffer = r.getDataBuffer();
 			System.out.println("LOADED BUFFER "+buffer.getSize()+", "+r.getBounds().toString());
 			int bufferType = buffer.getDataType();
@@ -143,7 +143,7 @@ public class DicomImageData implements IDicomImageData{
 				if(signed == AImage.TYPE_SIGNED){
 					System.out.println("TODO: SIGNED BYTE IMAGE");
 				}
-				else if(samplesPerPixel > 0){
+				else if(samplesPerPixel > 1){
 					img = new IntegerImage(width, height, buffer, m, b, planarConfiguration, wc, ww);
 					img.setImageOrientation(iO);
 					img.setImagePosition(iP);

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename compilation unit &apos;org.jmedikit.lib.core.APlugIn.java&apos; to &apos;APlugIn_BackUp.java&apos;&#x0D;&#x0A;- Original project: &apos;org.jmedikit.plugin&apos;&#x0D;&#x0A;- Original element: &apos;org.jmedikit.lib.core.APlugIn.java&apos;&#x0D;&#x0A;- Renamed element: &apos;org.jmedikit.lib.core.APlugIn_BackUp.java&apos;" description="Rename compilation unit &apos;APlugIn.java&apos;" flags="2" id="org.eclipse.jdt.ui.rename.compilationunit" input="/src&lt;org.jmedikit.lib.core{APlugIn.java" name="APlugIn_BackUp.java" references="false" stamp="1390235669935" version="1.0"/>
+</session>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="java.lang.IllegalAccessException"/>
+<fullyQualifiedTypeName name="java.util.Collections"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.core.Visualizer"/>
+<fullyQualifiedTypeName name="java.io.PrintStream"/>
+<fullyQualifiedTypeName name="java.io.FileOutputStream"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="java.io.FileNotFoundException"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.util.SimpleImageFactory"/>
+<fullyQualifiedTypeName name="java.awt.List"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="org.eclipse.e4.ui.workbench.IWorkbench"/>
+<fullyQualifiedTypeName name="org.eclipse.ui.IWorkbench"/>
+<fullyQualifiedTypeName name="org.eclipse.ui.WorkbenchEncoding"/>
+<fullyQualifiedTypeName name="org.eclipse.ui.PlatformUI"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.core.APlugIn3D"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.core.APlugIn"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.image.AImage"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+</qualifiedTypeNameHistroy>

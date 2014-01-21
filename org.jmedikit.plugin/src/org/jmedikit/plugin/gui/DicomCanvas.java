@@ -367,6 +367,8 @@ public class DicomCanvas extends Canvas{
 			
 			sourceImage = images.get(index);
 			
+			System.out.println(sourceImage.getTitle());
+			
 			actualWidth = sourceImage.getWidth();
 			actualHeight = sourceImage.getHeight();
 			
@@ -425,11 +427,11 @@ public class DicomCanvas extends Canvas{
 	};
 	
 	protected GC draw(GC buffer) {
-		System.out.println("Startwidth/height" + startWidth + " x " + startHeight);
-		System.out.println("Actualwidth/height" + actualWidth + " x " + actualHeight);
+		//System.out.println("Startwidth/height" + startWidth + " x " + startHeight);
+		//System.out.println("Actualwidth/height" + actualWidth + " x " + actualHeight);
 		
-		System.out.println("Sourcewidth/height" + sourceDimension.width + " x " + sourceDimension.height);
-		System.out.println("Imagewidth/height" + imageDimension.width + " x " + imageDimension.height);
+		//System.out.println("Sourcewidth/height" + sourceDimension.width + " x " + sourceDimension.height);
+		//System.out.println("Imagewidth/height" + imageDimension.width + " x " + imageDimension.height);
 		
 		int x = imageCenter.x-imageDimension.width/2;
 		int y = imageCenter.y-imageDimension.height/2;
@@ -1009,7 +1011,7 @@ public class DicomCanvas extends Canvas{
 	public void runPlugIn(String mainClassName) {
 		PlugInClassLoader loader = PlugInClassLoader.getInstance();
 		final APlugIn plugin = (APlugIn) loader.instantiate(mainClassName);
-		
+		System.out.println("plugin "+plugin.getPlugInType());
 		//Neuer Thread, damit UI nicht blockiert wird
 		Display.getCurrent().syncExec(new Runnable() {
 			

@@ -40,6 +40,8 @@ public class UnsignedShortImage extends AImage{
 			for(int i = 0; i < buffer.getSize(); i++){
 				int value = buffer.getElem(i);
 				//storedValues[i] = value;
+				//System.out.println("WITHOUT RS/RI");
+				//pixels[i] = value;
 				pixels[i] = (int) (rescaleSlope * value + rescaleIntercept);
 			}
 		}

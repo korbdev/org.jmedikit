@@ -1,0 +1,10 @@
+package org.jmedikit.lib.core;
+
+import java.util.ArrayList;
+
+import org.jmedikit.lib.image.AImage;
+
+public abstract class APlugIn3D extends APlugIn{
+
+	public abstract ArrayList<AImage> process(ArrayList<AImage> images);
+}

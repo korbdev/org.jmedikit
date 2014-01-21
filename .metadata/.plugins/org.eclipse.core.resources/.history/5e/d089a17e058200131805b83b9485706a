@@ -1,0 +1,20 @@
+package org.jmedikit.lib.core;
+
+import java.util.List;
+
+import org.jmedikit.lib.image.AImage;
+
+public class APlugIn2D extends APlugIn{
+
+	@Override
+	public int getPlugInType() {
+		return APlugIn.PLUGIN_2D;
+	}
+
+	@Override
+	public List<AImage> run(List<AImage> images, int index) throws IllegalAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
