@@ -1,5 +1,7 @@
 package org.jmedikit.plugin.gui;
 
+import javax.inject.Inject;
+
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.e4.ui.workbench.IWorkbench;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
@@ -18,6 +20,9 @@ import org.osgi.service.prefs.Preferences;
 public class PlugInPreferences extends FieldEditorPreferencePage{
 	
 	//public static final String PLUGIN_DIRECTORY = "PLUGIN_DIRECTORY";
+	
+	@Inject
+	IWorkbench workbench;
 	
 	DirectoryFieldEditor dir;
 	Preferences prefs;
@@ -72,7 +77,7 @@ public class PlugInPreferences extends FieldEditorPreferencePage{
 		} catch (BackingStoreException e) {
 			e.printStackTrace();
 		}
-		
+
 		return returnVal;
 	}
 }

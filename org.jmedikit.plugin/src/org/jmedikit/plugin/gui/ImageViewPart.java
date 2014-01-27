@@ -215,12 +215,13 @@ public class ImageViewPart {
 
 	public void deleteChild(ImageViewComposite imageViewComposite) {
 		for(ImageViewComposite child : children){
+			System.out.println(child.toString()+" "+imageViewComposite.toString());
 			if(child.getTitle().equals(active.getTitle()) && child != imageViewComposite){
 				child.removeObserver(imageViewComposite);
 			}
 		}
 		if(imageViewComposite.equals(active)){
-			active = null;
+			//active = null;
 		}
 		children.remove(imageViewComposite);
 	}

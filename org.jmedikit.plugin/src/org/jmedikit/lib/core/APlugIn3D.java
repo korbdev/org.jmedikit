@@ -17,7 +17,7 @@ public abstract class APlugIn3D extends APlugIn{
 	@Override
 	public List<AImage> run(List<AImage> images, int index) throws IllegalAccessException {
 
-		AImage sample = SimpleImageFactory.getAbstractImage(images.get(index).getImageType(), images.get(index).getWidth(), images.get(index).getWidth());
+		AImage sample = SimpleImageFactory.getAbstractImage(images.get(index).getImageType(), images.get(index).getWidth(), images.get(index).getHeight());
 		copyValues(sample, images.get(index));
 		int x = sample.getWidth();
 		int y = sample.getHeight();
