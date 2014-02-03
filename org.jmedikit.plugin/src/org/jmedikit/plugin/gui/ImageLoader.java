@@ -1,6 +1,7 @@
 package org.jmedikit.plugin.gui;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.services.events.IEventBroker;
@@ -80,6 +81,7 @@ public class ImageLoader implements IRunnableWithProgress{
 		this.monitor.beginTask("Lade Dicomdaten...", selection.size());
 		System.out.println("start");
 		load();
+		Collections.sort(images);
 		this.monitor.done();
 		broker.send(EventConstants.IMAGES_LOADED, images);
 		//images.clear();

@@ -2,6 +2,7 @@ package org.jmedikit.plugin.gui;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -79,7 +80,10 @@ public class DicomBrowserPart {
 					String uid = selectedItems[0].getText();
 					
 					ADicomTreeItem clickedTreeItem = treeRepository.lookUpDicomTreeItem(uid);
-					//System.out.println(clickedTreeItem);
+					System.out.println("Clicked "+clickedTreeItem.getChildren().size());
+					//if(clickedTreeItem.getLevel() == ADicomTreeItem.TREE_SERIES_LEVEL){
+						//Collections.sort(clickedTreeItem.getChildren());
+					//}
 					broker.send(EventConstants.DICOMBROWSER_ITEM_SELECTION, clickedTreeItem);
 				}
 				

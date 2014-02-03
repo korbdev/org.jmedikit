@@ -2,7 +2,7 @@ package org.jmedikit.lib.core;
 
 import java.util.ArrayList;
 
-public abstract class ADicomTreeItem {
+public abstract class ADicomTreeItem{
 	
 	public static final int TREE_ROOT_LEVEL = 0;
 	public static final int TREE_PATIENT_LEVEL = 1;
@@ -54,6 +54,9 @@ public abstract class ADicomTreeItem {
 		}
 		else{
 			item.setParent(this);
+			if(item.getLevel() == ADicomTreeItem.TREE_OBJECT_LEVEL){
+				//Collections.sort(children);
+			}
 			return children.add(item);
 		}
 	}
@@ -97,6 +100,5 @@ public abstract class ADicomTreeItem {
 			return false;
 		return true;
 	}
-	
 	
 }

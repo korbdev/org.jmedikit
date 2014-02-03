@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="java.lang.IllegalAccessException"/>
-<fullyQualifiedTypeName name="java.util.Collections"/>
 <fullyQualifiedTypeName name="org.jmedikit.lib.core.Visualizer"/>
 <fullyQualifiedTypeName name="java.io.PrintStream"/>
 <fullyQualifiedTypeName name="java.io.FileOutputStream"/>
@@ -15,10 +14,19 @@
 <fullyQualifiedTypeName name="org.eclipse.ui.WorkbenchEncoding"/>
 <fullyQualifiedTypeName name="org.jmedikit.lib.core.APlugIn3D"/>
 <fullyQualifiedTypeName name="org.jmedikit.lib.core.APlugIn"/>
-<fullyQualifiedTypeName name="org.jmedikit.lib.image.AImage"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="org.jmedikit.MyE4Application"/>
 <fullyQualifiedTypeName name="org.eclipse.e4.ui.workbench.IWorkbench"/>
 <fullyQualifiedTypeName name="javax.inject.Inject"/>
 <fullyQualifiedTypeName name="org.eclipse.ui.PlatformUI"/>
+<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.tools.AToolFactory"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.core.DicomObject"/>
+<fullyQualifiedTypeName name="org.eclipse.ui.internal.dialogs.AboutDialog"/>
+<fullyQualifiedTypeName name="java.util.Collection"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.core.ADicomTreeItem"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.image.AImage"/>
+<fullyQualifiedTypeName name="java.util.Collections"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.image.ImageCube"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.util.Vector3D"/>
+<fullyQualifiedTypeName name="java.lang.Float"/>
 </qualifiedTypeNameHistroy>

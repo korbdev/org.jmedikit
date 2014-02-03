@@ -850,7 +850,7 @@ public class ImageCube {
 	 * @param v
 	 * @return
 	 */
-	private int getDominantIndex(Vector3D<Float> v){
+	public static int getDominantIndex(Vector3D<Float> v){
 		float x = Math.abs(v.x);
 		float y = Math.abs(v.y);
 		float z = Math.abs(v.z);
@@ -875,7 +875,7 @@ public class ImageCube {
 	 * @param v
 	 * @return
 	 */
-	private int getRecessiveIndex(Vector3D<Float> v){
+	public static int getRecessiveIndex(Vector3D<Float> v){
 		float x = Math.abs(v.x);
 		float y = Math.abs(v.y);
 		float z = Math.abs(v.z);

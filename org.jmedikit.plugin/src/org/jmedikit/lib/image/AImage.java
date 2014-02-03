@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import org.jmedikit.lib.util.Point2D;
 import org.jmedikit.lib.util.Vector3D;
 
-public abstract class AImage{
+public abstract class AImage implements Comparable<AImage>{
 	
 	public static final int TYPE_BYTE_SIGNED = 0;
 	public static final int TYPE_BYTE_UNSIGNED = 1;
@@ -704,4 +704,36 @@ public abstract class AImage{
 		rescaleSlope = img.rescaleSlope;
 	}
 	
+	public int compareTo(AImage img){
+		
+		Vector3D<Float> imgIP = img.getImagePosition();
+		
+		Vector3D<Float> normal = Vector3D.crossProduct(columnVector, rowVector);
+		
+		int index = ImageCube.getDominantIndex(normal);
+		
+		float indexValue = normal.get(index);
+		
+		float a = imagePosition.get(index);
+		float b = imgIP.get(index);
+		
+		if(indexValue < 0){
+			if(a == b){
+				return 0;
+			}
+			else if(a < b){
+				return 1;
+			}
+			else return -1;
+		}
+		else{
+			if(a == b){
+				return 0;
+			}
+			else if(a < b){
+				return -1;
+			}
+			else return 1;
+		}
+	}
 }
