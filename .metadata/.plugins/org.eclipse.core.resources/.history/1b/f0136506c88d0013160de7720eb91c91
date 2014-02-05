@@ -120,7 +120,7 @@ public class DicomBrowserPart {
 		DicomImporter importer = null;
 		IJobManager manager = null;
 		try {
-			importer = new DicomImporter("InitialImport", new File(location));
+			importer = new DicomImporter("Test", new File(location));
 			manager = Job.getJobManager();
 			
 			MToolControl toolcontrol = (MToolControl) service.find("org.jmedikit.plugin.toolcontrol.status", app);

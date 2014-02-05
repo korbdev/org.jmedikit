@@ -18,17 +18,15 @@ public abstract class ADicomObject extends ADicomTreeItem implements IDicomData,
 	
 	public ADicomObject(File input) throws IOException{
 		super(input.getPath());
-
 		f = input;
 		if(f.length() < 1){
 			throw new IllegalArgumentException(f.getPath()+" filesize is zero");
 		}
 		
+		System.out.println("IMPORT UID  "+this.getUid());
+		
 		data = new DicomData(f);
 		imagedata = new DicomImageData(f, data);
-		
-		String objectUid = (String) getTagData("SOPInstanceUID", ADicomObject.RETURN_STRING);
-		this.setUid(objectUid);
 		/*try {
 			data = new BasicDicomData(f);
 			imagedata = new BasicDicomImageData(f, data);

@@ -26,9 +26,6 @@ public abstract class ADicomObject extends ADicomTreeItem implements IDicomData,
 		
 		data = new DicomData(f);
 		imagedata = new DicomImageData(f, data);
-		
-		String objectUid = (String) getTagData("SOPInstanceUID", ADicomObject.RETURN_STRING);
-		this.setUid(objectUid);
 		/*try {
 			data = new BasicDicomData(f);
 			imagedata = new BasicDicomImageData(f, data);

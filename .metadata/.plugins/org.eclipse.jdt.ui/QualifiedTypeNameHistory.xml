@@ -29,4 +29,5 @@
 <fullyQualifiedTypeName name="org.jmedikit.lib.image.ImageCube"/>
 <fullyQualifiedTypeName name="org.jmedikit.lib.util.Vector3D"/>
 <fullyQualifiedTypeName name="java.lang.Float"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.core.ADicomObject"/>
 </qualifiedTypeNameHistroy>

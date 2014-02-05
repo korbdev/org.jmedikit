@@ -90,7 +90,8 @@ public class DicomTreeRepository {
 	
 	public void insert(DicomObject item){
 		//System.out.println("INSERT "+item.getUid());
-		String nameId = (String) item.getTagData("PatientName", IDicomData.RETURN_STRING);
+		//String nameId = (String) item.getTagData("PatientName", IDicomData.RETURN_STRING);
+		String nameId = (String) item.getTagData("PatientID", IDicomData.RETURN_STRING);
 		String studyId = (String) item.getTagData("StudyInstanceUID", IDicomData.RETURN_STRING);
 		String seriesId = (String) item.getTagData("SeriesInstanceUID", IDicomData.RETURN_STRING);
 		

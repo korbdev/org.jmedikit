@@ -48,16 +48,15 @@ public abstract class ADicomTreeItem{
 		return uid;
 	}
 	
-	public void setUid(String uid){
-		this.uid = uid;
-	}
-	
 	public boolean addChild(ADicomTreeItem item){
 		if(children.contains(item)){
 			return false;
 		}
 		else{
 			item.setParent(this);
+			if(item.getLevel() == ADicomTreeItem.TREE_OBJECT_LEVEL){
+				//Collections.sort(children);
+			}
 			return children.add(item);
 		}
 	}
