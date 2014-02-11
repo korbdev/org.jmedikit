@@ -811,7 +811,7 @@ public class DicomCanvas extends Canvas{
 
 		xLineIndex = 0;
 		yLineIndex = 0;
-
+		System.out.println(newOrientation);
 		if(newOrientation.equals(AImage.AXIAL)){
 			images = cube.calculateAxialView();
 		}

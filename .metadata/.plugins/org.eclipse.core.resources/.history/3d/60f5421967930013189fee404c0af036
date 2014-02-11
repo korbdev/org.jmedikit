@@ -160,6 +160,7 @@ public class ImageViewPart {
 			}
 			else if(type.equals(EventConstants.ORIENTATION_CHANGED_CORONAL)){
 				newIndex = active.getCanvas().getMaxCoronalIndex();
+				System.out.println(newIndex);
 				active.getCanvas().recalculateImages(AImage.CORONAL);
 				active.setSliderMaximum(newIndex-1);
 			}

@@ -694,7 +694,6 @@ public abstract class AImage implements Comparable<AImage>{
 		//imagePosition = img.getImagePosition();
 		//rowVector = img.getRowImageOrientation();
 		//columnVector = img.getColumnImageOrientation();
-		mprType = img.getMprType();
 		pixelSpacing = img.getPixelSpacing();
 		windowCenter = img.windowCenter;
 		windowWidth = img.windowWidth;

@@ -604,6 +604,7 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 			canvas.setyLineIndex(z);
 		}
 		if(mprType.equals(AImage.CORONAL) && IOT.equals(AImage.SAGITTAL)){
+			System.out.println("WUT "+canvas.getxLineIndex()+", "+canvas.getyLineIndex());
 			canvas.setDoXLineUpdate(true);
 			canvas.setxLineIndex(z);
 		}

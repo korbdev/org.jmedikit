@@ -103,7 +103,7 @@ public class BilinearInterpolation {
 			float E_r = A_r + x_difference * (B_r - A_r);
 			float F_r = C_r + x_difference * (D_r - C_r);
 			
-			result_r = (E_r + y_difference * (F_r - E_r));
+			result_r = (E_r + y_difference * (F_r - E_r))+0.5f;
 			
 			float A_g = (float)( (img.getPixel(index_x, index_y) & 0xff00) >> 8 );
 			float B_g = (float)( (img.getPixel(index_x_1, index_y) & 0xff00) >> 8 );
@@ -115,7 +115,7 @@ public class BilinearInterpolation {
 			float E_g = A_g + x_difference * (B_g - A_g);
 			float F_g = C_g + x_difference * (D_g - C_g);
 			
-			result_g = (E_g + y_difference * (F_g - E_g));
+			result_g = (E_g + y_difference * (F_g - E_g))+0.5f;
 			
 			float A_b = (float)( (img.getPixel(index_x, index_y) & 0xff) );
 			float B_b = (float)( (img.getPixel(index_x_1, index_y) & 0xff) );
@@ -127,7 +127,7 @@ public class BilinearInterpolation {
 			float E_b = A_b + x_difference * (B_b - A_b);
 			float F_b = C_b + x_difference * (D_b - C_b);
 			
-			result_b = (E_b + y_difference * (F_b - E_b));
+			result_b = (E_b + y_difference * (F_b - E_b))+0.5f;
 			
 			result = (int)result_b + ((int)result_g << 8) + ((int)result_r << 16) ;
 		}

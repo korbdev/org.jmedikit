@@ -641,10 +641,10 @@ public abstract class AImage implements Comparable<AImage>{
 		String[] col = getDominantAxis(columnVector.x, columnVector.y, columnVector.z);
 		
 		// Top -> Right -> Bottom -> Left
-		axes[0] = col[1]; //Top negative Seite
-		axes[1] = row[0]; //Right positive Seite
-		axes[2] = col[0]; //Bottom positive Seite
-		axes[3] = row[1]; //Left negative Seite
+		axes[0] = col[1]; //Top
+		axes[1] = row[0]; //Right
+		axes[2] = col[0]; //Bottom
+		axes[3] = row[1]; //Left
 		
 		if (!row.equals("-") && !col.equals("-")) {
 			if      ((row[0].equals("R") || row[0].equals("L")) && (col[0].equals("A") || col[0].equals("P"))) mprType=AXIAL;
@@ -694,7 +694,6 @@ public abstract class AImage implements Comparable<AImage>{
 		//imagePosition = img.getImagePosition();
 		//rowVector = img.getRowImageOrientation();
 		//columnVector = img.getColumnImageOrientation();
-		mprType = img.getMprType();
 		pixelSpacing = img.getPixelSpacing();
 		windowCenter = img.windowCenter;
 		windowWidth = img.windowWidth;

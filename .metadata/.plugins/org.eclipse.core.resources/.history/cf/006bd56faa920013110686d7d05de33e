@@ -563,6 +563,8 @@ public class DicomCanvas extends Canvas{
 					buffer.drawLine(newBounds.width, canvasLineYIndex, canvasDimension.width, canvasLineYIndex);
 					buffer.setLineWidth(2);
 				}
+				
+				//System.out.println("YINDEX "+yIndex+" STARTDIM "+startWidth+" x "+startHeight+", ACTDIM "+actualWidth+" x "+actualHeight);
 			}
 			
 			if(xLineIndex != 0){
@@ -811,7 +813,7 @@ public class DicomCanvas extends Canvas{
 
 		xLineIndex = 0;
 		yLineIndex = 0;
-
+		
 		if(newOrientation.equals(AImage.AXIAL)){
 			images = cube.calculateAxialView();
 		}
