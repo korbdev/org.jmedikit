@@ -382,6 +382,7 @@ public class DicomCanvas extends Canvas{
 				res.setImagePosition(sourceImage.getImagePosition());
 				res.setTitle(sourceImage.getTitle());
 				res.setPoints(sourceImage.getPoints());
+				res.setROIs(sourceImage.getROIs());
 				res.setRowImageOrientation(sourceImage.getRowImageOrientation());
 				res.setColumnImageOrientation(sourceImage.getColumnImageOrientation());
 				res.copySignificantAttributes(sourceImage);
@@ -506,25 +507,40 @@ public class DicomCanvas extends Canvas{
 		buffer.fillRectangle(0, 0, canvasDimension.width, canvasDimension.height);
 		
 		if(drawSelection){
-			//System.out.println(sourceImage.getTitle());
 			GC selection = new GC(iimg);
 			selection.setLineWidth(2);
 			selection.setForeground(selectedPointsColor);
+			selection.setAlpha(200);
 			for(Point2D<Float> p : sourceImage.getPoints()){
-				System.out.println(roi.toString()+" "+p.toString());
 				if(roi.x < p.x && roi.y < p.y){
 					int pX = (int)((p.x-roi.x) * imageDimension.width);
 					int pY = (int)((p.y-roi.y) * imageDimension.height);
-					System.out.println("DRAW "+pX+" x "+pY);
 					selection.drawLine(pX-5, pY-5, pX+5, pY+5);
 					selection.drawLine(pX+5, pY-5, pX-5, pY+5);
 				}
+			}
+			
+			for(ROI imgRoi : sourceImage.getROIs()){
+				selection.setLineWidth(1);
+				selection.setForeground(vLineColor);
+
+				int pXS = (int)((imgRoi.x-roi.x) * imageDimension.width);
+				int pYS = (int)((imgRoi.y-roi.y) * imageDimension.height);
+				
+				int pXE = (int)((imgRoi.width-roi.x) * imageDimension.width);
+				int pYE = (int)((imgRoi.height-roi.y) * imageDimension.height);
+				
+				selection.setAlpha(255);
+				selection.drawRectangle(pXS, pYS, pXE-pXS, pYE-pYS);
+				selection.setAlpha(80);
+				selection.fillRectangle(pXS, pYS, pXE-pXS, pYE-pYS);
 			}
 			selection.dispose();
 		}
 		
 		if(drawScoutingLines){
 			GC scoutingLines = new GC(iimg);
+			scoutingLines.setAlpha(75);
 			scoutingLines.setLineWidth(2);
 			if(yLineIndex != 0){
 				if(startHeight != actualHeight && doYLineUpdate){

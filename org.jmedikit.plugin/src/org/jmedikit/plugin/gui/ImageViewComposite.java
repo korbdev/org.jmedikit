@@ -633,6 +633,7 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		ArrayList<AImage> images = canvas.getImages();
 		for(AImage ai : images){
 			ai.deletePoints();
+			ai.deleteROIs();
 		}
 		canvas.redraw();
 	}
@@ -641,6 +642,7 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		int index = slider.getSelection();
 		AImage ai = canvas.getImages().get(index);
 		ai.deletePoints();
+		ai.deleteROIs();
 		canvas.redraw();
 	}
 	

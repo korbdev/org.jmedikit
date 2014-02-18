@@ -1,0 +1,11 @@
+package org.jmedikit.plugin.gui.tools;
+
+import org.jmedikit.plugin.gui.DicomCanvas;
+
+public class RoiTool extends ATool{
+
+	public RoiTool(DicomCanvas c) {
+		super(c);
+	}
+
+}

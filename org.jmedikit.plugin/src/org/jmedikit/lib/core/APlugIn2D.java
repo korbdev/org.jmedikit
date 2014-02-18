@@ -29,12 +29,14 @@ public abstract class APlugIn2D extends APlugIn{
 		System.out.println("X/Y "+x+" x "+y);
 		System.out.println("W/H "+processedSingle.getWidth()+" x "+processedSingle.getHeight());
 		
-		if(x == processedSingle.getWidth() && y == processedSingle.getHeight()){
+		copyValues(processedSingle, sample);
+		
+		/*if(x == processedSingle.getWidth() && y == processedSingle.getHeight()){
 			copyValues(processedSingle, sample);
 		}
 		else{
 			throw new IllegalAccessException("IMAGE DIMENSION DOES NOT MATCH SOURCE DIMENSION");
-		}
+		}*/
 		
 		List<AImage> processed = new ArrayList<AImage>();
 		processed.add(processedSingle);

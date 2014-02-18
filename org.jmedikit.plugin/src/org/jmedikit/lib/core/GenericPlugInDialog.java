@@ -2,18 +2,19 @@ package org.jmedikit.lib.core;
 
 import org.jmedikit.plugin.gui.PlugInDialog;
 
-public class GenericPlugInDialog{
+public class GenericPlugInDialog extends PlugInDialog{
 
 	public static final int OK_STATUS = PlugInDialog.OK_STATUS;
 	public static final int CANCEL_STATUS = PlugInDialog.CANCEL_STATUS;
 	
-	PlugInDialog dialog;
+	//PlugInDialog dialog;
 	
 	public GenericPlugInDialog(String title, String message) {
-		dialog = new PlugInDialog(title, message);
+		super(title, message);
+		//dialog = new PlugInDialog(title, message);
 	}
 	
-	public int open(){
+	/*public int open(){
 		return dialog.open();
 	}
 	
@@ -47,5 +48,5 @@ public class GenericPlugInDialog{
 	
 	public void addFileDialog(String name, String defaultValue){
 		dialog.addFileDialog(name, defaultValue);
-	}
+	}*/
 }

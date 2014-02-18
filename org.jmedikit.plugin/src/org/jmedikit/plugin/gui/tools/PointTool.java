@@ -39,14 +39,17 @@ public class PointTool extends ATool{
 
 	@Override
 	public void actionMouseMove(Event e) {
-		//System.out.println(e.x+" x "+e.y+", "+ canvas.visibleImageBounds.toString()+", "+canvas.roi.toString()+", "+(canvas.imageCenter.x-canvas.imageDimension.width/2)+" x "+(canvas.imageCenter.y-canvas.imageDimension.height/2));
 		int x = canvas.imageCenter.x-canvas.imageDimension.width/2;
 		int y = canvas.imageCenter.y-canvas.imageDimension.height/2;
 		int width = x+canvas.imageDimension.width;
 		int height = y+canvas.imageDimension.height;
 
+		//Prüfen, ob Cursor im Bild liegt
 		if( (e.x >= x && e.x < width) && (e.y >= y && e.y < height)){
 			isInImage = true;
+			
+			//Berechnung der Koordinaten, es werden x und y Werte des Originalbilds angezeit
+			//dadurch Kovertierung von skalierten Koordinaten zu Originalkoordinaten 
 			coordinates.x = (int)((((float)(e.x-x)/(float)canvas.imageDimension.width)*(float)canvas.sourceImage.getWidth())+0.5);
 			coordinates.y = (int)((((float)(e.y-y)/(float)canvas.imageDimension.height)*(float)canvas.sourceImage.getHeight())+0.5);
 			
@@ -71,11 +74,13 @@ public class PointTool extends ATool{
 	@Override
 	public void actionMouseUp(Event e) {
 		if(isInImage){
+			
+			//der gewählte Punkt wird in normalisierten Koordinaten gespeichert
 			float x = (float)coordinates.x/(float)canvas.sourceImage.getWidth();
 			float y = (float)coordinates.y/(float)canvas.sourceImage.getHeight();
 			Point2D<Float> p = new Point2D<Float>(x, y);
 			canvas.sourceImage.addPoint(p);
-			canvas.sourceImage.setTitle("POINTTHING");
+			//canvas.sourceImage.setTitle("POINTTHING");
 			System.out.println(x+" x "+y+", "+canvas.sourceImage.getWidth()+" x "+canvas.sourceImage.getHeight()+", "+canvas.sourceImage.getTitle());
 		}
 	}

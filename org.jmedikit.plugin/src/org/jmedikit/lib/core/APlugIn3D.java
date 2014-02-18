@@ -31,13 +31,13 @@ public abstract class APlugIn3D extends APlugIn{
 		else{
 			for(int i = 0; i < processed.size(); i++){
 				AImage copy = processed.get(i);
-				if(x == copy.getWidth() && y == copy.getHeight()){
+				copyValues(copy, sample);
+				/*if(x == copy.getWidth() && y == copy.getHeight()){
 					copyValues(copy, sample);
 				}
 				else{
 					throw new IllegalAccessException("IMAGE DIMENSION DOES NOT MATCH SOURCE DIMENSION");
-				}
-				
+				}*/
 			}
 		}
 		

@@ -17,9 +17,12 @@ public class PlugInRadioGroup implements IPlugInDialogItem{
 
 	String[] labels;
 	
+	int selectedIndex;
+	
 	public PlugInRadioGroup(String name, String[] labels, int selectedIndex) {
 		this.name = name;
 		value = labels[selectedIndex];
+		this.selectedIndex = selectedIndex;
 		this.labels = labels;
 	}
 	
@@ -58,6 +61,9 @@ public class PlugInRadioGroup implements IPlugInDialogItem{
 			Label l = new Label(radios, SWT.NONE);
 			l.setText(labels[i]);
 			Button b = new Button(radios, SWT.RADIO);
+			if(i == selectedIndex){
+				b.setSelection(true);
+			}
 			RadioListener listener = new RadioListener(labels[i]);
 			b.addListener(SWT.Selection, listener);
 		}

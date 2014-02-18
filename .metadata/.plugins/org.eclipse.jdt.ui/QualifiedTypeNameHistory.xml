@@ -27,7 +27,21 @@
 <fullyQualifiedTypeName name="org.jmedikit.lib.image.AImage"/>
 <fullyQualifiedTypeName name="java.util.Collections"/>
 <fullyQualifiedTypeName name="org.jmedikit.lib.image.ImageCube"/>
-<fullyQualifiedTypeName name="org.jmedikit.lib.util.Vector3D"/>
 <fullyQualifiedTypeName name="java.lang.Float"/>
 <fullyQualifiedTypeName name="org.jmedikit.lib.core.ADicomObject"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.util.Vector3D"/>
+<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.PlugInDialog"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Display"/>
+<fullyQualifiedTypeName name="org.eclipse.e4.tools.services.IResourcePool"/>
+<fullyQualifiedTypeName name="org.jmedikit.plugin.util.ImageProvider"/>
+<fullyQualifiedTypeName name="org.eclipse.e4.tools.services.IResourceProviderService"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.layout.GridLayout"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Text"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.SWT"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.widgets.Button"/>
+<fullyQualifiedTypeName name="org.eclipse.swt.layout.GridData"/>
+<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.tools.ATool"/>
+<fullyQualifiedTypeName name="org.jmedikit.plugin.gui.tools.RoiTool"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.util.Point2D"/>
+<fullyQualifiedTypeName name="org.jmedikit.lib.image.ROI"/>
 </qualifiedTypeNameHistroy>

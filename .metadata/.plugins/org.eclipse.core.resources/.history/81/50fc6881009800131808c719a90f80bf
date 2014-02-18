@@ -1,0 +1,22 @@
+ 
+package org.jmedikit.plugin.gui;
+
+import javax.inject.Inject;
+import javax.annotation.PostConstruct;
+import org.eclipse.swt.widgets.Composite;
+
+public class DicomNetwork {
+	@Inject
+	public DicomNetwork() {
+		//TODO Your code here
+	}
+	
+	@PostConstruct
+	public void postConstruct(Composite parent) {
+		//TODO Your code here
+	}
+	
+	
+	
+	
+}

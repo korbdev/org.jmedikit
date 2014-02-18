@@ -36,8 +36,9 @@ public class MoveTool extends ATool{
 			
 			translation.x = actual.x - start.x;
 			translation.y = actual.y - start.y;
-
+			
 			canvas.imageCenter = new Point2D<Integer>(canvas.imageCenter.x+(translation.x - translationOld.x), canvas.imageCenter.y+(translation.y - translationOld.y));
+
 		}
 		//if(mouseDown){
 		//	resize.handleMouseMove(e);

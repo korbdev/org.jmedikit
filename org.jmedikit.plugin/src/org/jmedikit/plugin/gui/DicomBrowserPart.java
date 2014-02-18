@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.jobs.ProgressProvider;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.tools.services.IResourcePool;
+import org.eclipse.e4.tools.services.IResourceProviderService;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
@@ -25,6 +26,7 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Tree;
@@ -63,7 +65,7 @@ public class DicomBrowserPart {
 	
 	@PostConstruct
 	public void createGui(Composite parent){
-		
+
 		rootIcon = imageProvider.getImageUnchecked(ImageProvider.DICOM_TREE_ROOT);
 		patientIcon = imageProvider.getImageUnchecked(ImageProvider.DICOM_TREE_PATIENT);
 		studyIcon = imageProvider.getImageUnchecked(ImageProvider.DICOM_TREE_STUDY);

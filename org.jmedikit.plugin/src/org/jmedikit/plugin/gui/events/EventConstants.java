@@ -11,6 +11,7 @@ public class EventConstants {
 	public final static String TOOL_CHANGED_RESIZE = "TOOL_CHANGED/RESIZE";
 	public final static String TOOL_CHANGED_WINDOW = "TOOL_CHANGED/WINDOW";
 	public final static String TOOL_CHANGED_POINT = "TOOL_CHANGED/POINT";
+	public final static String TOOL_CHANGED_ROI = "TOOL_CHANGED/ROI";
 	
 	public final static String SELECTION_ALL = "SELECTION/*";
 	public final static String SELECTION_REMOVE_ALL = "SELECTION/REMOVE_ALL";

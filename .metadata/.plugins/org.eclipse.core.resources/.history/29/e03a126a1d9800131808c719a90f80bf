@@ -1,0 +1,62 @@
+package org.jmedikit.plugin.gui.tools;
+
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.widgets.Event;
+import org.jmedikit.plugin.gui.DicomCanvas;
+
+public class RoiTool extends ATool{
+
+	public RoiTool(DicomCanvas c) {
+		super(c);
+		System.out.println("HelloROI");
+	}
+
+	@Override
+	public void actionMouseMove(Event e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionMouseDown(Event e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionMouseUp(Event e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionMouseEnter(Event e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionMouseExit(Event e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionMouseWheel(Event e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public GC preCalculation(GC toDraw) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public GC postCalculation(GC toDraw) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

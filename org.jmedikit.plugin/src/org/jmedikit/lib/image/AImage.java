@@ -118,7 +118,10 @@ public abstract class AImage implements Comparable<AImage>{
 	
 	protected String mprType;
 	
-	protected ROI roi;
+	/**
+	 * Vom Nutzer gewählte Region Of Interest
+	 */
+	protected ArrayList<ROI> rois;
 	
 	protected ArrayList<Point2D<Float>> selectedPoints;
 	
@@ -135,7 +138,8 @@ public abstract class AImage implements Comparable<AImage>{
 		this.height = height;
 		aspectRatio = (float)width / (float)height;
 		extrema = false;
-		roi = new ROI();
+		rois = new ArrayList<ROI>();
+		//roi = new ROI(0f, 0f, 0f, 0f);
 		selectedPoints = new ArrayList<Point2D<Float>>();
 		rowVector = new Vector3D<Float>(0f, 0f, 0f, 1f);
 		columnVector = new Vector3D<Float>(0f, 0f, 0f, 1f);
@@ -316,12 +320,20 @@ public abstract class AImage implements Comparable<AImage>{
 		this.windowCenter = windowCenter;
 	}
 	
-	public ROI getROI(){
-		return roi;
+	public ROI getROI(int index){
+		return rois.get(index);
 	}
 	
-	public void setROI(ROI roi){
-		this.roi = roi;
+	public void addROI(ROI roi){
+		rois.add(roi);
+	}
+	
+	public void removeROI(int index){
+		rois.remove(index);
+	}
+	
+	public void deleteROIs(){
+		rois.clear();
 	}
 	
 	public void addPoint(Point2D<Float> p){
@@ -709,7 +721,7 @@ public abstract class AImage implements Comparable<AImage>{
 		
 		Vector3D<Float> imgIP = img.getImagePosition();
 		
-		Vector3D<Float> normal = Vector3D.crossProduct(columnVector, rowVector);
+		Vector3D<Float> normal = Vector3D.crossProduct(rowVector, columnVector);
 		
 		int index = ImageCube.getDominantIndex(normal);
 		
@@ -717,17 +729,8 @@ public abstract class AImage implements Comparable<AImage>{
 		
 		float a = imagePosition.get(index);
 		float b = imgIP.get(index);
-		
+		System.out.println(indexValue + " "+normal.toString()+" "+columnVector.toString()+" "+rowVector.toString());
 		if(indexValue < 0){
-			if(a == b){
-				return 0;
-			}
-			else if(a < b){
-				return 1;
-			}
-			else return -1;
-		}
-		else{
 			if(a == b){
 				return 0;
 			}
@@ -736,5 +739,22 @@ public abstract class AImage implements Comparable<AImage>{
 			}
 			else return 1;
 		}
+		else{
+			if(a == b){
+				return 0;
+			}
+			else if(a < b){
+				return 1;
+			}
+			else return -1;
+		}
+	}
+
+	public ArrayList<ROI> getROIs() {
+		return rois;
+	}
+	
+	public void setROIs(ArrayList<ROI> rois){
+		this.rois = rois;
 	}
 }

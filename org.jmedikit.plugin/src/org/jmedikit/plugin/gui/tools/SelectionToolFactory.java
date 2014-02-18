@@ -18,6 +18,7 @@ public class SelectionToolFactory extends AToolFactory{
 
 	public static final String POINT_TOOL = EventConstants.TOOL_CHANGED_POINT;
 	
+	public static final String ROI_TOOL = EventConstants.TOOL_CHANGED_ROI;
 	/**
 	 * Gibt ein Tool abhängig von toolname zurück
 	 * 
@@ -31,8 +32,10 @@ public class SelectionToolFactory extends AToolFactory{
 	@Override
 	protected ATool produce(String toolname, DicomCanvas c) {
 		if(toolname.equals(POINT_TOOL)){
-			System.out.println("CREATE NEW POINT TOOL");
 			return new PointTool(c);
+		}
+		else if(toolname.equals(ROI_TOOL)){
+			return new RoiTool(c);
 		}
 		else throw new IllegalArgumentException("Tool "+toolname+" not available");
 	}
