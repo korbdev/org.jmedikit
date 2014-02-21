@@ -28,7 +28,7 @@ public class PlugInClassLoader {
 	 * _Test = false
 	 * __test = false
 	 */
-	public static final String PATTERN = "^"+PREFIX+"[A-Za-z0-9].*";
+	public static final String PATTERN = "^"+PREFIX+"[A-Za-z0-9_].*";
 	
 	private static PlugInClassLoader loader = new PlugInClassLoader();
 	
@@ -72,11 +72,9 @@ public class PlugInClassLoader {
 						String parent = file.getPath();
 						String path = filenameWithoutExtension(classFile.getName());
 						
-						//Baut den Klassennamen aus den Packages zusammen
 						while(!classFile.getParent().equals(parent)){
 							classFile = new File(classFile.getParent());
 							path = classFile.getName()+"."+path;
-							System.out.println(path);
 						}
 						plugins.put(url, path);
 					}

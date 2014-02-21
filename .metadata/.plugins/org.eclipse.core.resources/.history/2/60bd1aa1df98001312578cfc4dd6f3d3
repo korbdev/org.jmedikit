@@ -26,6 +26,9 @@ public abstract class APlugIn2D extends APlugIn{
 		
 		AImage processedSingle = process(images.get(index));
 		
+		System.out.println("X/Y "+x+" x "+y);
+		System.out.println("W/H "+processedSingle.getWidth()+" x "+processedSingle.getHeight());
+		
 		copyValues(processedSingle, sample);
 		
 		/*if(x == processedSingle.getWidth() && y == processedSingle.getHeight()){

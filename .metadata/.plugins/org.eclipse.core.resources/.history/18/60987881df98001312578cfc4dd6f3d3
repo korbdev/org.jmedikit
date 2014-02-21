@@ -72,7 +72,6 @@ public class PlugInClassLoader {
 						String parent = file.getPath();
 						String path = filenameWithoutExtension(classFile.getName());
 						
-						//Baut den Klassennamen aus den Packages zusammen
 						while(!classFile.getParent().equals(parent)){
 							classFile = new File(classFile.getParent());
 							path = classFile.getName()+"."+path;
