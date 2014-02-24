@@ -133,7 +133,7 @@ public class DicomImporter extends Job{
 		this.monitor.beginTask(this.getName(), filenumber);
 		
 		this.importDicomFiles();
-		tree.walkDicomTreeRepository();
+		//tree.walkDicomTreeRepository();
 		this.monitor.done();
 
 		return Status.OK_STATUS;

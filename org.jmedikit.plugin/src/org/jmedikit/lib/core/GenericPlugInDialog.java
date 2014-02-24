@@ -2,13 +2,35 @@ package org.jmedikit.lib.core;
 
 import org.jmedikit.plugin.gui.PlugInDialog;
 
+/**
+ * Mit Hilfe der GenericPlugInDialogs können Optionsdialoge in Plug-ins eingefügt werden und sind für eine
+ * Instantiierung in den konkreten Plug-ins vorgesehen. So kann in den Optionen ein Dialog mit einem Slider, Integerwerten, RadioGroups
+ * und anderen Elemente versehen werden, um dem Plug-in dynamisch vom Nutzer Parameter zu übergeben.
+ * 
+ * @author rkorb
+ *
+ */
 public class GenericPlugInDialog extends PlugInDialog{
 
+	/*
+	 * Dieser Wert wird zurückgegeben, wenn der Anwender OK klickt
+	 */
 	public static final int OK_STATUS = PlugInDialog.OK_STATUS;
+	
+	/*
+	 * Dieser Wert wird zurückgegeben, wenn der Anwender Cancel klickt
+	 */
 	public static final int CANCEL_STATUS = PlugInDialog.CANCEL_STATUS;
 	
 	//PlugInDialog dialog;
 	
+	/**
+	 * Der Konstruktor erzeugt ein Dialogfenster mit einem Titel und einer Beschreibung. Die Methode open()
+	 * zeigt den Dialog an.
+	 * 
+	 * @param title Titel
+	 * @param message Beschreibung
+	 */
 	public GenericPlugInDialog(String title, String message) {
 		super(title, message);
 		//dialog = new PlugInDialog(title, message);

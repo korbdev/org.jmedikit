@@ -4,6 +4,12 @@ import org.jmedikit.plugin.io.PlugInClassLoader;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
+/**
+ * 
+ * @author rkorb
+ *
+ * Der Activator wird vor dem Programmstart ausgeführt
+ */
 public class Activator implements BundleActivator{
 
 	private static BundleContext context;
@@ -13,6 +19,8 @@ public class Activator implements BundleActivator{
 	}
 
 	/*
+	 * Bei Plug-in-Start werden die Plug-ins der Anwender aus dem Plug-in Directory geladen
+	 * 
 	 * (non-Javadoc)
 	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
 	 */

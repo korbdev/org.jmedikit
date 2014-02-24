@@ -27,7 +27,7 @@ public class DicomNetwork {
 		
 		//Suchfeld
 		Text search = new Text(parent, SWT.BORDER);
-
+        search.setText("");
 		//Suchbutton
 		Button button = new Button(parent, SWT.NONE);
 		button.setText("Suche PACS");

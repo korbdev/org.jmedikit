@@ -2,6 +2,11 @@ package org.jmedikit.plugin.util;
 
 import org.eclipse.e4.tools.services.BasicResourceProvider;
 
+/**
+ * Enthalt alle Namen der Icons, die über die Iconverwaltung erzeugt werden können.
+ * @author rkorb
+ *
+ */
 public class ImageProvider extends BasicResourceProvider{
 	public static final String DICOM_TREE_ROOT = "DICOM_TREE_ROOT";
 	public static final String DICOM_TREE_PATIENT = "DICOM_TREE_PATIENT";

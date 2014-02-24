@@ -11,12 +11,24 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * Der FileDialog dient zum laden von Dateien
+ * 
+ * @author rkorb
+ *
+ */
 public class PlugInFileDialog implements IPlugInDialogItem{
 
-	String name;
+	private String name;
 	
-	String value;
+	private String value;
 	
+	/**
+	 * Erzeugt ein Formularelement
+	 * 
+	 * @param name Ein innerhalb des Dialogs eindeutiger Name
+	 * @param defaultValue Standardwert des Elements
+	 */
 	public PlugInFileDialog(String name, String defaultValue) {
 		this.name = name;
 		value = defaultValue;

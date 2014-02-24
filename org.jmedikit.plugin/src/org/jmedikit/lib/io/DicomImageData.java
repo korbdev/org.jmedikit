@@ -9,14 +9,26 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 
+import org.dcm4che2.data.DicomObject;
 import org.dcm4che2.imageio.plugins.dcm.DicomImageReadParam;
 import org.dcm4che2.imageioimpl.plugins.dcm.DicomImageReader;
+import org.jmedikit.lib.core.ADicomObject;
 import org.jmedikit.lib.image.AImage;
 import org.jmedikit.lib.image.IntegerImage;
 import org.jmedikit.lib.image.ShortImage;
 import org.jmedikit.lib.image.UnsignedByteImage;
 import org.jmedikit.lib.image.UnsignedShortImage;
 
+/**
+ * 
+ * DicomImageData implementiert das Interface IDicomImageData und ist damit der konkrete Adapter für den Bildteil eines DICOM-Objekts.
+ * Diese Klasse stellt die Schnittstelle zur externen Bibliothek zur Verarbeitung der DICOM-Bilder bereit. Sie ist nicht für eine explizite Instantiierung
+ * vorgesehen, sondern ist Teil eines Adapters und wird von der abstrakten Klasse {@link ADicomObject} adaptiert. Für eine Arbeit mit DICOM-Objekten können
+ * Instanzen des konkreten Adapters {@link DicomObject} erzeugt werden. 
+ * 
+ * @author rkorb
+ *
+ */
 public class DicomImageData implements IDicomImageData{
 	
 	private File f;

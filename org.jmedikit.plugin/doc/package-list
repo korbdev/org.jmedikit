@@ -1,0 +1,11 @@
+org.jmedikit
+org.jmedikit.lib.core
+org.jmedikit.lib.image
+org.jmedikit.lib.io
+org.jmedikit.lib.util
+org.jmedikit.plugin.gui
+org.jmedikit.plugin.gui.events
+org.jmedikit.plugin.gui.handlers
+org.jmedikit.plugin.gui.tools
+org.jmedikit.plugin.io
+org.jmedikit.plugin.util

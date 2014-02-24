@@ -9,12 +9,24 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * StringValue repräsentiert ein Dialog-Element zur Eingabe von Zeichenketten
+ * 
+ * @author rkorb
+ *
+ */
 public class PlugInStringValue implements IPlugInDialogItem{
 	
 	private String stringValue;
 	
 	private String name;
 	
+	/**
+	 * Erzeugt ein Formularelement
+	 * 
+	 * @param name Ein innerhalb des Dialogs eindeutiger Name
+	 * @param defaultValue Standardwert des Elements
+	 */
 	public PlugInStringValue(String name, String defaultValue) {
 		this.name = name;
 		this.stringValue = defaultValue;

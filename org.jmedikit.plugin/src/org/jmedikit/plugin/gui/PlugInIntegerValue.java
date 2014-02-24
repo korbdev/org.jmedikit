@@ -9,12 +9,24 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * IntegerValue repräsentiert ein Dialog-Element zur Eingabe von ganzzahligen Werten
+ * 
+ * @author rkorb
+ *
+ */
 public class PlugInIntegerValue implements IPlugInDialogItem{
 
-	String name;
+	private String name;
 	
-	int value;
+	private int value;
 	
+	/**
+	 * Erzeugt ein Formularelement
+	 * 
+	 * @param name Ein innerhalb des Dialogs eindeutiger Name
+	 * @param defaultValue Standardwert des Elements
+	 */
 	public PlugInIntegerValue(String name, int defaultValue) {
 		this.name = name;
 		value = defaultValue;

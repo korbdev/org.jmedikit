@@ -2,7 +2,6 @@ package org.jmedikit.plugin.gui;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -14,19 +13,15 @@ import org.eclipse.core.runtime.jobs.ProgressProvider;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.tools.services.IResourcePool;
-import org.eclipse.e4.tools.services.IResourceProviderService;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.MApplication;
-import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.menu.MToolControl;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
-import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Tree;
@@ -37,20 +32,26 @@ import org.jmedikit.lib.io.DicomImporter;
 import org.jmedikit.plugin.gui.events.EventConstants;
 import org.jmedikit.plugin.util.ImageProvider;
 
-
+/**
+ * Der DicomBrowserPart regelt die Anzeige des DICOM-Baumes in der Benutzeroberfläche der Anwendung und regelt die Eingaben des Benutzers, 
+ * wenn ein Element aus dem Baum ausgewählt wurde.
+ * 
+ * @author rkorb
+ *
+ */
 public class DicomBrowserPart {
 	
 	@Inject
-	IEventBroker broker;
+	private IEventBroker broker;
 	
 	@Inject
-	EModelService service;
+	private EModelService service;
 	
 	@Inject
-	MApplication app;
+	private MApplication app;
 	
 	@Inject
-	IResourcePool imageProvider;
+	private IResourcePool imageProvider;
 	
 	private Image rootIcon;
 	private Image patientIcon;
@@ -59,10 +60,15 @@ public class DicomBrowserPart {
 	private Image objectIcon;
 	
 	private Tree tree;
-	//private TreeItem root;
 	
 	private DicomTreeRepository treeRepository;
 	
+	/**
+	 * Erzeugt die Benutzeroberfläche und initialisiert den Listener der Baum-Elemente.
+	 * Bei Doppelklick auf ein Element wird das Event {@link EventConstants#DICOMBROWSER_ITEM_SELECTION} ausgelöst.
+	 * 
+	 * @param parent
+	 */
 	@PostConstruct
 	public void createGui(Composite parent){
 
@@ -82,7 +88,6 @@ public class DicomBrowserPart {
 					String uid = selectedItems[0].getText();
 					
 					ADicomTreeItem clickedTreeItem = treeRepository.lookUpDicomTreeItem(uid);
-					System.out.println("Clicked "+clickedTreeItem.getChildren().size());
 					//if(clickedTreeItem.getLevel() == ADicomTreeItem.TREE_SERIES_LEVEL){
 						//Collections.sort(clickedTreeItem.getChildren());
 					//}
@@ -91,29 +96,14 @@ public class DicomBrowserPart {
 				
 			}
 		});
-		tree.addKeyListener(new KeyListener() {
-			
-			@Override
-			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-				TreeItem[] selectedItems = tree.getSelection();
-				if(selectedItems.length == 1){
-					String uid = selectedItems[0].getText();
-					
-					ADicomTreeItem clickedTreeItem = treeRepository.lookUpDicomTreeItem(uid);
-					//System.out.println(clickedTreeItem);
-					broker.send(EventConstants.DICOMBROWSER_ITEM_SELECTION, clickedTreeItem);
-				}
-			}
-		});
 	}
 	
+	/**
+	 * Diese Methode wird ausgeführt, wenn der Anwender ein Verzeichnis zum öffnen ausgewählt hat und reagiert auf das Event 
+	 * {@link EventConstants#FILE_OPEN_LOCATION}. Wurde ein Ordner gewählt, werden die beinhalteten DICOM-Dateien geladen.
+	 * 
+	 * @param location
+	 */
 	@Inject
 	@Optional
 	public void getNotifiedOpenLocation(@UIEventTopic(EventConstants.FILE_OPEN_LOCATION) String location){
@@ -143,6 +133,12 @@ public class DicomBrowserPart {
 		}
 	}
 	
+	/**
+	 * Diese Methode reagiert auf das Event {@link EventConstants#FILE_IMPORT_FINISHED}. Sind alle Dateien vom System eingelesen, wird der
+	 * Baum für die Anzeige auf der Benutzeroberfläche gebaut.
+	 * 
+	 * @param done true wenn der Import erfolgreich war
+	 */
 	@Inject
 	@Optional
 	public void getNotifiedImportFinished(@UIEventTopic(EventConstants.FILE_IMPORT_FINISHED) boolean done){

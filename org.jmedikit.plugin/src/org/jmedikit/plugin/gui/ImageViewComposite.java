@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Slider;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.swt.widgets.Widget;
 import org.jmedikit.lib.core.ADicomTreeItem;
 import org.jmedikit.lib.core.DicomObject;
 import org.jmedikit.lib.image.AImage;
@@ -29,41 +30,90 @@ import org.jmedikit.plugin.util.IObserver;
 import org.jmedikit.plugin.util.ISubject;
 import org.jmedikit.plugin.util.ImageProvider;
 
-
+/**
+ * Ein ImageViewComposite beinhalten die Zeichenfläche {@link DicomCanvas} und die Interaktionsmöglichkeiten mit selbiger. Das Composite ist der Vermittler
+ * zwischen dem {@link ImageViewPart} und dem {@link DicomCanvas}.
+ * 
+ * @author rkorb
+ *
+ */
 public class ImageViewComposite extends Composite implements ISubject, IObserver{
 	
+	/**
+	 * Titel
+	 */
 	private String title;
 	
+	/**
+	 * Das gewählte Element des Baumes
+	 */
 	private ADicomTreeItem item;
 	
-	//private ArrayList<AImage> images;
-	
+	/**
+	 * Die Zeichenfläche für die Bilddaten
+	 */
 	private DicomCanvas canvas;
 	
+	/**
+	 * Container des Elternelements der Benutzeroberfläche, des Canvas und der Bedienelemente
+	 */
 	private Composite parent, canvasContainer, controls;
 
+	/**
+	 * Der Slider zum scrollen durch den Bildstapel
+	 */
 	private Slider slider;
 	
+	/**
+	 * Elemente zur Bedienung des Canvas
+	 */
 	private ToolItem close, fullscreen, reload;
 	
+	/**
+	 * Elemente zur Anzeige der Zusatzinformationen
+	 */
 	private ToolItem imageSelection, annotations, scoutingLines;
 	
+	/**
+	 * Iconverwaltung
+	 */
 	private IResourcePool imageResource;
 	
+	/**
+	 * Wurzel der Benutzeroberfläche der Bildanzeige
+	 */
 	private ImageViewPart rootPart;
 	
+	/**
+	 * Icons
+	 */
 	private Image closeImg, currentImg, fullscreenImg, fullscreenExitImg, reloadImg, imageSelectionImg, annotationsImg, scoutingLinesImg;
 	
+	/**
+	 * Fenster für die Fullscreen-Anzeige
+	 */
 	private Shell fullScreenShell;
 	
+	/**
+	 * Prüft, ob sich die Bildanzeige im Vollbildmodus befindet
+	 */
 	private boolean isFullscreen;
 	
+	/**
+	 * Liste der Beobachter, die bei einer Änderung benachrichtigt werden müssen
+	 */
 	private ArrayList<IObserver> observers;
 	
 	/**
-	 * Create the composite.
-	 * @param parent
-	 * @param style
+	 * Erzeugt eine Objekt zur Anzeige, Manipulation und Navigation in 3D-Bilddaten
+	 * 
+	 * @param parent Elternelement der Benutzeroberfläche
+	 * @param style SWT-Style
+	 * @param title Titel
+	 * @param selection Ausgewählter Knoten des Baumes
+	 * @param images 3D-Bildstapel
+	 * @param pool Iconverwaltung
+	 * @param rootPart ImageViewPart als Wurzel der Benutzeroberfläche der Bildanzeige
 	 */
 	public ImageViewComposite(Composite parent, int style, String title, ADicomTreeItem selection, ArrayList<AImage> images, IResourcePool pool, ImageViewPart rootPart) {
 		super(parent, style);
@@ -75,7 +125,6 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		this.imageResource = pool;
 		this.rootPart = rootPart;
 		this.item = selection;
-		//this.images = images;
 		
 		isFullscreen = false;
 		fullScreenShell = new Shell(SWT.NO_TRIM | SWT.ON_TOP);
@@ -136,9 +185,9 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		GridData gd_slider = new GridData(SWT.FILL, SWT.FILL, true, true, 0, 0);
 		gd_slider.widthHint = controlsSizeWidth;
 		slider.setLayoutData(gd_slider);
-		//int sliderMaximum = selection.getChildren().size() > 0 ? selection.getChildren().size()-1 : 0;
+
 		int sliderMaximum = images.size() > 0 ? images.size()-1 : 0;
-		//System.out.println(sliderMaximum);
+
 		slider.setMaximum(sliderMaximum+slider.getThumb());
 
 		ToolBar annotationTools = new ToolBar(controls, SWT.FLAT | SWT.VERTICAL);
@@ -326,8 +375,6 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 	}
 	
 	private void initSlider(){
-		//System.out.println("initSlider");
-		//System.out.println("Get max "+slider.getMaximum());
 		slider.addSelectionListener(new SelectionListener() {
 			
 			@Override
@@ -384,24 +431,47 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		initCanvas();
 	}
 	
+	/**
+	 * 
+	 * Erzeugt ein Werkzeug vom Typ toolname mit Hilfe der Fabrik factory und setzt es als aktives Tool im ImageViewComposite
+	 * 
+	 * @param factory Werkzeugfabrik zur Objekterzeugung
+	 * @param toolname Werkzeug name
+	 */
 	public void setTool(AToolFactory factory, String toolname){
 		canvas.setTool(factory.createTool(toolname, canvas));
 	}
 	
+	/**
+	 * Gibt die Zeichenfläche zurück
+	 * 
+	 * @return Zeichenfläche
+	 */
 	public DicomCanvas getCanvas(){
 		return canvas;
 	}
 	
+	/**
+	 * Setzt dieses ImageViewComposite als aktives Element im {@link ImageViewPart}. Algorithmen und Werkzeuginteraktionen
+	 * werden auf dem aktuell aktiven ImageViewComposite ausgeführt.
+	 */
 	public void setActiveCanvas(){
 		rootPart.setActive(this);
 	}
 	
+	/**
+	 * Setzt den Wert des Sliders. Entspricht der z-Richtung des Bildstapels
+	 */
 	public void setSliderMaximum(int max){
 		slider.setMaximum(max+slider.getThumb());
 		slider.setSelection(0);
 		canvas.redraw();
 	}
 	
+	/**
+	 * Gibt des Titel zurück
+	 * @return
+	 */
 	public String getTitle(){
 		return title;
 	}
@@ -459,10 +529,14 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		}
 	}
 	
+	/**
+	 * Wird aufgerüfen, wenn ein ImageViewComposite vom {@link ImageViewPart} gelöscht wird. Überschreibt die Methode {@link Widget#dispose()},
+	 * da zusätzlich zum Löschen dieses Objekt als Beobachter bei den Subjekten gelöscht werden muss.
+	 * 
+	 */
 	@Override
 	public void dispose(){
 		super.dispose();
-		System.out.println("Remove Observers");
 		rootPart.deleteChild(this);
 	}
 	
@@ -472,7 +546,7 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		slider.setSelection(index);
 	}
 
-	//@Override
+	@Override
 	public void updateScoutingLine(float xn, float yn, float zn, String mprType){
 		String IOT = this.getCanvas().imageOrientationType;
 		
@@ -618,6 +692,12 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		canvas.redraw();
 	}
 	
+	/**
+	 * 
+	 * Gibt das DICOM-Objekt der aktuell ausgewählten Bildschicht zurück.
+	 * 
+	 * @return DICOM-Objekt des aktuellen Bildschicht
+	 */
 	public DicomObject getCurrentDicomObject(){
 		DicomObject current = null;
 		if(item.getLevel() == ADicomTreeItem.TREE_OBJECT_LEVEL){
@@ -629,6 +709,9 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		return current;
 	}
 	
+	/**
+	 * Löscht die vom Anwender ausgewählten Punkte und Regions Of Interests. Wird aller Bilder der Bildebene angewendet.
+	 */
 	public void removeSelection(){
 		ArrayList<AImage> images = canvas.getImages();
 		for(AImage ai : images){
@@ -638,6 +721,9 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		canvas.redraw();
 	}
 	
+	/**
+	 * Löscht die vom Anwender ausgewählten Punkte und Regions Of Interests. Wird nur auf die aktuelle Bildebene angewendet.
+	 */
 	public void removeSingleSelection(){
 		int index = slider.getSelection();
 		AImage ai = canvas.getImages().get(index);
@@ -646,12 +732,13 @@ public class ImageViewComposite extends Composite implements ISubject, IObserver
 		canvas.redraw();
 	}
 	
+	/**
+	 * Schlägt eine Ausführung eines Plug-ins fehl, wird das Event {@link EventConstants#PLUG_IN_ERROR} ausgelöst.
+	 * 
+	 * @param error Fehlerbeschreibung
+	 */
 	public void postErrorEvent(String error){
 		IEventBroker broker = rootPart.getEventBroker();
 		broker.post(EventConstants.PLUG_IN_ERROR, error);
 	}
-	/*public void recalulateImages() {
-		// TODO Auto-generated method stub
-		
-	}*/
 }

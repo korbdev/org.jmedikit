@@ -9,26 +9,52 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Slider;
 
+/**
+ * Der Slider repräsentiert ein Element zur Auswahl von numerischen Werten in einem Intervall[min, max].
+ * 
+ * 
+ * @author rkorb
+ *
+ */
 public class PlugInSlider implements IPlugInDialogItem{
 
-	String name;
+	private String name;
 	
-	int value;
+	private int value;
 	
-	int min;
+	private int min;
 	
-	int max;
+	private int max;
 	
-	int start;
+	private int start;
 	
-	int end;
+	private int end;
 	
-	int range;
+	private int range;
 	
-	int increment;
+	private int increment;
 	
-	int digits;
+	private int digits;
 	
+	/**
+	 * 
+	 * Erzeugt das Formularelement zur Intervallauswahl. Die Nachkommastellen bestimmen minimale und maximale Werte.
+	 * Die Extremwerte werden mit der Formel min/(10^digits) und max/(10^digits) berechnet
+	 * <p>Beispiele</p>
+	 * <ul>
+	 * <li>min = 10, max = 30, digits = 0 ergibt im Dialog das Intervall [10, 30] Beispielwert 14</li>
+	 * <li>min = 10, max = 30, digits = 1 ergibt im Dialog das Intervall [1, 3], Beispielwert 1.4</li>
+	 * <li>min = 10, max = 30, digits = 2 ergibt im Dialog das Intervall [0.1, 0.3], Beispielwert 0.14</li>
+	 * <li>min = 100, max = 300, digits = 2 ergibt im Dialog das Intervall [1, 3], Beispielwert 1.14</li>
+	 * </ul>
+	 * 
+	 * @param name Name des Elements
+	 * @param startValue Startwert
+	 * @param min Minimaler Wert
+	 * @param max Maximaler Wert
+	 * @param increment Inkrement
+	 * @param digits Nachkommastellen
+	 */
 	public PlugInSlider(String name, int startValue, int min, int max, int increment, int digits){
 		range = max - min;
 		

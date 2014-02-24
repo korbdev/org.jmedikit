@@ -7,6 +7,13 @@ import org.jmedikit.lib.util.SimpleImageFactory;
 
 public abstract class APlugIn3D extends APlugIn{
 	
+	/**
+	 * Startmethode für dreidimensionale Plug-in-Typen. Als Argumente sind der gesamte Bildstapel und der Index der aktuell im aktiven 
+	 * {@link DicomCanvas} angezeigten Bildschicht.
+	 * @param images
+	 * @param index
+	 * @return Liste der vom Plug-in bearbeiteten Bilder. Ergebnisliste muss die gleiche Länge vom Parameter images haben
+	 */
 	public abstract List<AImage> process(List<AImage> images, int index);
 	
 	@Override 
@@ -19,8 +26,8 @@ public abstract class APlugIn3D extends APlugIn{
 
 		AImage sample = SimpleImageFactory.getAbstractImage(images.get(index).getImageType(), images.get(index).getWidth(), images.get(index).getHeight());
 		copyValues(sample, images.get(index));
-		int x = sample.getWidth();
-		int y = sample.getHeight();
+		//int x = sample.getWidth();
+		//int y = sample.getHeight();
 		int z = images.size();
 		
 		List<AImage> processed = process(images, index);

@@ -11,16 +11,40 @@ import org.jmedikit.lib.core.ADicomTreeItem;
 import org.jmedikit.lib.image.AImage;
 import org.jmedikit.plugin.gui.events.EventConstants;
 
+/**
+ * ImageLoader definiert einen Prozess zum Laden der Bilddaten
+ * 
+ * @author rkorb
+ *
+ */
 public class ImageLoader implements IRunnableWithProgress{
 	
-	ArrayList<AImage> images;
+	/**
+	 * Geladener Bildstapel
+	 */
+	private ArrayList<AImage> images;
 	
-	ADicomTreeItem selection;
+	/**
+	 *  Ausgewähltes Element im Baum
+	 */
+	private ADicomTreeItem selection;
 	
-	IEventBroker broker;
+	/**
+	 * Eventmanager zur Kommunikation der Parts
+	 */
+	private IEventBroker broker;
 	
-	IProgressMonitor monitor;
+	/**
+	 * Fortschrittsanzeige
+	 */
+	private IProgressMonitor monitor;
 	
+	/**
+	 * 
+	 * @param name Name
+	 * @param selection Ausgewähltes Element des Baumes
+	 * @param broker Eventmanager
+	 */
 	public ImageLoader(String name, ADicomTreeItem selection, IEventBroker broker) {
 		//super(name);
 		images = new ArrayList<AImage>();
@@ -28,10 +52,12 @@ public class ImageLoader implements IRunnableWithProgress{
 		this.broker = broker;
 	}
 
+	/**
+	 * Methode zum laden der Bilder. Abhängig vom Baumelement wird ein einzelnes Bild oder der ganze Bildstapel geladen.
+	 */
 	private void load(){
-		//AImage img;
-		System.out.println("Load Image");
 		DicomObject toDraw;
+		//Bei direkter Objektauswahl wird nur das einzelne Bildgeladen
 		if(selection.getLevel() == ADicomTreeItem.TREE_OBJECT_LEVEL){
 			toDraw = (DicomObject)selection;
 			System.out.println(toDraw.getDepth());
@@ -49,6 +75,7 @@ public class ImageLoader implements IRunnableWithProgress{
 			}
 			monitor.worked(1);
 		}
+		//Auswahl einer Serie und der ganze Bildstapel wird aus dem Baumelement ausgelesen
 		else {
 			for(int i = 0; i < selection.size(); i++){
 				toDraw = (DicomObject) selection.getChild(i);
@@ -64,22 +91,25 @@ public class ImageLoader implements IRunnableWithProgress{
 					img.setTitle(toDraw.getUid());
 					images.add(i, img);
 				}
-				//System.out.println(toDraw.getDepth());
-				//img = toDraw.getImage(0);
-				//img.setTitle(toDraw.getUid());
-				//images.add(i, img);
+
 				monitor.worked(1);
 				monitor.subTask((i+1)+" Bilder von "+selection.size()+" geladen");
 			}
 		}
 	}
 	
+	/**
+	 * Stößt den Ladeprozess der Bilder an. Bilder werden nach dem Einlesen Räumlich sortiert. Nach erfolgreichem Laden wird das Event
+	 * {@link EventConstants#IMAGES_LOADED} ausgelöst.
+	 * 
+	 * @param Fortschrittsanzeige
+	 */
 	@Override
 	public void run(IProgressMonitor monitor) {
-		System.out.println("ImageLoading");
+		//System.out.println("ImageLoading");
 		this.monitor = monitor;
 		this.monitor.beginTask("Lade Dicomdaten...", selection.size());
-		System.out.println("start");
+		//System.out.println("start");
 		load();
 		Collections.sort(images);
 		this.monitor.done();
@@ -88,6 +118,12 @@ public class ImageLoader implements IRunnableWithProgress{
 		//return Status.OK_STATUS;
 	}
 	
+	/**
+	 * 
+	 * Kann nach einem erfolgreichen Ladeprozess aufgerufen werden, und gibt den geladenen Bildstapel zurück.
+	 * 
+	 * @return Bildstapel
+	 */
 	public ArrayList<AImage> getImages(){
 		return images;
 	}

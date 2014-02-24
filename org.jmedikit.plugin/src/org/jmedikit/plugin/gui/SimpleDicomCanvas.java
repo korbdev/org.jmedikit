@@ -5,11 +5,9 @@ import java.util.ArrayList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
-
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
-
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -20,8 +18,16 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Slider;
 import org.jmedikit.lib.core.ImageWindowInterpolation;
+import org.jmedikit.lib.core.Visualizer;
 import org.jmedikit.lib.image.AImage;
 
+/**
+ * Das SimpleDicomCanvas ist eine leichte Variante des {@link DicomCanvas} und dient zum visuellen Debugging. Für das Debuggin innerhalb der Plug-ins muss die Klasse {@link Visualizer}
+ * verwendet werden.
+ * 
+ * @author rkorb
+ *
+ */
 public class SimpleDicomCanvas {
 
 	private Canvas canvas;
@@ -33,6 +39,11 @@ public class SimpleDicomCanvas {
 	private int sliderIndex;
 	//private ArrayList<AImage> images;
 	
+	/**
+	 * Erzeugt ein neuen Fenster mit einem Titel
+	 *  
+	 * @param title Titel des Fensters
+	 */
 	public SimpleDicomCanvas(String title) {
 		shell = new Shell(ImageViewPart.getPartShell());
 		shell.setLayout(new GridLayout(1, true));

@@ -30,28 +30,34 @@ public abstract class AImage implements Comparable<AImage>{
 	private static final String OBLIQUE = "OBLIQUE";
 	
 	/**
-	 * PixelData is stored as unsigned value
+	 * PixelData wird als Unsigned gespeichert. 
 	 */
 	public static final int TYPE_UNSIGNED = 0;
 	
 	/**
-	 * PixelData is stored as Two Complement
+	 * PixelData ist im Zweierkomplement gespeichert
 	 */
 	public static final int TYPE_SIGNED = 1;
 	
-	
+	/**
+	 * Titel des Bildes
+	 */
 	protected String title;
 	
 	/**
-	 * Image width
+	 * Bild-Breite - x
 	 */
 	protected int width;
 	
 	/**
-	 * Image height
+	 * Bild-Höhe - y
 	 */
 	protected int height;
 	
+	/**
+	 * <p>Wert = 1 für Grauwertbilder</p>
+	 * Wert > 1 für Farbbilder
+	 */
 	protected int samplesPerPixel;
 	
 	/**
@@ -60,71 +66,111 @@ public abstract class AImage implements Comparable<AImage>{
 	protected float aspectRatio;
 	
 	/**
-	 * Minimum value in the Image
+	 * Minimaler tatsächlicher Pixelwert. Enthält das Bild Werte von 34 - 187, entspricht min dem Wert 34. 
 	 */
 	protected int min;
 	
 	/**
-	 * Maximum value in the Image
+	 * Maximaler tatsächlicher Pixelwert. Enthält das Bild Werte von 34 - 187, entspricht min dem Wert 187.
 	 */
 	protected int max;
 	
 	/**
-	 * is set when extrema are determined via method determinMinMaxValues
+	 * True wenn minimalen und maximalen Pixelwerte eines Bildes via {@link AImage#determineMinMaxValues(Object)} berechnet wurden
 	 */
 	protected boolean extrema;
 	
 	/**
-	 * device independet values are calculated with the equation
-	 * rescaleSlope * storedValue + rescale Intercept
+	 * Gerätunabhängige Pixelwerte werden mit der Formel
+	 * <p><b>rescaleSlope * storedValue + rescale Intercept</b></p>
+	 * berechnet
 	 */
 	protected float rescaleSlope;
 	
 	/**
-	 * description @see {@link AImage#rescaleSlope}
+	 * Beschreibung @see {@link AImage#rescaleSlope}
 	 */
 	protected float rescaleIntercept;
 	
 	/**
-	 * Window width and window center is used to map grey values to a scale of 0 - 255
-	 * Medical images usually use grey values between 0 and 4096
+	 * <p>WindowWidth und WindowCenter wird verwendet, um Grauwerte auf einen Bereich von
+	 * 0 - 255 zu mappen. Medizinische Bilder können bis zu 2^16 verschiedene Grauwerte
+	 * enthalten.</p>
 	 * 
-	 * if window width = 200 and window center = 0
-	 * pixels between -100 and 100 are mapped
+	 * <p>Wenn WindowWidth = 200 und WindowCenter = 0,
+	 * werden alle Grauwerte zwischen -100 und 100 gemappt.</p>
+	 * Werte kleiner -100 werden weiß dargestellt
+	 * Werte größer 100 werden schwarz dargestellt
+	 * Der Bereich zwischen -100 und 100 wird auf werte zwischen 1 und 254 gemappt
 	 * 
-	 * values lower than -100 are mapped as black
-	 * values higher than 100 are mapped as white
-	 * between the pixels store values from 1 to 254
 	 */
 	protected float windowWidth;
 	
 	/**
-	 * description @see {@link AImage#windowWidth}
+	 * Beschreibung @see {@link AImage#windowWidth}
 	 */
 	protected float windowCenter;
 	
+	/**
+	 * Reihenvektor aus ImageOrientation
+	 */
 	protected Vector3D<Float> rowVector;
 	
+	/**
+	 * Spaltenvektor aus ImageOrientation
+	 */
 	protected Vector3D<Float> columnVector;
 	
+	/**
+	 * Vektor aus ImagePosition
+	 */
 	protected Vector3D<Float> imagePosition;
 	
+	/**
+	 * Vektor mit dem Abstand der Pixel in mm in x- und y-Richtung
+	 */
 	protected Point2D<Float> pixelSpacing;
 	
 	/**
 	 * Beschreibt den Typ des Bildes
+	 * <ul>
+	 * <li>Byte => 0</li>
+	 * <li>Unsigned Byte => 1</li>
+	 * <li>Short => 2</li>
+	 * <li>Unsigned Short => 3</li>
+	 * <li>Int => 4</li>
+	 * <li>Unsigned Int => 5</li>
+	 * </ul>
 	 */
 	protected int imageType;
 	
+	/**
+	 * Ansichtentyp enthält einen Wert von
+	 * <ul>
+	 * <li>AXIAL - für die xy Ebene</li>
+	 * <li>CORONAL - für die xz Ebene</li>
+	 * <li>SAGITTAL - für die yz Ebene</li>
+	 * <li>OBLIQUE - schiefe Ebene</li>
+	 * <li>DEFAULT - keine Informationen vorhanden</li>
+	 * </ul>
+	 */
 	protected String mprType;
 	
 	/**
-	 * Vom Nutzer gewählte Region Of Interest
+	 * Vom Nutzer gewählte Region Of Interests mit dem ROIWerkzeug
 	 */
 	protected ArrayList<ROI> rois;
 	
+	/**
+	 * Vom Nutzer gewählte Punkte mit dem Punktauswahlwerkzeug
+	 */
 	protected ArrayList<Point2D<Float>> selectedPoints;
 	
+	/**
+	 * Dieses Datenelement dient zur Prüfung, ob Reihen- und Spaltenvektor des Bildes gesetzt sind. Wird zur Prüfung auf signifikante Werte
+     * vor allem bei Bilder ohne Quelldatei verwendet. Werden neue Bilder erzeugt, müssen Orientierungswerte wie ImageOrientation und ImagePosition
+     * explizit vom Anwender gesetzt werden.
+	 */
 	protected boolean initializedOrientation;
 	/**
 	 * Basic Image Constructor
@@ -158,10 +204,7 @@ public abstract class AImage implements Comparable<AImage>{
 		this.title = title;
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
+
 	public int getImageType(){
 		return imageType;
 	}
@@ -170,18 +213,10 @@ public abstract class AImage implements Comparable<AImage>{
 		return samplesPerPixel;
 	}
 
-	/**
-	 * 
-	 * @return returns the image width 
-	 */
 	public int getWidth(){
 		return width;
 	}
 	
-	/**
-	 * 
-	 * @return returns the image height
-	 */
 	public int getHeight(){
 		return height;
 	}
@@ -194,6 +229,17 @@ public abstract class AImage implements Comparable<AImage>{
 		return mprType;
 	}
 
+	/**
+	 * Setzt die Ebenendarstellung eines Bildes. Der Parameter muss einen der folgenden Werte haben, sonst wird als Typ <b>OBLIQUE</b> gesetzt.
+	 * 
+	 * <ul>mprType
+	 * <li><b>AXIAL</b></li>
+	 * <li><b>CORONAL</b></li>
+	 * <li><b>SAGITTAL</b></li>
+	 * </ul>
+	 * 
+	 * @param mprType zu setzender Ebenentyp
+	 */
 	public void setMprType(String mprType) {
 		if(mprType.equals(AXIAL)){
 			this.mprType = AXIAL;
@@ -207,6 +253,12 @@ public abstract class AImage implements Comparable<AImage>{
 		else this.mprType = OBLIQUE;
 	}
 
+	/**
+	 * Setzt die Datenelemente {@link AImage#rowVector} und {@link AImage#rowVector} aus einem Float-Array der Länge 6. Die ersten Elemente 0 - 2 repräsentieren
+	 * den Reihenvektor, die Elemente 3 - 5 stellen den Spaltenvektor bereit
+	 * 
+	 * @param vectors muss die Länge 6 haben
+	 */
 	public void setImageOrientation(float[] vectors){
 		if(vectors.length == 6){
 			rowVector.setVector(vectors[0], vectors[1], vectors[2]);
@@ -216,6 +268,11 @@ public abstract class AImage implements Comparable<AImage>{
 		else throw new IllegalArgumentException("Vectors must have 6 values: got "+vectors.length);
 	}
 	
+	/**
+	 * Setzt die Position des Bildes im Raum mit einem Float-Array der Länge 3
+	 * 
+	 * @param vector muss die Länge 3 haben
+	 */
 	public void setImagePosition(float[] vector){
 		if(vector.length == 3){
 			imagePosition.setVector(vector[0], vector[1], vector[2]);
@@ -224,11 +281,20 @@ public abstract class AImage implements Comparable<AImage>{
 		else throw new IllegalArgumentException("Vector must have 3 values: got "+vector.length);
 	}
 	
+	/**
+	 * Setzt die Position des Bildes im Raum mit einem Vector3D<Float>
+	 * 
+	 * @param vector muss die Länge 3 haben
+	 */
 	public void setImagePosition(Vector3D<Float> v){
 		initializedOrientation = true;
 		imagePosition = v;
 	}
 	
+	/**
+	 * Setzt den Pixelabstand mit einem Float-Array der Länge 2
+	 * @param point muss die Länge 2 haben
+	 */
 	public void setPixelSpacing(float[] point){
 		if(point.length == 2){
 			pixelSpacing.setPoint(point[0], point[1]);
@@ -262,26 +328,59 @@ public abstract class AImage implements Comparable<AImage>{
 		return pixelSpacing;
 	}
 	
+	/**
+	 * Gibt den minimal möglichen Pixelwert zurück. Entspricht nicht dem tatsächlichen minimalem Pixelwert eines Bildes.
+	 * Werte sind zum Beispiel für
+	 * <ul>
+	 * <li>UnsignedByteImage => Min = 0, Max = 2^8-1 = 255</li>
+	 * <li>ShortImage => Min = Short.MIN_VALUE, Max = Short.MAX_VALUE</li>
+	 * </ul>
+	 * @return minimal möglicher Pixelwert
+	 */
 	public abstract int getMinValue();
 	
+	/**
+	 * Gibt den maximal möglichen Pixelwert zurück. Entspricht nicht dem tatsächlichen maximalem Pixelwert eines Bildes.
+	 * Werte sind zum Beispiel für
+	 * <ul>
+	 * <li>UnsignedByteImage => Min = 0, Max = 2^8-1 = 255</li>
+	 * <li>ShortImage => Min = Short.MIN_VALUE, Max = Short.MAX_VALUE</li>
+	 * </ul>
+	 * @return maximal möglicher Pixelwert
+	 */
 	public abstract int getMaxValue();
 	
+	/**
+	 * @see {@link AImage#min}
+	 */
 	public int getMin() {
 		return min;
 	}
 
+	/**
+	 * @see {@link AImage#min}
+	 */
 	public void setMin(int min) {
 		this.min = min;
 	}
 
+	/**
+	 * @see {@link AImage#max}
+	 */
 	public int getMax() {
 		return max;
 	}
 
+	/**
+	 * @see {@link AImage#max}
+	 */
 	public void setMax(int max) {
 		this.max = max;
 	}
-
+	
+	/**
+	 * @see {@link AImage#min} und {@link AImage#max}
+	 */
 	public void setMinMaxValues(int min, int max){
 		this.min = min;
 		this.max = max;
@@ -385,40 +484,46 @@ public abstract class AImage implements Comparable<AImage>{
 	}*/
 	
 	/**
-	 * returns true if minimum and maximum are set
+	 * Prüft ob {@link AImage#min} und {@link AImage#max} eines Bildes ermittelt wurden
 	 * 
-	 * @return 
+	 * @return true wenn die Werte gesetzt sind
 	 */
 	public boolean extremaAssigned(){
 		return extrema;
 	}
 	
+	/**
+	 *Prüft, ob ImageOrientation mit Reihen- und Spaltenvektor oder ImagePosition gesetzt sind
+	 * @return true wenn einer oder alle Werte gesetzt sind
+	 */
 	public boolean getInitializedOrientation(){
 		return initializedOrientation;
 	}
 	
 	/**
+	 * Gibt den Pixelwert der Koordinaten(x,y) eines Bildes als Integer zurück. Ein cast von niedrigem Typ auf höheren Typ ist unproblematisch.
 	 * 
 	 * @param x x Location
 	 * @param y	y Location
-	 * @return returns a single Pixel value. Gibt int zurueck, cast von niedrige auf höher unproblematisch
+	 * @return den Pixelwert der Koordinaten (x, y)
 	 */
 	public abstract int getPixel(int x, int y);
 	
 	
 	/**
-	 * 
+	 * Setzt einen einzelnen Pixelwert an den entsprechenden Koordinaten
 	 */
 	public abstract void setPixel(int x, int y, int value);
 	
 	/**
+	 * Gibt ein Array der Pixelwerte des Bildes zurück. Der Arraytyp ist abhängig vom konkreten Bildtyp.
 	 * 
-	 * @return returns an array of pixel values. Array type depends on image type
+	 * @return numerisches Array mit den Pixelwerten
 	 */
 	public abstract Object getPixels();
 	
 	/**
-	 * Finds and return maximum of given byte array
+	 * Findet den größten Wert eines Byte-Arrays und gibt diesen zurück
 	 * 
 	 * @param pixels pixel array of bytes
 	 * @return maximum
@@ -436,7 +541,7 @@ public abstract class AImage implements Comparable<AImage>{
 	}
 	
 	/**
-	 * Finds and return minimum of given byte array
+	 * Findet den kleinsten Wert eines Byte-Arrays und gibt diesen zurück
 	 * 
 	 * @param pixels pixel array of bytes
 	 * @return minimum
@@ -454,7 +559,7 @@ public abstract class AImage implements Comparable<AImage>{
 	}
 	
 	/**
-	 * Finds and return maximum of given short array
+	 * Findet den größten Wert eines Short-Arrays und gibt diesen zurück
 	 * 
 	 * @param pixels pixel array of shorts
 	 * @return maximum
@@ -472,7 +577,7 @@ public abstract class AImage implements Comparable<AImage>{
 	}
 	
 	/**
-	 * Finds and return minimum of given short array
+	 * Findet den kleinsten Wert eines Short-Arrays und gibt diesen zurück
 	 * 
 	 * @param pixels pixel array of shorts
 	 * @return minimum
@@ -490,7 +595,7 @@ public abstract class AImage implements Comparable<AImage>{
 	}
 	
 	/**
-	 * Finds and return maximum of given integer array
+	 * Findet den größten Wert eines Integer-Arrays und gibt diesen zurück
 	 * 
 	 * @param pixels pixel array of ints
 	 * @return maximum
@@ -508,7 +613,7 @@ public abstract class AImage implements Comparable<AImage>{
 	}
 	
 	/**
-	 * Finds and return minimum of given integer array
+	 * Findet den kleinsten Wert eines Integer-Arrays und gibt diesen zurück
 	 * 
 	 * @param pixels pixel array of ints
 	 * @return minimum
@@ -526,7 +631,7 @@ public abstract class AImage implements Comparable<AImage>{
 	}
 	
 	/**
-	 * Finds and sets the minimum and maximum value of a given pixel array
+	 * Findet Minimum und Maximum eines Numerischen Arrays und setzt die Werte im AImage Objekt
 	 * 
 	 * @param pixels array of pixel values. Must be of type byte[], short[] or int[]
 	 */
@@ -547,33 +652,29 @@ public abstract class AImage implements Comparable<AImage>{
 			extrema = true;
 		}
 		else throw new IllegalArgumentException("PixelType of pixels not supported");
-		//System.out.println(pixels.getClass().getName());
-		//System.out.println("Minimum: "+min);
-		//System.out.println("Maximum: "+max);
-		
 	}
 	
 	/**
-	 * Converts an unsigned short stored in an integer value to signed short
+	 * Konvertiert einen UnsignedShort Wert gespeichert in einem Integer zu einem Short-Wert
 	 * 
-	 * @param toConvert value which needs to be converted
-	 * @return
+	 * @param toConvert zu konvertierender Wert
+	 * @return konvertierten Wert
 	 */
 	public static short unsignedShortToSignedShort(int toConvert){
 		return (short)toConvert;
 	}
 	
 	/**
-	 * Converts signed short to unsigned short value
+	 * Konvertiert einen Short-Wert zu einem UnsignedShort-Wert
 	 * 
-	 * @param toConvert
-	 * @return
+	 * @param toConvertzu konvertierender Wert
+	 * @return konvertierten Wert
 	 */
 	public static int signedShortToUnsignedShort(short toConvert){
 		return toConvert & 0xFFFF;
 	}
 	
-	public static void printPixelValues(String path, AImage img){
+	/*public static void printPixelValues(String path, AImage img){
 		PrintWriter pWriter = null;
 		try {
 			pWriter = new PrintWriter(new FileWriter(path));
@@ -588,8 +689,24 @@ public abstract class AImage implements Comparable<AImage>{
 			pWriter.println("");
 		}
 		pWriter.flush();
-	}
+	}*/
 	
+	/**
+	 * Berechnet die dominante Koordinatenachse eines Reihen- oder Spaltenvektors aus ImageOrientation und gibt die
+	 * Achsenbeschriftung der dominanten Achse zurück. Der Rückgabewert enthält
+	 * 
+	 * <ul>
+	 * <li>([0] => A, [1] => P) | ([0] => A, [1] => P)</li>
+	 * <li>([0] => L, [1] => R) | ([0] => R, [1] => L)</li>
+	 * <li>([0] => F, [1] => H) | ([0] => H, [1] => F)</li>
+	 * </ul>
+	 * 
+	 * 
+	 * @param x 
+	 * @param y
+	 * @param z
+	 * @return Beschriftung der Koordinatenachsen als String-Array der Länge 2
+	 */
 	private static String[] getDominantAxis(float x, float y, float z){
 		
 		String[] xDirection = new String[2];
@@ -627,8 +744,6 @@ public abstract class AImage implements Comparable<AImage>{
 		float absy = Math.abs(y);
 		float absz = Math.abs(z);
 		
-		//System.out.println("XYZ "+ x+ ", "+y+", "+z);
-		
 		if(absx > absy && absx > absz){
 			return xDirection;
 		}
@@ -642,13 +757,23 @@ public abstract class AImage implements Comparable<AImage>{
 	}
 	
 	/**
-	 * @see <ul><li><a target="_blank" href="http://www.itk.org/pipermail/insight-users/2005-March/012246.html">http://www.itk.org/pipermail/insight-users/2005-March/012246.html</a></li></ul>
+	 * Bestimmt die Ebenendarstellung({@link AImage#mprType}) des Bildes und berechnet die Koordinatenachsen des Bildes und gibt diese als String-Array der Länge 4 zurück. Die Beschriftung hat die Form:
+	 * 
+	 * <ul> String-Array[4]
+	 * 	<li>[0] => top</li>
+	 * <li>[1] => right</li>
+	 * <li>[2] => bottom</li>
+	 * <li>[3] => left</li>
+	 * </ul>
+	 * 
+	 * @see <a target="_blank" href="http://www.itk.org/pipermail/insight-users/2005-March/012246.html">http://www.itk.org/pipermail/insight-users/2005-March/012246.html</a>
 	 * @return
 	 */
 	public String[] getImageOrientationAxis(){
 		
 		String[] axes = new String[4];
 		
+		// Berechnet aus dem Reihenvektor und Spaltenvektor die dominante Achse, die in das Koordinatensystem gezeichnet wird
 		String[] row = getDominantAxis(rowVector.x, rowVector.y, rowVector.z);
 		String[] col = getDominantAxis(columnVector.x, columnVector.y, columnVector.z);
 		
@@ -671,16 +796,18 @@ public abstract class AImage implements Comparable<AImage>{
 		else {
 			mprType=OBLIQUE;
 		}
-		
-		for(int i = 0; i < 4; i++){
-			//System.out.print(axes[i]+", ");
-		}
-		
-		//System.out.println(mprType);
+
 		return axes;
 	}
 	
 	
+	/**
+	 * Bestimmt anhand des Reihen- und Spaltenvektors aus dem DICOM-Tag ImageOrientation die Ebenendarstellung({@link AImage#mprType}) eines Biles.
+	 * 
+	 * @param rowVector Reihenvektor
+	 * @param columnVector Spaltenvektor
+	 * @return Ebenentyp als String
+	 */
 	public static String getImageOrientation(Vector3D<Float> rowVector, Vector3D<Float> columnVector){
 		
 		String[] row = getDominantAxis(rowVector.x, rowVector.y, rowVector.z);
@@ -702,12 +829,24 @@ public abstract class AImage implements Comparable<AImage>{
 		return null;
 	}
 	
+	/**
+	 * Kopiert signifikante Werte aus dem Bild img. Zu diesen Werten gehören
+	 * <ul>
+	 * <li>Der Ebenentyp</li>
+	 * <li>Window Center</li>
+	 * <li>Window Width</li>
+	 * <li>tatsächlicher minimaler Pixelwert</li>
+	 * <li>tatsächlicher maximaler Pixelwert</li>
+	 * <li>Pixel Spacing</li>
+	 * <li>Rescale Intercept</li>
+	 * <li>Rescale Slope</li>
+	 * </ul>
+	 * 
+	 * @param img Bild dessen Werte kopiert werden
+	 */
 	public void copySignificantAttributes(AImage img){
-		//imagePosition = img.getImagePosition();
-		//rowVector = img.getRowImageOrientation();
-		//columnVector = img.getColumnImageOrientation();
 		mprType = img.getMprType();
-		pixelSpacing = img.getPixelSpacing();
+		//pixelSpacing = img.getPixelSpacing();
 		windowCenter = img.windowCenter;
 		windowWidth = img.windowWidth;
 		min = img.min;
@@ -717,6 +856,10 @@ public abstract class AImage implements Comparable<AImage>{
 		rescaleSlope = img.rescaleSlope;
 	}
 	
+	/**
+	 * Vergleicht das Bild mit dem Bild img entlang der Normalen, um eine Sortierung 
+	 * der Bilder im Raum zu ermöglichen.
+	 */
 	public int compareTo(AImage img){
 		
 		Vector3D<Float> imgIP = img.getImagePosition();
@@ -750,10 +893,20 @@ public abstract class AImage implements Comparable<AImage>{
 		}
 	}
 
+	/**
+	 * Gibt die vom Nutzer markierten Regions Of Interest zurück
+	 * 
+	 * @return ROIs
+	 */
 	public ArrayList<ROI> getROIs() {
 		return rois;
 	}
 	
+	/**
+	 * Vergibt die Regions Of Interest
+	 * 
+	 * @param rois
+	 */
 	public void setROIs(ArrayList<ROI> rois){
 		this.rois = rois;
 	}

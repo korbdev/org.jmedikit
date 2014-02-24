@@ -9,16 +9,29 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
+/**
+ * Eine RadioGroup dient zur Auswahl eines Elements aus einer vorgegebenen Liste
+ * 
+ * @author rkorb
+ *
+ */
 public class PlugInRadioGroup implements IPlugInDialogItem{
 
-	String name;
+	private String name;
 	
-	String value;
+	private String value;
 
-	String[] labels;
+	private String[] labels;
 	
-	int selectedIndex;
+	private int selectedIndex;
 	
+	/**
+	 * Erzeugt eine RadioGroup
+	 * 
+	 * @param name Ein innerhalb des Dialogs eindeutiger Name
+	 * @param labels String-Array der Listenelemente
+	 * @param selectedIndex asugewählter Index
+	 */
 	public PlugInRadioGroup(String name, String[] labels, int selectedIndex) {
 		this.name = name;
 		value = labels[selectedIndex];

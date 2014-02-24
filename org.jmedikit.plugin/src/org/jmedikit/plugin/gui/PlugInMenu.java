@@ -16,8 +16,24 @@ import org.eclipse.e4.ui.model.application.ui.menu.MMenuFactory;
 
 import org.jmedikit.plugin.io.PlugInClassLoader;
 
+/**
+ * Diese Klasse stellt das Menü der Plug-ins zusammen
+ * 
+ * @author rkorb
+ *
+ */
 public class PlugInMenu {
 	
+	/**
+	 * Das Plug-in-Menü wird aus den geladenen Plug-ins zusammengebaut
+	 * 
+	 * @param items
+	 * @throws NoSuchMethodException
+	 * @throws SecurityException
+	 * @throws IllegalArgumentException
+	 * @throws InvocationTargetException
+	 * @throws IOException
+	 */
 	@AboutToShow
 	public void aboutToShow(List<MMenuElement> items) throws NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException, IOException {
 		

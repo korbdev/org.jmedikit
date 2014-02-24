@@ -9,12 +9,24 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
+/**
+ * Der CheckButton symbolisiert ein Formualrelement für die Eingaben von den Wahrheitswerten true und false
+ * 
+ * @author rkorb
+ *
+ */
 public class PlugInCheckButton implements IPlugInDialogItem{
 
-	String name;
+	private String name;
 	
-	boolean value;
+	private boolean value;
 	
+	/**
+	 * Erzeugt ein Formularelement
+	 * 
+	 * @param name Ein innerhalb des Dialogs eindeutiger Name
+	 * @param defaultValue Standardwert des Elements
+	 */
 	public PlugInCheckButton(String name, boolean defaultValue) {
 		this.name = name;
 		value = defaultValue;

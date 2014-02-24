@@ -1,4 +1,8 @@
-package org.jmedikit.lib.image;
+/**
+ * Diese Klasse ist aktuell nicht im Einsatz
+ */
+
+/*package org.jmedikit.lib.image;
 
 import java.util.ArrayList;
 
@@ -21,9 +25,7 @@ public class MultiplanarReconstruction {
 	
 	
 	private DicomCanvas canvas;
-	/**
-	 * 
-	 */
+	
 	private float translation;
 	
 	public MultiplanarReconstruction(DicomCanvas canvas){
@@ -485,7 +487,7 @@ public class MultiplanarReconstruction {
 			//}
 			System.out.println("done");
 			return result;
-	}
+	}*/
 	
 	/**
 	 * Methode zur Umrechnung von Gradmass nach Bogenmass
@@ -493,9 +495,9 @@ public class MultiplanarReconstruction {
 	 * @param alpha in Grad
 	 * @return radiant
 	 */
-	private float deg2rad(float alpha){
+	/*private float deg2rad(float alpha){
 		return (float) (((2f*Math.PI)/360f)*alpha);
-	}
+	}*/
 	
 	/**
 	 * Bestimmt mittels der Werte des Vektors v den groessten <p>Betrag</p> von V
@@ -503,7 +505,7 @@ public class MultiplanarReconstruction {
 	 * @param v
 	 * @return
 	 */
-	private int getDominantIndex(Vector3D<Float> v){
+	/*private int getDominantIndex(Vector3D<Float> v){
 		float x = Math.abs(v.x);
 		float y = Math.abs(v.y);
 		float z = Math.abs(v.z);
@@ -520,7 +522,7 @@ public class MultiplanarReconstruction {
 			maxNumber = z;
 		}
 		return max;
-	}
+	}*/
 	
 	/**
 	 * Bestimmt mittels der Werte des Vektors v den kleinsten <p>Betrag</p> von V
@@ -528,7 +530,7 @@ public class MultiplanarReconstruction {
 	 * @param v
 	 * @return
 	 */
-	private int getRecessiveIndex(Vector3D<Float> v){
+	/*private int getRecessiveIndex(Vector3D<Float> v){
 		float x = Math.abs(v.x);
 		float y = Math.abs(v.y);
 		float z = Math.abs(v.z);
@@ -560,4 +562,4 @@ public class MultiplanarReconstruction {
 	//public AbstractImage getImageData(int index){
 
 	//}
-}
+}*/

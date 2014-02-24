@@ -7,12 +7,22 @@ import java.util.Iterator;
 
 import org.dcm4che2.data.DicomElement;
 import org.dcm4che2.data.DicomObject;
-import org.dcm4che2.data.SpecificCharacterSet;
 import org.dcm4che2.data.Tag;
 import org.dcm4che2.data.VR;
 import org.dcm4che2.io.DicomInputStream;
 import org.dcm4che2.util.TagUtils;
+import org.jmedikit.lib.core.ADicomObject;
 
+/**
+ * 
+ * DicomData implementiert das Interface IDicomData und ist damit der konkrete Adapter für den Datenteil eines DICOM-Objekts.
+ * Diese Klasse stellt die Schnittstelle zur externen Bibliothek zur Verarbeitung der DICOM-Tags bereit. Sie ist nicht für eine explizite Instantiierung
+ * vorgesehen, sondern ist Teil eines Adapters und wird von der abstrakten Klasse {@link ADicomObject} adaptiert. Für eine Arbeit mit DICOM-Objekten können
+ * Instanzen des konkreten Adapters {@link DicomObject} erzeugt werden. 
+ * 
+ * @author rkorb
+ *
+ */
 public class DicomData implements IDicomData{
 	
 	private File input;
@@ -53,7 +63,7 @@ public class DicomData implements IDicomData{
 	}
 
 	@Override
-	public String getVR(String tag, int returnType) {
+	public String getVR(String tag) {
 		int dicomTag = Tag.toTag(tag);
 		return dcmobj.vrOf(dicomTag).toString();
 	}

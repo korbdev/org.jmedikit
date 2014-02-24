@@ -5,7 +5,21 @@ import org.itk.simple.PixelIDValueEnum;
 import org.itk.simple.VectorUInt32;
 import org.jmedikit.lib.image.AImage;
 
+/**
+ * 
+ * Die einfache SimpleITK-Fabrik konvertiert Bilder vom jMediKit-Format in das SimpleITK-Format und umgekehrt.
+ * 
+ * @author rkorb
+ *
+ */
 public class SimpleITKFactory {
+	/**
+	 * 
+	 * Konvertiert das jMediKit-Format in das SimpleITK-Format
+	 * 
+	 * @param img zu konvertierendes Bild
+	 * @return konvertiertes Bild im SimpleITK-Format
+	 */
 	public static Image getITKImage(AImage img){
 		switch (img.getImageType()) {
 		case AImage.TYPE_BYTE_SIGNED:
@@ -25,6 +39,12 @@ public class SimpleITKFactory {
 		}
 	}
 	
+	/**
+	 * Konvertiert das SimpleITK-Format ind das jMediKit-Format
+	 * 
+	 * @param itkImage zu konvertierendes Bild
+	 * @return konvertiertes Bild im jMediKit-Format
+	 */
 	public static AImage getAImage(Image itkImage){
 		int imageType = itkImage.getPixelIDValue();
 		if(imageType == PixelIDValueEnum.sitkInt8.swigValue()){
@@ -102,7 +122,30 @@ public class SimpleITKFactory {
 		return img;
 	}
 	
-	private static Integer getITKPixelValue(Image itkImage, VectorUInt32 v){
+	/**
+	 * Diese Methode gibt den Pixelwert eines SimpleITK-Bildes zurück, ohne den Bildtyp kennen zu müssen.
+	 * Es werden folgende SimpleITK-Typen unterstützt
+	 * <ul>
+	 * <li>sitkInt8</li>
+	 * <li>sitkUInt8</li>
+	 * <li>sitkInt16</li>
+	 * <li>sitkUInt16</li>
+	 * <li>sitkInt32</li>
+	 * </ul>
+	 * Es wird null zurückgegeben, wenn der Bildtyp nicht unterstützt wird.
+	 * <p>Ein Vektor wird wie folgt erzeugt.</p>
+	 * <pre>
+	 * <code>
+	 * VectorUInt32 v = new VectorUInt32(2); // 2 Dimensionen
+	 * v.set(0, x); //setzt den x-Index
+	 * v.set(1, y); //setzt den y-Index
+	 * </code>
+	 * </pre>
+	 * @param itkImage Bild des Pixelwerts
+	 * @param v Vector mit den Koordinaten
+	 * @return den Pixelwert als Integer, null wenn Bildtyp nicht unterstützt
+	 */
+	public static Integer getITKPixelValue(Image itkImage, VectorUInt32 v){
 		int imageType = itkImage.getPixelIDValue();
 		if(imageType == PixelIDValueEnum.sitkInt8.swigValue()){
 			return (int) itkImage.getPixelAsInt8(v);

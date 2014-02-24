@@ -3,14 +3,43 @@ package org.jmedikit.lib.image;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
 
+/**
+ * <p>Ein IntegerImage repräsentiert Farbbilddarstellungen in RGB</p>
+ * <p>Es können Werte zwischen Integer.MIN_VALUE und Integer.MAX_VALUE zugewiesen werden.</p>
+ * <p>Das Auslesen der einzelnen Kanäle erfolgt folgendermaßen:</p>
+ * <ul>
+ * <li><code>r   = (value & 0xff0000) >> 16</code></li>
+ * <li><code>g = (value & 0xff00) >> 8</code></li>
+ * <li><code>b  = value & 0xff</code></li>
+ * </ul>
+ * <p>Das Setzen der Kanäle erfolgt mittels <code>int value = b + (g << 8) + (r << 16)</code> mit Werte zwischen 0 - 255 für [rgb]
+ * 
+ * @author rkorb
+ *
+ */
 public class IntegerImage extends AImage{
 
+	/**
+	 * Minimal möglicher Pixelwert
+	 */
 	public static final int MIN_VALUE = Integer.MIN_VALUE;
 	
+	/**
+	 * Maximal möglicher Pixelwert
+	 */
 	public static final int MAX_VALUE = Integer.MAX_VALUE;
 	
-	int[] pixels;
+	/**
+	 * Pixelwerte des Bildes
+	 */
+	private int[] pixels;
 	
+	/**
+	 * Der Konstruktor erzeugt ein leeres IntegerBild in der Größe width x height.
+	 * 
+	 * @param width Bildbreite
+	 * @param height Bildhöhe
+	 */
 	public IntegerImage(int width, int height) {
 		super(width, height);
 		imageType = AImage.TYPE_INT_SIGNED;
@@ -18,6 +47,14 @@ public class IntegerImage extends AImage{
 		pixels = new int[width*height];
 	}
 
+	/**
+	 * Dieser Konstruktor wird bei der DICOM-Objekterzeugung einer Datei aufgerufen.
+	 * 
+	 * @param width Bildbreite
+	 * @param height Bildhöhe
+	 * @param buffer Pixelwerte
+	 * @param planarConfiguration Darstellung der RGB-Werte im DICOM-Element PixelData
+	 */
 	public IntegerImage(int width, int height, DataBuffer buffer, int planarConfiguration){
 		this(width, height);	
 
@@ -32,6 +69,7 @@ public class IntegerImage extends AImage{
 					pixels[i/3] = value;
 				}
 			}
+			//aktuell keine Unterstützung durch dcm4che und einer planarConfiguration = 1
 			/*else if(planarConfiguration == 1){
 				int step = buffer.getSize()/3;
 				
@@ -49,6 +87,17 @@ public class IntegerImage extends AImage{
 		else throw new IllegalArgumentException("expected buffer type DataBufferUShort, "+buffer.getClass().getName()+" given");
 	}
 	
+	/**
+	 * Der Konstruktor berechnet anhand m und b geräteunabhängige Pixelwerte({@link AImage#rescaleSlope}). Wird bei der Erzeugung eines DICOM-Objekts
+	 * aufgerufen
+	 * 
+	 * @param width Bildbreite
+	 * @param height Bildhöhe
+	 * @param buffer Pixelwerte
+	 * @param m Rescale Slope
+	 * @param b Rescale Intercept
+	 * @param planarConfiguration Darstellung der RGB-Werte im DICOM-Element PixelData
+	 */
 	public IntegerImage(int width, int height, DataBuffer buffer, float m, float b, int planarConfiguration){
 		this(width, height);	
 		
@@ -90,6 +139,17 @@ public class IntegerImage extends AImage{
 		this.determineMinMaxValues(pixels);
 	}
 	
+	/**
+	 * Der Konstruktor berechnet anhand m und b geräteunabhängige Pixelwerte({@link AImage#rescaleSlope}). Wird bei der Erzeugung eines DICOM-Objekts
+	 * aufgerufen. Zusätzlich wird WindowWidth und WindowCenter aufgenommen.
+	 * 
+	 * @param width Bildbreite
+	 * @param height Bildhöhe
+	 * @param buffer Pixelwerte
+	 * @param m Rescale Slope
+	 * @param b Rescale Intercept
+	 * @param planarConfiguration Darstellung der RGB-Werte im DICOM-Element PixelData
+	 */
 	public IntegerImage(int width, int height, DataBuffer buffer, float m, float b, int planarConfiguration, float windowCenter, float windowWidth){
 		this(width, height, buffer, m, b, planarConfiguration);	
 		this.windowCenter = windowCenter;
@@ -106,6 +166,15 @@ public class IntegerImage extends AImage{
 		pixels[y * width + x] = value;
 	}
 	
+	/**
+	 * Setzt einen Pixel mit den Koordinaten (x, y) mit den Farbwerten (r, g, b)
+	 * 
+	 * @param x x-Koordinate
+	 * @param y y-Koordinate
+	 * @param r Roter Kanal zwischen 0 und 255
+	 * @param g Grüner Kanal zwischen 0 und 255
+	 * @param b Blauer Kanal zwischen 0 und 255
+	 */
 	public void setPixel(int x, int y, int r, int g, int b){
 		int value = b + (g << 8) + (r << 16) ;
 		pixels[y * width + x] = value;

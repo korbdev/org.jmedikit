@@ -12,6 +12,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.jmedikit.plugin.gui.events.EventConstants;
 
+/**
+ * StatusControl zeigt den Fortschritt beim Import der DICOM-Objekte, nachdem ein Order ausgewählt wurde
+ * 
+ * @author rkorb
+ *
+ */
 public class StatusControl implements IProgressMonitor{
 	
 	private ProgressBar bar;

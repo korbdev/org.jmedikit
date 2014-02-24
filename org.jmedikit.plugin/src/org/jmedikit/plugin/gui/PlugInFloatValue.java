@@ -9,12 +9,24 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * FloatValue repr‰sentiert ein Dialog-Element zur Eingabe von Flieﬂkommawerten
+ * 
+ * @author rkorb
+ *
+ */
 public class PlugInFloatValue implements IPlugInDialogItem{
 
-	String name;
+	private String name;
 	
-	float value;
+	private float value;
 	
+	/**
+	 * Erzeugt ein Formularelement
+	 * 
+	 * @param name Ein innerhalb des Dialogs eindeutiger Name
+	 * @param defaultValue Standardwert des Elements
+	 */
 	public PlugInFloatValue(String name, float defaultValue){
 		this.name = name;
 		value = defaultValue;

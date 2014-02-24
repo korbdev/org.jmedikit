@@ -1,5 +1,13 @@
 package org.jmedikit.lib.util;
 
+/**
+ * 
+ * Diese Klasse stellt einen zweidimensionalen Punkt dar.
+ * 
+ * @author rkorb
+ *
+ * @param <T> numerischer Typ
+ */
 public class Point2D<T> {
 
 	public T x;
@@ -10,11 +18,25 @@ public class Point2D<T> {
 		
 	}
 	
+	/**
+	 * 
+	 * Erstellt einen Punkt aus den übergebenen Werten
+	 * 
+	 * @param x_value
+	 * @param y_value
+	 */
 	public Point2D(T x_value, T y_value){
 		this.x = x_value;
 		this.y = y_value;
 	}
 
+	/**
+	 * 
+	 * Setzt einen Punkt entsprechend der Parameter
+	 * 
+	 * @param x
+	 * @param y
+	 */
 	public void setPoint(T x, T y){
 		this.x = x;
 		this.y = y;

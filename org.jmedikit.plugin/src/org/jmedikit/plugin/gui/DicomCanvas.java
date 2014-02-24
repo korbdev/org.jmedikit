@@ -133,10 +133,19 @@ public class DicomCanvas extends Canvas{
 	 */
 	public float windowWidth;
 	
+	/**
+	 * Enthält den tatsächlichen minimalen Pixelwert
+	 */
 	public int min;
 	
+	/**
+	 * Enthält den tatsächlichen maximalen Pixelwert
+	 */
 	public int max;
 	
+	/**
+	 * Enthält die Beschriftung der Koordinatenachsen entsprechen {@link AImage#getImageOrientationAxis()}
+	 */
 	public String[] axes;
 	
 	/**
@@ -291,6 +300,17 @@ public class DicomCanvas extends Canvas{
 	 */
 	private Image axialImage, coronalImage, sagittalImage;
 	
+	/**
+	 * Bei der Instantiierung wird das Canvas, die Icons und die Listener initialisiert. Das erste Bild wird aus dem Stapel geladen und angezeigt. 
+	 * Zusätzlich werden die grundlegenden Informationen zu den Bilddaten ermittelt
+	 * 
+	 * @param parent Elternelement
+	 * @param style SWT-Style
+	 * @param selection der selektierte Knoten im Baum
+	 * @param images der 3D-Datensatz
+	 * @param pool Bildverwaltung von jMediKit
+	 * @param context zugehöriger ImageViewComposite
+	 */
 	public DicomCanvas(Composite parent, int style, ADicomTreeItem selection, ArrayList<AImage> images, IResourcePool pool, ImageViewComposite context) {
 		super(parent, style);
 		
@@ -361,6 +381,18 @@ public class DicomCanvas extends Canvas{
 		addListener(SWT.MouseExit, mouseExitListener);
 	}
 
+	/**
+	 * Der PaintListener regelt den Zeichenprozess auf dem Canvas
+	 * Die Vorgehensweise erfolgt in den Schritten
+	 * <ol>
+	 * <li>Bild laden und auf einheitliche Größe interpolieren</li>
+	 * <li>sichtbaren Bildbereich bestimmen</li>
+	 * <li>Interpolation des sichtbaren Bereichs</li>
+	 * <li>Fensterungswerte berechnen</li>
+	 * <li>Bild auf die Zeichenfläche malen</li>
+	 * <li>Zeichnen der zusätzlichen Informationen für den Anwender</li>
+	 * </ol>
+	 */
 	private Listener paintListener = new Listener() {
 		@Override
 		public void handleEvent(Event event) {
@@ -431,11 +463,6 @@ public class DicomCanvas extends Canvas{
 	};
 	
 	protected GC draw(GC buffer) {
-		//System.out.println("Startwidth/height" + startWidth + " x " + startHeight);
-		//System.out.println("Actualwidth/height" + actualWidth + " x " + actualHeight);
-		
-		//System.out.println("Sourcewidth/height" + sourceDimension.width + " x " + sourceDimension.height);
-		//System.out.println("Imagewidth/height" + imageDimension.width + " x " + imageDimension.height);
 		
 		int x = imageCenter.x-imageDimension.width/2;
 		int y = imageCenter.y-imageDimension.height/2;
@@ -451,54 +478,53 @@ public class DicomCanvas extends Canvas{
 			//top_left_x ragt ueber den rand hinaus
 			newBounds.x = 0;
 			newBounds.width = imageBounds.width+imageBounds.x;
-			roi.x = (float)(Math.abs(imageBounds.x)) / (float)imageBounds.width;
+			roi.x1 = (float)(Math.abs(imageBounds.x)) / (float)imageBounds.width;
 		}
 		else{
 			newBounds.x = imageBounds.x;
-			roi.x = 0f;
+			roi.x1 = 0f;
 		}
 		
 		if(imageBounds.y < 0){
 			newBounds.y = 0;
 			newBounds.height = imageBounds.height+imageBounds.y;
-			roi.y = (float)Math.abs(imageBounds.y) / (float)imageBounds.height;
+			roi.y1 = (float)Math.abs(imageBounds.y) / (float)imageBounds.height;
 		}
 		else{
 			newBounds.y = imageBounds.y;
-			roi.y = 0f;
+			roi.y1 = 0f;
 		}
 		
 		if(imageBounds.x+imageDimension.width > canvasDimension.width){
 			//bild ragt ueber den rechten rand hinaus
 			int offset_x = imageBounds.x+imageDimension.width-canvasDimension.width;
 			newBounds.width = imageBounds.width-offset_x;
-			roi.width = (float)newBounds.width / (float)imageBounds.width;
+			roi.x2 = (float)newBounds.width / (float)imageBounds.width;
 		}
 		else {
 			//newBounds.width = imageBounds.width;
-			roi.width = 1.0f;
+			roi.x2 = 1.0f;
 		}
 		
 		if(imageBounds.y+imageDimension.height > canvasDimension.height){
 			//bild ragt ueber den rechten rand hinaus
 			int offset_y = imageBounds.y+imageDimension.height-canvasDimension.height;
 			newBounds.height = imageBounds.height-offset_y;
-			roi.height = (float)newBounds.height / (float)imageBounds.height;
-			//System.out.println("Offset_y "+offset_y);
+			roi.y2 = (float)newBounds.height / (float)imageBounds.height;
 		}
 		else {
 			//newBounds.height = imageBounds.height;
-			roi.height = 1.0f;
+			roi.y2 = 1.0f;
 		}
-		
-		//visibleImageBounds = newBounds;
+
 		
 		//Roi ermittelt
+		//darauf kann das Bild interpoliert werden
 		BilinearInterpolation bilinearInterpolation = new BilinearInterpolation(sourceImage);
 		AImage resampled = bilinearInterpolation.resampleROI(roi, sourceDimension.width, sourceDimension.height, imageDimension.width, imageDimension.height);
 		resampled.setMinMaxValues(min, max);
 
-		
+		//Nach der Interpolation folgt die Berechnung der Grauwerte
 		ImageData data = ImageWindowInterpolation.interpolateImage(resampled, windowCenter, windowWidth, 0, 255);
 		Image iimg = new Image(this.getDisplay(), data);
 
@@ -506,15 +532,16 @@ public class DicomCanvas extends Canvas{
 		buffer.setForeground(white);
 		buffer.fillRectangle(0, 0, canvasDimension.width, canvasDimension.height);
 		
+		//Zeichnet die vom Anwender selektierten Punkte und Regions Of Interest
 		if(drawSelection){
 			GC selection = new GC(iimg);
 			selection.setLineWidth(2);
 			selection.setForeground(selectedPointsColor);
 			selection.setAlpha(200);
 			for(Point2D<Float> p : sourceImage.getPoints()){
-				if(roi.x < p.x && roi.y < p.y){
-					int pX = (int)((p.x-roi.x) * imageDimension.width);
-					int pY = (int)((p.y-roi.y) * imageDimension.height);
+				if(roi.x1 < p.x && roi.y1 < p.y){
+					int pX = (int)((p.x-roi.x1) * imageDimension.width);
+					int pY = (int)((p.y-roi.y1) * imageDimension.height);
 					selection.drawLine(pX-5, pY-5, pX+5, pY+5);
 					selection.drawLine(pX+5, pY-5, pX-5, pY+5);
 				}
@@ -524,11 +551,11 @@ public class DicomCanvas extends Canvas{
 				selection.setLineWidth(1);
 				selection.setForeground(vLineColor);
 
-				int pXS = (int)((imgRoi.x-roi.x) * imageDimension.width);
-				int pYS = (int)((imgRoi.y-roi.y) * imageDimension.height);
+				int pXS = (int)((imgRoi.x1-roi.x1) * imageDimension.width);
+				int pYS = (int)((imgRoi.y1-roi.y1) * imageDimension.height);
 				
-				int pXE = (int)((imgRoi.width-roi.x) * imageDimension.width);
-				int pYE = (int)((imgRoi.height-roi.y) * imageDimension.height);
+				int pXE = (int)((imgRoi.x2-roi.x1) * imageDimension.width);
+				int pYE = (int)((imgRoi.y2-roi.y1) * imageDimension.height);
 				
 				selection.setAlpha(255);
 				selection.drawRectangle(pXS, pYS, pXE-pXS, pYE-pYS);
@@ -538,6 +565,7 @@ public class DicomCanvas extends Canvas{
 			selection.dispose();
 		}
 		
+		//Übernimmt das Zeichnen der Orientierungslinien
 		if(drawScoutingLines){
 			GC scoutingLines = new GC(iimg);
 			scoutingLines.setAlpha(75);
@@ -555,12 +583,10 @@ public class DicomCanvas extends Canvas{
 				
 				float yLineNormalized = (float)yLineIndex/(float)startHeight;
 				//int yIndex = 0;
-				if(roi.y < yLineNormalized){
-					float temp = yLineNormalized-roi.y;
-					//System.out.println("TEMP "+temp);
+				if(roi.y1 < yLineNormalized){
+					float temp = yLineNormalized-roi.y1;
 					yIndex = (int) (temp * imageDimension.height);
-					
-					//GC scoutingLines = new GC(iimg);
+
 					
 					scoutingLines.setForeground(hLineColor);
 					scoutingLines.drawLine(0, yIndex, iimg.getBounds().width, yIndex);
@@ -594,8 +620,8 @@ public class DicomCanvas extends Canvas{
 				
 				float xLineNormalized = (float)xLineIndex/(float)startWidth;
 				//int xIndex = 0;
-				if(roi.x < xLineNormalized){
-					float temp = xLineNormalized-roi.x;
+				if(roi.x1 < xLineNormalized){
+					float temp = xLineNormalized-roi.x1;
 					//System.out.println("TEMP "+temp);
 					xIndex = (int) (temp * imageDimension.width);			
 					
@@ -627,7 +653,7 @@ public class DicomCanvas extends Canvas{
 		buffer.setBackground(black);
 		buffer.setForeground(white);
 		
-		
+		//Zeichnen der weiteren Informationen wie Koordinatensystem und Bildgröße
 		if(drawAnnotations){
 			String sliceNumber = (index+1)+"/ "+maxCurrentIndex;
 			Point textDim = buffer.textExtent(sliceNumber);
@@ -684,6 +710,7 @@ public class DicomCanvas extends Canvas{
 		return buffer;
 	}
 	
+
 	private Listener mouseWheelListener = new Listener(){
 		
 		@Override
@@ -738,7 +765,7 @@ public class DicomCanvas extends Canvas{
 		
 	};
 	
-	public AImage loadImage(int i){
+	/*public AImage loadImage(int i){
 		//Test, ob Bilddaten bereits geladen sind
 		AImage img;
 		try {
@@ -756,7 +783,7 @@ public class DicomCanvas extends Canvas{
 			return img;
 		}
 		return img;
-	}
+	}*/
 	
 	/*public AbstractImage loadImage(int i){
 		//Test, ob Bilddaten bereits geladen sind
@@ -776,7 +803,9 @@ public class DicomCanvas extends Canvas{
 		else return img;
 	}*/
 	
-	
+	/**
+	 * Gibt den gewählten Baumknoten zurück
+	 */
 	public ADicomTreeItem getItem() {
 		return item;
 	}
@@ -785,22 +814,46 @@ public class DicomCanvas extends Canvas{
 		this.item = item;
 	}*/
 
+	/**
+	 * Gibt den Bildstapel als Liste zurück
+	 * 
+	 * @return Bildstapel
+	 */
 	public ArrayList<AImage> getImages() {
 		return images;
 	}
 
+	/**
+	 * Gibt das aktuelle Bild aus dem Stapel zurück. Unverändertes Original
+	 * @return
+	 */
 	public AImage getImage(){
 		return images.get(index);
 	}
 	
+	/**
+	 * Gibt das Referenzbild zurück
+	 * 
+	 * @return
+	 */
 	public AImage getSampleImage() {
 		return sampleImage;
 	}
 
+	/**
+	 * Setzt das Werkzeug des Canvas
+	 * 
+	 * @param tool
+	 */
 	public void setTool(ATool tool){
 		this.tool = tool;
 	}
 	
+	/**
+	 * Setzt den z-Wert im Bildstapel. Ist der index ausserhalb des gültigen Bereichs wird nichts gemacht.
+	 * 
+	 * @param index
+	 */
 	public void setIndex(int index){
 		if(index >= 0 && index < images.size()){
 			this.index = index;
@@ -808,19 +861,39 @@ public class DicomCanvas extends Canvas{
 		}
 	}
 	
+	/**
+	 * Gibt das Wurzelelement der Benutzeroberfläche zur Bildanzeige zurück.
+	 * @return
+	 */
 	public ImageViewComposite getContext(){
 		return context;
 	}
 	
+	/**
+	 * Gibt die aktuelle Position der z-Richtung im Bildstapel zurück
+	 * 
+	 * @return
+	 */
 	public int getIndex(){
 		return index;
 	}
 	
+	/**
+	 * Vergibt einen neuen Bilddatensatz und zeichnet die Zeichenfläche neu
+	 * 
+	 * @param images
+	 */
 	public void setImages(ArrayList<AImage> images){
 		this.images = images;
 		this.redraw();
 	}
 	
+	/**
+	 * Diese Methode löst die Ebenenrekonstruktion aus und wird aufgerufen, wenn der Nutzer den
+	 * Button der jeweiligen Rekonstruktion drückt
+	 * 
+	 * @param newOrientation String der zu rekonstruierenden Darstellung
+	 */
 	public void recalculateImages(String newOrientation){
 		isInitialized = false;
 		index = 0;
@@ -870,6 +943,10 @@ public class DicomCanvas extends Canvas{
 		this.redraw();
 	}*/
 	
+	/**
+	 * Gibt die Koordinaten des Bildmittelpunkts als normalisierte Koordinaten zurück
+	 * @return
+	 */
 	public Point2D<Float> getNormalizedImageCenter(){
 		float x = (float)imageCenter.x / (float)canvasDimension.width;
 		float y = (float)imageCenter.y / (float)canvasDimension.height;

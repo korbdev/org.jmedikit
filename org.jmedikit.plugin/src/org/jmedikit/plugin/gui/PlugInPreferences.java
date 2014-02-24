@@ -1,9 +1,6 @@
 package org.jmedikit.plugin.gui;
 
-import javax.inject.Inject;
-
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
-import org.eclipse.e4.ui.workbench.IWorkbench;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.swt.SWT;
@@ -11,24 +8,37 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.ui.PlatformUI;
 import org.jmedikit.plugin.util.PreferencesConstants;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 
-
+/**
+ * Diese Klasse repräsentiert den Einstellungsdialog für Plug-in-Optionen. Hier wird zum Beispiel der Pfad zum Plug-in
+ * Verzeichnis gesetzt
+ * 
+ * @author rkorb
+ *
+ */
 public class PlugInPreferences extends FieldEditorPreferencePage{
 	
-	//public static final String PLUGIN_DIRECTORY = "PLUGIN_DIRECTORY";
+	/**
+	 * Formularfeld um Dateien zu öffnen
+	 */
+	private DirectoryFieldEditor dir;
 	
-	@Inject
-	IWorkbench workbench;
+	/**
+	 * Einstellungsmanager zum Auslesen der Einstellungen
+	 */
+	private Preferences prefs;
 	
-	DirectoryFieldEditor dir;
-	Preferences prefs;
+	/**
+	 * Enthält den Pfad zum Plug-in-Verzeichnis, das vom Anwender gesetzt wurde
+	 */
+	private String pluginDirectory;
 	
-	String pluginDirectory;
-	
+	/**
+	 * Erzeugt die Plug-in-Einstellungen und legt den Gültigkeitsbereich fest. Einstellungen bleiben auch nach dem Schließen der Anwendung erhalten.
+	 */
 	public PlugInPreferences() {
 		super("Plug-In Optionen", GRID);
 		setMessage("Plug-In Verzeichnis");
@@ -40,6 +50,9 @@ public class PlugInPreferences extends FieldEditorPreferencePage{
 
 
 
+	/**
+	 * Generiert den Dialog und setzt die Formularelemente zusammen
+	 */
 	@Override
 	protected Control createContents(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
@@ -58,12 +71,17 @@ public class PlugInPreferences extends FieldEditorPreferencePage{
 		
 	}
 
+	/**
+	 * Wird ausgeführt, wenn der Anwender auf Apply clickt.
+	 */
 	@Override
 	protected void performApply(){
 		super.performApply();
-		System.out.println("hallo apply");
 	}
 	
+	/**
+	 * Nach einem Klick auf OK werden die neuen Einstellungen übernommen. Ein klick auf OK löst gleichzeitig {@link PlugInPreferences#performApply()} aus.
+	 */
 	@Override
 	public boolean performOk(){
 		boolean returnVal = super.performOk();

@@ -6,7 +6,7 @@ import javax.inject.Inject;
 import javax.annotation.PostConstruct;
 
 import org.eclipse.e4.core.di.annotations.Optional;
-import org.eclipse.e4.core.services.events.IEventBroker;
+//import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.tools.services.IResourcePool;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.swt.SWT;
@@ -26,24 +26,37 @@ import org.eclipse.swt.widgets.ToolItem;
 import org.jmedikit.plugin.gui.events.EventConstants;
 import org.jmedikit.plugin.util.ImageProvider;
 
+/**
+ * 
+ * Der Consoleview dient zur Ausgabe von Fehlermeldungen, die im Plug-in auftreten. 
+ * Diese Klasse ist nicht zu verwechseln mit der Änderung der Standardusgabe
+ * innerhalb eines Plug-ins. ConsoleView dient nur zur Ausgabe im Fehlerfall.
+ * 
+ * @author rkorb
+ *
+ */
 public class ConsoleView {
 	
+	//@Inject
+	//private IEventBroker broker;
 	
-	@Inject
-	IEventBroker broker;
-	
-	Text errorMsg;
+	private Text errorMsg;
 	
 	@Inject
 	private IResourcePool resourcePool;
 	
-	Image clearImage;
+	private Image clearImage;
 	
 	
 	public ConsoleView() {
 
 	}
 	
+	/**
+	 * Erzeugt die grafische Benutzeroberfläche der Fehlerausgabe
+	 * 
+	 * @param parent
+	 */
 	@PostConstruct
 	public void createGUI(Composite parent) {
 		
@@ -74,10 +87,14 @@ public class ConsoleView {
 				errorMsg.setText("");
 			}
 		});
-		//errorColor.dispose();
-		//f.dispose();
 	}
 
+	/**
+	 * Bei einem Auftreten des Events {@link EventConstants#PLUG_IN_ERROR} wird diese Methode aufgerufen,
+	 * und der Text in der Console angezeigt.
+	 * 
+	 * @param error
+	 */
 	@Inject
 	@Optional
 	public void getNotifiedPlugInError(@UIEventTopic(EventConstants.PLUG_IN_ERROR) String error){

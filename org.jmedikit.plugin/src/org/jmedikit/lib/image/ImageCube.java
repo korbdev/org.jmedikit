@@ -6,41 +6,57 @@ import org.jmedikit.lib.util.Point2D;
 import org.jmedikit.lib.util.SimpleImageFactory;
 import org.jmedikit.lib.util.Vector3D;
 
+/**
+ * ImageCube berechnet Ebenenrekonstruktionen. Wird dem Konstruktor ein Bildstapel übergeben, kann Anhand dieser Bilder die axiale, coronale und sagittale
+ * Ansicht berechnet werden. 
+ * 
+ * @author rkorb
+ *
+ */
 public class ImageCube {
 	
+	/**
+	 * Bildstapel der Rekonstruiert wird
+	 */
 	private ArrayList<AImage> images;
 	
 	/**
 	 * Rotation um die X-Achse angabe im Bogenmass
 	 */
-	private float rX;
+	//private float rX;
 	
 	/**
 	 * Rotation um die Y-Achse angabe im Bogenmass
 	 */
-	private float rY;
+	//private float rY;
 	
 	/**
 	 * Rotation um die Z-Achse angabe im Bogenmass
 	 */
-	private float rZ;
+	//private float rZ;
 	
-	public float m;
+	//public float m;
 	
-	public int slicesIndex;
+	//public int slicesIndex;
+
+	//private float translation;
+	
 	/**
+	 * Der Konstruktor nimmt eine Liste von Bildern entgegen, die je nach Quell- und Zieldarstellung rekonstruiert werden.
 	 * 
+	 * @param images Bildstapel der Rekonstruiert werden soll
 	 */
-	private float translation;
-	
 	public ImageCube(ArrayList<AImage> images){
 		this.images = images;
 	}
 	
-	public ArrayList<AImage> calc3DTest(){
-		return calculateSagittalView();
-	}
-	
+
+	/**
+	 * <p>Berechnet die axiale Ebenenrekonstruktion</p>
+	 * <p>Ist der Bildstapel bereits in axialer Darstellung, wird nur der Stapel ohne Berechnung zurückgegeben</p>
+	 * 
+	 * @return rekonstruierter Bildstapel
+	 */
 	public ArrayList<AImage> calculateAxialView(){
 		AImage img = images.get(0);
 
@@ -53,6 +69,12 @@ public class ImageCube {
 		else return images;
 	}
 	
+	/**
+	 * <p>Berechnet die coronalen Ebenenrekonstruktion</p>
+	 * <p>Ist der Bildstapel bereits in coronaler Darstellung, wird nur der Stapel ohne Berechnung zurückgegeben</p>
+	 * 
+	 * @return rekonstruierter Bildstapel
+	 */
 	public ArrayList<AImage> calculateCoronalView(){
 		AImage img = images.get(0);
 		
@@ -65,6 +87,12 @@ public class ImageCube {
 		else return images;
 	}
 	
+	/**
+	 * <p>Berechnet die sagittale Ebenenrekonstruktion</p>
+	 * <p>Ist der Bildstapel bereits in sagittaler Darstellung, wird nur der Stapel ohne Berechnung zurückgegeben</p>
+	 * 
+	 * @return rekonstruierter Bildstapel
+	 */
 	public ArrayList<AImage> calculateSagittalView(){
 		AImage img = images.get(0);
 		
@@ -77,7 +105,7 @@ public class ImageCube {
 		else return images;
 	}
 	
-	public boolean needsSignChange(Vector3D<Float> firstStackSlice, Vector3D<Float> nthStackSlice, Vector3D<Float> normale){
+	private boolean needsSignChange(Vector3D<Float> firstStackSlice, Vector3D<Float> nthStackSlice, Vector3D<Float> normale){
 		Vector3D<Float> grothDirection = new Vector3D<Float>(0f, 0f, 0f, 1f);
 		
 		//Es erfolgt eine Pruefung, ob der Bildstapel in Richtung der Normalen ansteigt
@@ -94,7 +122,7 @@ public class ImageCube {
 		else return false;
 	}
 	
-	public ArrayList<AImage> axialToCoronal(AImage img){
+	private ArrayList<AImage> axialToCoronal(AImage img){
 		ArrayList<AImage> recalculatedImages = new ArrayList<AImage>();
 		
 		Vector3D<Float> rotation = new Vector3D<Float>(90f, 0f, 0f, 1f);
@@ -137,9 +165,6 @@ public class ImageCube {
 				C_rotated.y/Vector3D.length(C_rotated),  //y-Anteil
 				C_rotated.z/Vector3D.length(C_rotated)   //z-Anteil
 		);
-		//System.out.println("DOWN   "+R_rotated.toString()+", "+C_rotated.toString());
-		
-		//System.out.println("GROTH "+grothDirection.toString()+" Rota "+rotation.toString()+" RotaNorm "+rotated_normal.toString());
 		
 		int xLength = img.width;
 		int yLength = images.size();
@@ -155,19 +180,16 @@ public class ImageCube {
 					}
 				}
 				
-				//BilinearInterpolation interpolation = new BilinearInterpolation(result);
-				//result = interpolation.resample(result.width, result.height, img.width, img.height);
 				result.imagePosition = I;
 				result.rowVector = R_rotated;
 				result.columnVector = C_rotated;
 				result.copySignificantAttributes(img);
 				recalculatedImages.add(result);
 			}
-			System.out.println("done");
 			return recalculatedImages;
 	}
 	
-	public ArrayList<AImage> axialToSagittal(AImage img){
+	private ArrayList<AImage> axialToSagittal(AImage img){
 		ArrayList<AImage> recalculatedImages = new ArrayList<AImage>();
 		
 		Vector3D<Float> rotation = new Vector3D<Float>(90f, 90f, 0f, 1f);
@@ -224,8 +246,6 @@ public class ImageCube {
 					}
 				}
 				
-				//BilinearInterpolation interpolation = new BilinearInterpolation(result);
-				//result = interpolation.resample(result.width, result.height, img.width, img.height);
 				result.imagePosition = I;
 				result.rowVector = R_rotated;
 				result.columnVector = C_rotated;
@@ -233,11 +253,10 @@ public class ImageCube {
 
 				recalculatedImages.add(result);
 			}
-			System.out.println("done");
 			return recalculatedImages;
 	}
 	
-	public ArrayList<AImage> coronalToAxial(AImage img){
+	private ArrayList<AImage> coronalToAxial(AImage img){
 		ArrayList<AImage> recalculatedImages = new ArrayList<AImage>();
 		
 		Vector3D<Float> rotation = new Vector3D<Float>(90f, 0f, 0f, 1f);
@@ -279,9 +298,6 @@ public class ImageCube {
 				C_rotated.y/Vector3D.length(C_rotated),  //y-Anteil
 				C_rotated.z/Vector3D.length(C_rotated)   //z-Anteil
 		);
-		System.out.println("DOWN   "+R_rotated.toString()+", "+C_rotated.toString());
-		
-		//System.out.println("GROTH "+grothDirection.toString()+" Rota "+rotation.toString()+" RotaNorm "+rotated_normal.toString());
 		
 		int xLength = img.width;
 		int yLength = images.size();
@@ -297,19 +313,16 @@ public class ImageCube {
 					}
 				}
 				
-				//BilinearInterpolation interpolation = new BilinearInterpolation(result);
-				//result = interpolation.resample(result.width, result.height, img.width, img.height);
 				result.imagePosition = I;
 				result.rowVector = R_rotated;
 				result.columnVector = C_rotated;
 				result.copySignificantAttributes(img);
 				recalculatedImages.add(result);
 			}
-			System.out.println("done");
 			return recalculatedImages;
 	}
 	
-	public ArrayList<AImage> coronalToSagittal(AImage img){
+	private ArrayList<AImage> coronalToSagittal(AImage img){
 		ArrayList<AImage> recalculatedImages = new ArrayList<AImage>();
 		
 		Vector3D<Float> rotation = new Vector3D<Float>(0f, 0f, 90f, 1f);
@@ -366,8 +379,6 @@ public class ImageCube {
 					}
 				}
 				
-				//BilinearInterpolation interpolation = new BilinearInterpolation(result);
-				//result = interpolation.resample(result.width, result.height, img.width, img.height);
 				result.imagePosition = I;
 				result.rowVector = R_rotated;
 				result.columnVector = C_rotated;
@@ -375,11 +386,10 @@ public class ImageCube {
 	
 				recalculatedImages.add(result);
 			}
-			System.out.println("done");
 			return recalculatedImages;
 	}
 
-	public ArrayList<AImage> sagittalToAxial(AImage img){
+	private ArrayList<AImage> sagittalToAxial(AImage img){
 		ArrayList<AImage> recalculatedImages = new ArrayList<AImage>();
 		
 		Vector3D<Float> rotation = new Vector3D<Float>(90f, 0f, -90f, 1f);
@@ -436,8 +446,6 @@ public class ImageCube {
 					}
 				}
 				
-				//BilinearInterpolation interpolation = new BilinearInterpolation(result);
-				//result = interpolation.resample(result.width, result.height, img.width, img.height);
 				result.imagePosition = I;
 				result.rowVector = R_rotated;
 				result.columnVector = C_rotated;
@@ -445,11 +453,10 @@ public class ImageCube {
 
 				recalculatedImages.add(result);
 			}
-			System.out.println("done");
 			return recalculatedImages;
 	}
 	
-	public ArrayList<AImage> sagittalToCoronal(AImage img){
+	private ArrayList<AImage> sagittalToCoronal(AImage img){
 		ArrayList<AImage> recalculatedImages = new ArrayList<AImage>();
 		
 		Vector3D<Float> rotation = new Vector3D<Float>(0f, 0f,90f, 1f);
@@ -506,8 +513,6 @@ public class ImageCube {
 					}
 				}
 				
-				//BilinearInterpolation interpolation = new BilinearInterpolation(result);
-				//result = interpolation.resample(result.width, result.height, img.width, img.height);
 				result.imagePosition = I;
 				result.rowVector = R_rotated;
 				result.columnVector = C_rotated;
@@ -515,11 +520,10 @@ public class ImageCube {
 	
 				recalculatedImages.add(result);
 			}
-			System.out.println("done");
 			return recalculatedImages;
 	}
 
-	public ArrayList<AImage> calc3D(int index){
+	/*public ArrayList<AImage> calc3D(int index){
 		
 		AImage img = images.get(index);
 		ArrayList<AImage> recalculatedImages = new ArrayList<AImage>();
@@ -718,7 +722,7 @@ public class ImageCube {
 						System.out.println("ANGLE N TRTL "+Vector3D.dotProduct(rotated_normal, Vector3D.substract(TR, TL))/(Vector3D.length(rotated_normal)*Vector3D.length(Vector3D.substract(TR, TL))));
 						System.out.println("ANGLE N BLTL "+Vector3D.dotProduct(rotated_normal, Vector3D.substract(BL, TL))/(Vector3D.length(rotated_normal)*Vector3D.length(Vector3D.substract(BL, TL))));
 						System.out.println("ANGLE N BRTL "+Vector3D.dotProduct(rotated_normal, Vector3D.substract(BR, TL))/(Vector3D.length(rotated_normal)*Vector3D.length(Vector3D.substract(BR, TL))));*/
-					}
+					/*}
 					else{
 						//layerImg =  images.get(images.size()-1);
 						//boundingBox = boundingBoxes.get(images.size()-1);
@@ -729,9 +733,7 @@ public class ImageCube {
 					result.setPixel(x, y, value);
 				}
 			}
-			/**
-			 * Daten setzen
-			 */
+
 			result.imagePosition = I;
 			result.rowVector = R_rotated;
 			result.columnVector = C_rotated;
@@ -747,7 +749,7 @@ public class ImageCube {
 			System.out.println("worked "+i+"/ "+slicesIndex);
 		}
 		return recalculatedImages;
-	}
+	}*/
 	
 	
 	/**
@@ -758,13 +760,13 @@ public class ImageCube {
 	 * @param y Angabe Grad der Rotation um die Y-Achse
 	 * @param z Angabe Grad der Rotation um die Z-Achse
 	 */
-	public void setRotationsAngles(float x, float y, float z){
+	/*public void setRotationsAngles(float x, float y, float z){
 		rX = deg2rad(x);
 		rY = deg2rad(y);
 		rZ = deg2rad(z);
-	}
+	}*/
 	
-	public Vector3D<Float> getSpaceCoordinates(Vector3D<Float> I, Vector3D<Float> R, Vector3D<Float> C, Point2D<Float> pixelSpacing, int x, int y){
+	/*public Vector3D<Float> getSpaceCoordinates(Vector3D<Float> I, Vector3D<Float> R, Vector3D<Float> C, Point2D<Float> pixelSpacing, int x, int y){
 		Vector3D<Float> coordinate = new Vector3D<Float>(0f, 0f, 0f, 1f);
 		
 		Vector3D<Float> imageIndex = new Vector3D<Float>((float)x, (float)y, 0f, 1f);
@@ -782,9 +784,9 @@ public class ImageCube {
 		}
 		
 		return coordinate;
-	}
+	}*/
 	
-	public float[] getPlanePointDistance(Vector3D<Float> normal, Vector3D<Float> planePoint, Vector3D<Float> point){
+	/*public float[] getPlanePointDistance(Vector3D<Float> normal, Vector3D<Float> planePoint, Vector3D<Float> point){
 		float[] params = new float[4];
 
 		float r2 = (-(Vector3D.dotProduct(Vector3D.substract(point, planePoint), normal)))/(Vector3D.dotProduct(normal, normal));
@@ -799,14 +801,14 @@ public class ImageCube {
 		params[3] = lfp.z;
 		
 		return params;
-	}
+	}*/
 	
 	/**
 	 * Vorberechnung der Bounding-Boxen 
 	 * 
 	 * Vorraussetzung, dass Richtungsvektoren über den Bildstapel konsistent sind
 	 */
-	public ArrayList<ArrayList<Vector3D<Float>>> precalculateBoundingBoxes(Vector3D<Float> rowVector, Vector3D<Float> columnVector){
+	/*public ArrayList<ArrayList<Vector3D<Float>>> precalculateBoundingBoxes(Vector3D<Float> rowVector, Vector3D<Float> columnVector){
 		
 		ArrayList<ArrayList<Vector3D<Float>>> boudingBoxes = new ArrayList<ArrayList<Vector3D<Float>>>();
 		
@@ -832,7 +834,7 @@ public class ImageCube {
 		}
 		
 		return boudingBoxes;
-	}
+	}*/
 	
 	/**
 	 * Methode zur Umrechnung von Gradmass nach Bogenmass
@@ -845,7 +847,7 @@ public class ImageCube {
 	}
 	
 	/**
-	 * Bestimmt mittels der Werte des Vektors v den groessten <p>Betrag</p> von V
+	 * Bestimmt mittels der Werte des Vektors v den groessten <b>Betrag</b> von V
 	 * 
 	 * @param v
 	 * @return
@@ -870,7 +872,7 @@ public class ImageCube {
 	}
 	
 	/**
-	 * Bestimmt mittels der Werte des Vektors v den kleinsten <p>Betrag</p> von V
+	 * Bestimmt mittels der Werte des Vektors v den kleinsten <b>Betrag</b> von V
 	 * 
 	 * @param v
 	 * @return
@@ -896,11 +898,11 @@ public class ImageCube {
 		return min;
 	}
 	
-	public void setTranslation(float t){
-		translation = t;
-	}
+	//public void setTranslation(float t){
+	//	translation = t;
+	//}
 	
-	public float getTranslation(){
-		return translation;
-	}
+	//public float getTranslation(){
+	//	return translation;
+	//}
 }

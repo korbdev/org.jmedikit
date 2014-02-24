@@ -7,22 +7,44 @@ import java.util.Queue;
 import org.jmedikit.lib.image.AImage;
 import org.jmedikit.lib.io.IDicomData;
 
+/**
+ * Diese Klasse repräsentiert den DICOM-Baum
+ * 
+ * @author rkorb
+ *
+ */
 public class DicomTreeRepository {
 	
 	private ADicomTreeItem root;
 	
+	/**
+	 * Zähler für DICOM-Objekte im Baum. Enthält keine Patienten, Serien und Studien
+	 */
 	private int countObjects;
 	
+	/**
+	 * Erzeugt einen minimalen Baum mit einer Wurzel
+	 */
 	public DicomTreeRepository(){
 		countObjects = 0;
 		root = new ADicomTreeItem("/") {
 		};
 	}
 	
+	/**
+	 * Gibt den Wurzelknoten zurück
+	 * 
+	 * @return root
+	 */
 	public ADicomTreeItem getRoot(){
 		return root;
 	}
 	
+	/**
+	 * Diese Methode sucht mit der Breitensuche einen Knoten im Baum. Es wird null zurückgegeben, wenn der Knoten nicht gefunden wurde.
+	 * @param item der zu suchende Knoten
+	 * @return den Knoten wenn er gefunden wurde, sonst null
+	 */
 	public ADicomTreeItem lookUpDicomTreeItem(ADicomTreeItem item){
 		Queue<ADicomTreeItem> queue = new LinkedList<>();
 		ArrayList<ADicomTreeItem> visited = new ArrayList<>();
@@ -45,6 +67,13 @@ public class DicomTreeRepository {
 		return null;
 	}
 	
+	/**
+	 * Diese Methode sucht mit der Breitensuche einen Knoten im Baum. Es wird null zurückgegeben, wenn der Knoten nicht gefunden wurde. Der UID-Parameter
+	 * kann zum Beispiel die ID eines Patienten, einer Serie, einer Studie oder eines DICOM-Objekts sein. Bei einer erfolglosen Suche wird null zurückgegeben
+	 * 
+	 * @param uid zu suchende UID als String
+	 * @return den Knoten wenn er gefunden wurde, sonst null
+	 */
 	public ADicomTreeItem lookUpDicomTreeItem(String uid){
 		Queue<ADicomTreeItem> queue = new LinkedList<>();
 		ArrayList<ADicomTreeItem> visited = new ArrayList<>();
@@ -68,6 +97,9 @@ public class DicomTreeRepository {
 		return null;
 	}
 	
+	/**
+	 * Testmethode, ob alle Teile des Baumes durchlaufen werden.
+	 */
 	public void walkDicomTreeRepository(){
 		Queue<ADicomTreeItem> queue = new LinkedList<>();
 		ArrayList<ADicomTreeItem> visited = new ArrayList<>();
@@ -88,9 +120,14 @@ public class DicomTreeRepository {
 		}
 	}
 	
+	
+	/**
+	 * Fügt einen Knoten entsprechend des Patienten, der Serie und Studie des DICOM-Objekts in den Baum ein. Existieren Patienten-, Serien- und
+	 * Studienknoten nicht, werden diese erzeugt und ebenfalls in den Baum eingefügt. DICOM-Objekte sind immer Blattknoten
+	 * @param item
+	 */
 	public void insert(DicomObject item){
-		//System.out.println("INSERT "+item.getUid());
-		//String nameId = (String) item.getTagData("PatientName", IDicomData.RETURN_STRING);
+
 		String nameId = (String) item.getTagData("PatientID", IDicomData.RETURN_STRING);
 		String studyId = (String) item.getTagData("StudyInstanceUID", IDicomData.RETURN_STRING);
 		String seriesId = (String) item.getTagData("SeriesInstanceUID", IDicomData.RETURN_STRING);
@@ -144,10 +181,22 @@ public class DicomTreeRepository {
 		}
 	}
 	
+	/**
+	 * Gibt die Anzahl der eingefügten DICOM-Objekte zurück. Der Zähler wird nur bei einem DICOM-Objekt erhöht. Patienten, Serien und Studien
+	 * sind im Zähler nicht enthalten
+	 * 
+	 * @return Anzahl der DICOM-Objekte im Baum
+	 */
 	public int getNumberOfItems(){
 		return countObjects;
 	}
 	
+	/**
+	 * Erzeugt eine Liste der Bildschichten einer DICOM-Serie.
+	 * 
+	 * @param seriesUid
+	 * @return
+	 */
 	public ArrayList<AImage> extractImages(String seriesUid){
 		ArrayList<AImage> images = new ArrayList<AImage>();
 		ADicomTreeItem item = null;

@@ -4,6 +4,13 @@ import org.jmedikit.lib.image.AImage;
 import org.jmedikit.lib.image.ROI;
 import org.jmedikit.lib.util.SimpleImageFactory;
 
+/**
+ * Diese Klasse implementiert die Bilineare Interpolation. Es kann ein ganzes Bild oder
+ * nur eine Region Of Interest interpoliert werden.
+ * 
+ * @author rkorb
+ *
+ */
 public class BilinearInterpolation {
 	
 	private AImage img;
@@ -14,12 +21,24 @@ public class BilinearInterpolation {
 		img = src;
 	}
 	
+	/**
+	 * 
+	 * Interpoliert einen Bildbereich, der durch die Region Of Interest markiert ist. Die Größenangaben entsprechen nicht der Dimension der ROIs, 
+	 * sondern der Dimensionen des Quellbildes und die neue Größe des Zielbildes.
+	 * 
+	 * @param roi Die zu interpolierende Region Of Interest
+	 * @param oldWidth Breite des Quellbildes
+	 * @param oldHeight Höhe des Quellbildes
+	 * @param newWidth Breite des Zielbildes
+	 * @param newHeight Höhe des Zielbildes
+	 * @return interpoliertes Bild in der Größe der ROI mit den Daten entsprechend der Zielgröße
+	 */
 	public AImage resampleROI(final ROI roi, int oldWidth, int oldHeight, int newWidth, int newHeight){
 
-		int resultX = (int)(roi.x * newWidth+0.5);
-		int resultY = (int)(roi.y * newHeight+0.5);
-		int resultWidth = (int)(roi.width * newWidth+0.5);
-		int resultHeight = (int)(roi.height * newHeight+0.5);
+		int resultX = (int)(roi.x1 * newWidth+0.5);
+		int resultY = (int)(roi.y1 * newHeight+0.5);
+		int resultWidth = (int)(roi.x2 * newWidth+0.5);
+		int resultHeight = (int)(roi.y2 * newHeight+0.5);
 		
 		int resampledWidth = resultWidth-resultX;
 		int resampledHeight = resultHeight-resultY;
@@ -42,6 +61,15 @@ public class BilinearInterpolation {
 		return resampled;
 	}
 	
+	/**
+	 * Die Methode nimmt die Größe des Quellbildes und die Zielgröße entgegen und gibt ein interpoliertes Bild mit der Dimension der Zielgröße zurück.
+	 * 
+	 * @param oldWidth Breite des Quellbildes
+	 * @param oldHeight Höhe des Quellbildes
+	 * @param newWidth Breite des Zielbildes
+	 * @param newHeight Höhe des Zielbildes
+	 * @return interpoliertes Bild
+	 */
 	public AImage resample(int oldWidth, int oldHeight, int newWidth, int newHeight){
 		
 		AImage resampled = SimpleImageFactory.getAbstractImage(img.getImageType(), newWidth, newHeight);
@@ -63,10 +91,22 @@ public class BilinearInterpolation {
 		return resampled;
 	}
 	
+	/**
+	 * Gibt das interpolierte Bild zurück
+	 * @return
+	 */
 	public AImage getResampled(){
 		return newImg;
 	}
 	
+	/**
+	 * Nimmt einen Pixel entgegen und interpoliert diesen entsprechend der bilinearen Interpolation.
+	 * Für Farbdarstellungen wird jeder Kanal separat interpoliert.
+	 * 
+	 * @param x x-Koordinate
+	 * @param y y-Koordinate
+	 * @return
+	 */
 	private float getInterpolatedPixel(float x, float y){
 		int x1 = (int)x;
 		int y1 = (int)y;

@@ -9,18 +9,35 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.jmedikit.lib.core.APlugIn;
-import org.jmedikit.lib.core.APlugIn3D;
-import org.jmedikit.lib.core.Visualizer;
 import org.jmedikit.lib.image.AImage;
 
+/**
+ * 
+ * Der PlugInRunner ist für die Ausführung der Plug-ins verantwortlich
+ * 
+ * @author rkorb
+ *
+ */
 public class PlugInRunner implements IRunnableWithProgress{
 
+	/**
+	 * Das auszuführende Plug-in
+	 */
 	private APlugIn plugin;
 	
+	/**
+	 * Der Name des Prozesses
+	 */
 	private String name;
 	
+	/**
+	 * Der Bildstapel, der vom Plug-in bearbeitet wird
+	 */
 	private ArrayList<AImage> images;
 	
+	/**
+	 * Die Zeichenfläche für die Ausgabe
+	 */
 	private DicomCanvas canvas;
 	
 	PlugInRunner(String name, DicomCanvas canvas, APlugIn plugin, ArrayList<AImage> images){
@@ -30,6 +47,10 @@ public class PlugInRunner implements IRunnableWithProgress{
 		this.images = images;
 	}
 	
+	/**
+	 * Prozess zur Plug-in-Ausführung. Die Bilder und Bildstapel, die vom Plug-in erzeugt werden, werden der
+	 * Zeichenfläche zugeordnet und ausgegeben
+	 */
 	@Override
 	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 		
@@ -54,10 +75,7 @@ public class PlugInRunner implements IRunnableWithProgress{
 				String processError= "Error in process() at image index " + i + " \n";
 				try {
 					List<AImage> result = plugin.run(images, i);
-					//if((options & APlugIn.RUN_3D) == APlugIn.RUN_3D){
-					//	images.clear();
-					//	images.addAll(result);
-					//}
+
 					if(plugin.getPlugInType() == APlugIn.PLUGIN_3D){
 						if(images.equals(result)){
 							images = (ArrayList<AImage>) result;
@@ -72,9 +90,7 @@ public class PlugInRunner implements IRunnableWithProgress{
 						images.remove(i);
 						images.add(i, img);
 					}
-					//AImage result = plugin.run(images, i);
-					//images.remove(i);
-					//images.add(i, result);
+
 				} catch (Exception e) {
 					StringWriter sw = new StringWriter();
 					e.printStackTrace(new PrintWriter(sw));
@@ -89,12 +105,7 @@ public class PlugInRunner implements IRunnableWithProgress{
 			String processError= "Error in process() at image index " + canvas.getIndex() + " \n";
 			try {
 				List<AImage> result = plugin.run(images, canvas.getIndex());
-				//if((options & APlugIn.RUN_3D) == APlugIn.RUN_3D){
-				//	System.out.println("CHANGE IMG");
-				//	images.clear();
-				//	images.addAll(result);
-				//}
-				//System.out.println(plugin.getClass().getSuperclass().getName()+" / "+APlugIn3D.class.getName());
+
 				if(plugin.getPlugInType() == APlugIn.PLUGIN_3D){
 					if(images.equals(result)){
 						images = (ArrayList<AImage>) result;

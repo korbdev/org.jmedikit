@@ -1,6 +1,13 @@
-package org.jmedikit.plugin.gui;
+/**
+ * Nicht im Einsatz, war ursprünglich die Oberfläche zur Angabe von Winkeln für die Multiplanare Rekonstruktion
+ * 
+ * @author rkorb
+ *
+ */
 
-import javax.annotation.PostConstruct;
+//package org.jmedikit.plugin.gui;
+
+/*import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
@@ -12,11 +19,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Spinner;
-import org.jmedikit.plugin.gui.events.EventConstants;
+import org.jmedikit.plugin.gui.events.EventConstants;*/
 
-public class AngleControl {
+/*public class AngleControl {
 	//MPR nicht im Einsatz
-	/*@Inject
+	@Inject
 	IEventBroker broker;
 	
 	private Composite controlContainer;
@@ -71,5 +78,5 @@ public class AngleControl {
 		alpha.addListener(SWT.Selection, angleChangedListener);
 		beta.addListener(SWT.Selection, angleChangedListener);
 		gamma.addListener(SWT.Selection, angleChangedListener);
-	}*/
-}
+	}
+}*/

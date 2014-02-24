@@ -1,5 +1,13 @@
 package org.jmedikit.lib.util;
 
+/**
+ * Die Klasse Vektor repräsentiert eine dreidimensionale Datenstruktur. Ist der Parameter <T> vom Datentyp Float, kann mit den typischen Rechenoperationen
+ * für Vektoren gerechnet werden.
+ * 
+ * @author rkorb
+ *
+ * @param <T> numerischer Datentyp
+ */
 public class Vector3D<T> {
 	public T x;
 	
@@ -16,6 +24,15 @@ public class Vector3D<T> {
 
 	}
 	
+	/**
+	 * 
+	 * Erstellt einen dreidimensionalen Vektor entsprechend der übergebenen Werte
+	 * 
+	 * @param x x-Element
+	 * @param y y-Element
+	 * @param z z-Element
+	 * @param h Homogener Anteil, muss bei numerischem Typ den Wert 1 haben
+	 */
 	public Vector3D(T x, T y, T z, T h){
 		this.x = x;
 		this.y = y;
@@ -23,6 +40,13 @@ public class Vector3D<T> {
 		this.h = h;
 	}
 	
+	/**
+	 * Setzt die Werte des Vektors entsprechend der Parameter. Der homogene Anteil wird nicht verändert.
+	 * 
+	 * @param x x-Element
+	 * @param y y-Element
+	 * @param z z-Element
+	 */
 	public void setVector(T x, T y, T z){
 		this.x = x;
 		this.y = y;
@@ -189,9 +213,6 @@ public class Vector3D<T> {
 	/**
 	 * Rotation um die X-Achse um den angegebenen Winkel alpha im Bogenmass
 	 * 
-	 * @param x
-	 * @param y
-	 * @param z
 	 */
 	public static Vector3D<Float> rotateX(final float alpha, final Vector3D<Float> normal){
 		System.out.println("rotate x "+ alpha);
@@ -215,9 +236,6 @@ public class Vector3D<T> {
 	/**
 	 * Rotation um die Y-Achse um den angegebenen Winkel alpha im Bogenmass
 	 * 
-	 * @param x
-	 * @param y
-	 * @param z
 	 */
 	public static Vector3D<Float> rotateY(final float alpha, final Vector3D<Float> normal){
 		System.out.println("rotate y "+ alpha);
@@ -241,10 +259,6 @@ public class Vector3D<T> {
 	/**
 	 * Rotation um die Z-Achse um den angegebenen Winkel alpha im Bogenmass
 	 * 
-	 * 
-	 * @param x
-	 * @param y
-	 * @param z
 	 */
 	public static Vector3D<Float> rotateZ(final float alpha, final Vector3D<Float> normal){
 		System.out.println("rotate z "+ alpha);

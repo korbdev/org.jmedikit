@@ -21,13 +21,22 @@ import org.jmedikit.plugin.gui.PlugInPreferences;
 
 public class SettingsHandler {
 	
+	/**
+	 * Neues Fenster zur Darstellung des Einstellungsdialogs
+	 */
 	@Inject @Named(IServiceConstants.ACTIVE_SHELL) 
 	protected Shell shell;
 	
+	/**
+	 * Iconverwaltung
+	 */
 	@Inject
 	protected
 	IResourcePool imagePool;
 	
+	/**
+	 * Baut den Einstellungsdialog zusammen
+	 */
 	@Execute 
 	public void execute(){ 
 		

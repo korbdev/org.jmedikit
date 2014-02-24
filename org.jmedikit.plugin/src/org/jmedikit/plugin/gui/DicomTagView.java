@@ -10,27 +10,18 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.tools.services.IResourcePool;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.ITableColorProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Table;
 import org.jmedikit.plugin.gui.events.EventConstants;
 import org.jmedikit.plugin.util.ImageProvider;
 
 public class DicomTagView {
-	
-	private List list;
 	
 	private TableViewer viewer;
 	
@@ -44,14 +35,17 @@ public class DicomTagView {
 
 	}
 	
+	/**
+	 * Erzeugt die Tabelle für die Ausgabe der DICOM-Tags
+	 * 
+	 * @param parent
+	 */
 	@PostConstruct
 	public void createGui(Composite parent){
 		Composite container = new Composite(parent, SWT.NONE);
 		container.setLayout(new GridLayout(2, false));
 		container.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
-		//list = new List(container, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
-		//list.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
 		viewer = new TableViewer(container, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
 		
@@ -60,7 +54,7 @@ public class DicomTagView {
 		table = viewer.getTable();
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true); 
-		//table.setBackground(new Color(Display.getCurrent(),new RGB(186,74,74)));
+
 		table.setLayoutData(new GridData(GridData.FILL_BOTH));
 		viewer.setContentProvider(ArrayContentProvider.getInstance());
 	}

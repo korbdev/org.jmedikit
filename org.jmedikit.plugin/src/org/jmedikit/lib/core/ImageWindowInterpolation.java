@@ -7,6 +7,19 @@ import org.jmedikit.lib.image.AImage;
 
 public class ImageWindowInterpolation {
 
+	
+	/**
+	 * Die Methode interpoliert einen Pixelwert zwischen WindowCenter und WindowWidth auf einen Wert zwischen min und max.
+	 * Ist der Wert value kleiner als wc-ww/2 bekommt er den Wert min, ist der Wert größer wc+ww/2 bekommt er den Wert max.
+	 * 
+	 * 
+	 * @param value Pixelwert
+	 * @param wc WindowCenter
+	 * @param ww WindowWidth
+	 * @param min minimaler Pixelwert
+	 * @param max maximaler Pixelwert
+	 * @return
+	 */
 	public static int interpolatePixel(int value, int wc, int ww, int min, int max){
 		int returnValue = 0;
 		int c = wc;
@@ -24,6 +37,17 @@ public class ImageWindowInterpolation {
 		return returnValue;
 	}
 	
+	/**
+	 * Diese Methode interpoliert ein ganzes Bild nach der Vorgehensweise von {@link ImageWindowInterpolation#interpolatePixel(int, int, int, int, int)}
+	 * Liegt ein Farbbild vor, wird jeder Kanal separat interpoliert
+	 * 
+	 * @param img zu interpolierendes Bild
+	 * @param wc WindowCenter
+	 * @param ww WindowWidth
+	 * @param min minimaler Pixelwert
+	 * @param max maximaler Pixelwert
+	 * @return
+	 */
 	public static ImageData interpolateImage(AImage img, float wc, float ww, int min, int max){
 		
 		int width = img.getWidth();
@@ -40,10 +64,7 @@ public class ImageWindowInterpolation {
 			windowCenter = minValue+range/2;
 			windowWidth = range/2;
 		}
-		//System.out.println("MinMax "+minValue + " " + maxValue+", WC/WW "+windowCenter+" / "+windowWidth);
-		//System.out.println("Old Center "+ wc + ", Old Width " + ww + " ImageType = "+img.getImageType());
-		//System.out.println("New Center "+ windowCenter + ", New Width " + windowWidth + " ImageType = "+img.getImageType());
-		//System.out.println("AspectRatio "+img.getAspectRatio());
+
 		PaletteData palette = new PaletteData(0xFF , 0xFF00 , 0xFF0000);
 		ImageData imgData = new ImageData(width, height, 24, palette);
 		

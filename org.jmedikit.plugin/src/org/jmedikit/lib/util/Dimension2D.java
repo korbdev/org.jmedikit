@@ -1,5 +1,12 @@
 package org.jmedikit.lib.util;
 
+/**
+ * Mit dieser Klasse können 2-Dimensionale Strukturen repräsentiert werden. Zum Beispiel die zwei Dimensionen Breite und Höhe.
+ * Als generische Klasse können die Parameter flexibel gewählt werden.
+ * @author rkorb
+ *
+ * @param <T>
+ */
 public class Dimension2D<T> {
 	public T width;
 	
@@ -9,6 +16,12 @@ public class Dimension2D<T> {
 		
 	}
 	
+	/**
+	 * Erzeugt ein Dimensionsobjekt mit den als Parameter übergebenen Werten
+	 * 
+	 * @param width
+	 * @param height
+	 */
 	public Dimension2D(T width, T height){
 		this.width = width;
 		this.height = height;
